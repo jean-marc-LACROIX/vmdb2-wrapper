@@ -47,7 +47,6 @@ steps:
   - apt: install
     packages:
       - flash-kernel
-    tag: root
     unless: rootfs_unpacked
 
   - cache-rootfs: root
