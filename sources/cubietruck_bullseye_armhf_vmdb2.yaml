@@ -34,7 +34,7 @@ steps:
   - apt: install
     packages:
       - initramfs-tools
-      - openssh-servers
+      - openssh-server
       - bind9-host
     tag: root
     unless: rootfs_unpacked
