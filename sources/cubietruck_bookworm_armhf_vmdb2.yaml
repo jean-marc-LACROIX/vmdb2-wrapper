@@ -34,8 +34,6 @@ steps:
   - apt: install
     packages:
       - initramfs-tools
-      - sysvinit-core
-      - sysvinit-utils
     tag: root
     unless: rootfs_unpacked
 
