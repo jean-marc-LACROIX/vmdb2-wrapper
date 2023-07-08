@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 cubietruck_buster_armhf_vmdb2-0.15.yaml --output cubietruck_buster_armhf.img --rootfs-tarball buster_armhf_rootfs.tgz --verbose --log=log.txt
+# Use like this : sudo vmdb2 cubietruck_buster_armhf_vmdb2.yaml --output=../images/cubietruck_buster_armhf.img --rootfs-tarball=../rootfs/buster_armhf_rootfs.tgz --verbose --log=../log_build/log_cubietruck_buster_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 steps:
   - mkimg: "{{ output }}"
     size: 3G
@@ -37,12 +37,13 @@ steps:
     tag: root
     unless: rootfs_unpacked
 
+  # Because Bookworm is now online, then buster backports are no longer valid...
   - chroot: root
     shell: |
       echo "deb http://ftp.de.debian.org/debian buster main contrib non-free" > /etc/apt/sources.list
-      echo "deb http://security.debian.org/ buster/updates main contrib non-free" >> /etc/apt/sources.list
-      echo "deb http://ftp.de.debian.org/debian buster-updates main contrib non-free" >> /etc/apt/sources.list
-      echo "deb http://ftp.de.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list
+      echo "#deb http://security.debian.org/ buster/updates main contrib non-free" >> /etc/apt/sources.list
+      echo "#deb http://ftp.de.debian.org/debian buster-updates main contrib non-free" >> /etc/apt/sources.list
+      echo "#deb http://ftp.de.debian.org/debian buster-backports main contrib non-free" >> /etc/apt/sources.list
     unless: rootfs_unpacked
 
   - apt: install
@@ -59,7 +60,7 @@ steps:
       apt-get update
       apt-get -y upgrade
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
-      apt-get -y install -t buster-backports linux-image-armmp-lpae
+      apt-get -y install linux-image-armmp-lpae
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
   - create-file: /etc/hostname
@@ -135,8 +136,7 @@ steps:
 
   - chroot: root
     shell: |
-      apt-get -y install -t buster-backports wireless-regdb firmware-brcm80211
-      apt-get -y install crda
+      apt-get -y install wireless-regdb firmware-brcm80211 crda
 
       # Add hostname to /etc/hosts for IPv4 & IPv6
       HOSTNAME=$(cat /etc/hostname)
