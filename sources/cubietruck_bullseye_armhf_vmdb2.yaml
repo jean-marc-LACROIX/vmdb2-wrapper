@@ -1,5 +1,6 @@
 # Use like this : sudo vmdb2 cubietruck_bullseye_armhf_vmdb2.yaml --output=../images/cubietruck_bullseye_armhf.img --rootfs-tarball=../rootfs/bullseye_armhf_rootfs.tgz --verbose --log=../log_build/log_cubietruck_bullseye_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt 
 steps: 
+
   - mkimg: "{{ output }}"
     size: 4G
 
@@ -56,17 +57,38 @@ steps:
       apt-get update
       apt-get --assume-yes upgrade
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
+
       # Install the current generic linux kernel for all armhf architecture
+
       apt-get --assume-yes install linux-image-armmp-lpae
+
       # python3 is needed to launch ansible later
+
       apt-get --assume-yes install python3 python3-apt
+
       # openssh-server is needed to connect to target from Ethernet port
+
       apt-get --assume-yes install openssh-server 
+
       # psmisc package for very usefull tools: pstree (!) 
+
       apt-get --assume-yes install psmisc
+
       # bind9-host package for very usefull tools: dig and host
+
       apt-get --assume-yes install bind9-host
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
+
+      # Try to manage the difficult issue on local wifi & BT chip (!).
+      # On recent  Debian  kernel   (> 6.x), kernel    module brcmfmac
+      # contains  now  code to manage    dedicated wifi chip (BCM43362
+      # original Ampak AP6210). Please look also to :
+      # (https://linux-sunxi.org/Cubietech_Cubietruck) and at the same
+      # time  BT. It is  not very clear why there  are still errors in
+      # kernel message on  BT interface (!). With following  firmware,
+      # wifi is correctly detected
+
+      apt-get --assume-yes install firmware-brcm80211 firmware-linux-free
 
   # define the target name 
   - create-file: /etc/hostname
@@ -75,81 +97,29 @@ steps:
 
   - fstab: root
 
-  # try to manage the difficult issue on local wifi chip (!)
-  - create-dir: /lib/firmware/brcm
-
-  - create-file: /lib/firmware/brcm/brcmfmac43362-sdio.txt
-    contents: |+
-      #AP6210_NVRAM_V1.2_03192013
-      manfid=0x2d0
-      prodid=0x492
-      vendid=0x14e4
-      devid=0x4343
-      boardtype=0x0598
-      
-      # Board Revision is P307, same nvram file can  be used for P304,
-      # P305, P306   and  P307 as     the tssi  pa  params  used   are
-      # same. Please force the automatic RX PER data to the respective
-      # board directory  if  not using P307 board,   for e.g. for P305
-      # boards force   the     data into the    following    directory
-      # /projects/BCM43362/a1_labdata/boardtests/results/sdg_rev0305
-
-      boardrev=0x1307
-      boardnum=777
-      xtalfreq=26000
-      boardflags=0x80201
-      boardflags2=0x80
-      sromrev=3
-      wl0id=0x431b
-      macaddr=00:90:4c:07:71:12
-      aa2g=1
-      ag0=2
-      maxp2ga0=74
-      cck2gpo=0x2222
-      ofdm2gpo=0x44444444
-      mcs2gpo0=0x6666
-      mcs2gpo1=0x6666
-      pa0maxpwr=56
-      
-      #P207 PA params
-      #pa0b0=5447
-      #pa0b1=-658
-      #pa0b2=-175<div></div>
-      
-      #Same PA params for P304,P305, P306, P307
-      
-      pa0b0=5447
-      pa0b1=-607
-      pa0b2=-160
-      pa0itssit=62
-      pa1itssit=62
-      
-      
-      cckPwrOffset=5
-      ccode=0
-      rssismf2g=0xa
-      rssismc2g=0x3
-      rssisav2g=0x7
-      triso2g=0
-      noise_cal_enable_2g=0
-      noise_cal_po_2g=0
-      swctrlmap_2g=0x04040404,0x02020202,0x02020202,0x010101,0x1ff
-      temp_add=29767
-      temp_mult=425
-      
-      btc_flags=0x6
-      btc_params0=5000
-      btc_params1=1000
-      btc_params6=63
+  # With Debian flash-kernel  tools,  first step  is to  identify  the
+  # current target...
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
       Cubietech Cubietruck
 
+  # With  Debian   flash-kernel  tools,  second  step is   to identify
+  # the internal parameters. Please be sure to be relevant with u-boot
+  # dts/dtb
+
+  - create-file: /etc/flash-kernel/db
+    contents: |+
+      Machine: Cubietech Cubietruck
+      Kernel-Flavors: armmp armmp-lpae
+      Boot-Script-Path: /boot/boot.scr
+      DTB-Id: sun7i-a20-cubietruck.dtb
+      U-Boot-Script-Name: bootscr.sunxi
+      Required-Packages: u-boot-tools
+
   - chroot: root
     shell: |
-      apt-get --assume-yes install wireless-regdb firmware-brcm80211 crda
-
+      
       # Add hostname to /etc/hosts for IPv4 & IPv6
       HOSTNAME=$(cat /etc/hostname)
       sed -i "2i127.0.0.2\t$HOSTNAME" /etc/hosts
