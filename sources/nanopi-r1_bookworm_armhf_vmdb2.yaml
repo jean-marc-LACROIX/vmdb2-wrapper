@@ -1,7 +1,7 @@
 # Use like this: sudo vmdb2 nanopi-r1_bookworm_armhf_vmdb2.yaml --output=../images/nanopi-r1_bookworm_armhf.img --rootfs-tarball=../rootfs/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_nanopi-r1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 steps:
   - mkimg: "{{ output }}"
-    size: 3G
+    size: 4G
 
   - mklabel: msdos
     device: "{{ output }}"
@@ -21,7 +21,7 @@ steps:
 
   - unpack-rootfs: root
 
-  - qemu-debootstrap: bookworm
+  - debootstrap: bookworm
     mirror: http://ftp.de.debian.org/debian
     target: root
     arch: armhf
@@ -54,10 +54,18 @@ steps:
   - chroot: root
     shell: |
       apt-get update
-      apt-get -y upgrade
+      apt-get --assume-yes upgrade
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
-      apt-get -y install linux-image-armmp-lpae
-      apt-get -y install python3
+      # Install the current generic linux kernel for all armhf architecture
+      apt-get --assume-yes install linux-image-armmp-lpae
+      # python3 is needed to launch ansible later
+      apt-get --assume-yes install python3 python3-apt
+      # openssh-server is needed to connect to target from Ethernet port
+      apt-get --assume-yes install openssh-server 
+      # psmisc package for very usefull tools: pstree (!) 
+      apt-get --assume-yes install psmisc
+      # bind9-host package for very usefull tools: dig and host
+      apt-get --assume-yes install bind9-host
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
   - create-file: /etc/hostname
@@ -233,8 +241,7 @@ steps:
 
   - chroot: root
     shell: |
-      apt-get -y install wireless-regdb firmware-brcm80211
-      apt-get -y install crda
+      apt-get -y install wireless-regdb 
 
       # Add hostname to /etc/hosts for IPv4 & IPv6
       HOSTNAME=$(cat /etc/hostname)
