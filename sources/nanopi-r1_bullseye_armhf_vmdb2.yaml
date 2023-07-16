@@ -68,9 +68,48 @@ steps:
       apt-get --assume-yes install bind9-host
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
+  # When target will  boot later,  we must  be sure  to have  one  ssh
+  # access on  root  account because at  this time,  only Unix root is
+  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
+  # infrastructure,    so that one IPV4   address   is assigned to the
+  # target.  Because this is the  first connection, we change  default
+  # Debian "/etc/ssh/sshd_config" bahaviour.  With this new file, root
+  # access  is enable  on the target  without  password. Please update
+  # ASAP this file according your private security policy.
+
+  - create-file: /etc/ssh/sshd_config
+    contents: |+
+      # sshd daemon is listening on standard 22 IANA port
+      Port                    22
+      # listen to IN_ADDR, that is on all interfaces...
+      ListenAddress           0.0.0.0
+      # Root login is always accepted, remember that only one Unix account (root)
+      PermitRootLogin         yes
+      # Disable host authentication
+      HostbasedAuthentication no
+      # Authentication with public key is accepted, key can be installed later via ssh-copy-id tool
+      PubkeyAuthentication    yes
+      # Authentication with password key is accepted
+      PasswordAuthentication  yes
+      # Authentication with empty root passwoard is accepted
+      PermitEmptyPasswords    yes
+      # Because  simplest config, no PAM extension is supported
+      UsePAM                  no
+      # No X11, because only connected via one ssh in tty mode
+      X11Forwarding           no
+      # Don't edit motd from current Debian distribution
+      PrintMotd               no
+      # Minimal env variable accepted
+      AcceptEnv               LANG LC_*
+
+  # Set   default hostname  of   target.  Please note    there are  no
+  # requirements for this value, it is user defined.
+
   - create-file: /etc/hostname
     contents: |+
-      NanoPiR1
+      nanopi-r1
+
+  # Create one empty fstab entry (/etc/fstab file) on target. 
 
   - fstab: root
 
@@ -126,20 +165,19 @@ steps:
     shell: |
       dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_21.05.1_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
-  - create-file: /etc/network/interfaces.d/lo
+  - create-file: /etc/network/interfaces
     contents: |+
-      auto lo
-      iface lo inet loopback
+      # loopback interface 
+      allow-auto lo
+      iface      lo inet loopback
 
-  - create-file: /etc/network/interfaces.d/eth0
-    contents: |+
-      auto eth0
-      iface eth0 inet dhcp
-
-  - create-file: /etc/network/interfaces.d/eth1
-    contents: |+
-      auto eth1
-      iface eth1 inet dhcp
+      # interface WAN, eth0 (100 Mbit/sec), DHCP only on IPV4
+      allow-auto eth0
+      iface     etho inet dhcp
+ 
+      # interface LAN eth1 (1 Gbit/sec), DHCP only on IPV4
+      allow-auto eth1
+      iface     eth1 inet dhcp
 
   - root-fs: root
     shell: |
