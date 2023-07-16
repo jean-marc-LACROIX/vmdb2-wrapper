@@ -1,30 +1,52 @@
 # Use like this: sudo vmdb2 nanopi-r1_bookworm_armhf_vmdb2.yaml --output=../images/nanopi-r1_bookworm_armhf.img --rootfs-tarball=../rootfs/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_nanopi-r1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
+
 steps:
+
+  # Create one file with 4G size. File name is set by "--output" shell
+  # parameter option
+
   - mkimg: "{{ output }}"
-    size: 4G
+    size:  4G
+
+  # Create partition entry on new image file...
 
   - mklabel: msdos
-    device: "{{ output }}"
+    device:  "{{ output }}"
+
+  # And then  create one primary partition
 
   - mkpart: primary
     device: "{{ output }}"
-    start: 16M
-    end: 100%
-    tag: root
+    start:  16M
+    end:    100%
+    tag:    root
+
+  # Create now one entry (into /dev/) in  the kenrnel with this new device
 
   - kpartx: "{{ output }}"
+
+  # Format image with standard ext4 filesystem tools
 
   - mkfs: ext4
     partition: root
 
+  # Mount image (via loop device) on temporary mount point
+
   - mount: root
 
+  # Unpack a tarball of the root filesystem to the image, and set the
+  # rootfs_unpacked condition to true. If the tarball doesnt exist,do
+  # nothing and leave the rootfs_unpacked condition to false.
+
   - unpack-rootfs: root
+
+  # Create one rootfs on image according architecture, site and wished
+  # Debian release
 
   - debootstrap: bookworm
     mirror: http://ftp.de.debian.org/debian
     target: root
-    arch: armhf
+    arch:   armhf
     components:
     - main
     - contrib
@@ -37,19 +59,31 @@ steps:
     tag: root
     unless: rootfs_unpacked
 
+  # Install default files definition for current Debian, so that
+  # futur Debian commands "apt update" and "apt upgrade" will run
+
   - chroot: root
     shell: |
-      echo "deb http://ftp.de.debian.org/debian bookworm main contrib non-free" > /etc/apt/sources.list
+      echo "deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware" > /etc/apt/sources.list
     unless: rootfs_unpacked
+
+  # Install flash-kernel packages using  apt,  which needs to  already
+  # have been installed before creating /boot final directory
 
   - apt: install
     packages:
       - flash-kernel
     tag: root
     unless: rootfs_unpacked
+    recommends: true
+
+  # Create a tarball of  the image root filesystem.  File name of this
+  # file is defined by command line option "--rootfs-tarball"
 
   - cache-rootfs: root
     unless: rootfs_unpacked
+
+  # launch a shell into chroot and make following actions...
 
   - chroot: root
     shell: |
@@ -57,7 +91,7 @@ steps:
       apt-get --assume-yes upgrade
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
       # Install the current generic linux kernel for all armhf architecture
-      apt-get --assume-yes install linux-image-armmp-lpae
+      apt-get --assume-yes install linux-image-rt-armmp
       # python3 is needed to launch ansible later
       apt-get --assume-yes install python3 python3-apt
       # openssh-server is needed to connect to target from Ethernet port
@@ -68,9 +102,48 @@ steps:
       apt-get --assume-yes install bind9-host
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
+  # When target will  boot later,  we must  be sure  to have  one  ssh
+  # access on  root  account because at  this time,  only Unix root is
+  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
+  # infrastructure,    so that one IPV4   address   is assigned to the
+  # target.  Because this is the  first connection, we change  default
+  # Debian "/etc/ssh/sshd_config" bahaviour.  With this new file, root
+  # access  is enable  on the target  without  password. Please update
+  # ASAP this file according your private security policy.
+
+  - create-file: /etc/ssh/sshd_config
+    contents: |+
+      # sshd daemon is listening on standard 22 IANA port
+      Port                    22
+      # listen to IN_ADDR, that is on all interfaces...
+      ListenAddress           0.0.0.0
+      # Root login is always accepted, remember that only one Unix account (root)
+      PermitRootLogin         yes
+      # Disable host authentication
+      HostbasedAuthentication no
+      # Authentication with public key is accepted, key can be installed later via ssh-copy-id tool
+      PubkeyAuthentication    yes
+      # Authentication with password key is accepted
+      PasswordAuthentication  yes
+      # Authentication with empty root passwoard is accepted
+      PermitEmptyPasswords    yes
+      # Because  simplest config, no PAM extension is supported
+      UsePAM                  no
+      # No X11, because only connected via one ssh in tty mode
+      X11Forwarding           no
+      # Don't edit motd from current Debian distribution
+      PrintMotd               no
+      # Minimal env variable accepted
+      AcceptEnv               LANG LC_*
+
+  # Set   default hostname  of   target.  Please note    there are  no
+  # requirements for this value, it is user defined.
+
   - create-file: /etc/hostname
     contents: |+
-      NanoPiR1
+      nanopi-r1
+
+  # Create one empty fstab entry (/etc/fstab file) on target. 
 
   - fstab: root
 
@@ -226,6 +299,13 @@ steps:
       # CLDO PWM voltage settings - 0x4 - 1.1 volt
       #cldo_pwm=0x4
 
+  # According    /usr/share/doc/flash-kernel/README.gz  documentation,
+  # default data-base    for   all  supported   SBC  (located     into
+  # /usr/share/flash-kernel/db/all.db) does  not yet support nanopi-r1
+  # board. As  a result create  one entry  and install this definition
+  # into top dir located into /etc/flashkernel/db so that this file is
+  # parsed earlier
+
   - create-file: /etc/flash-kernel/db
     contents: |+
       Machine: FriendlyElec NanoPi-R1
@@ -234,6 +314,11 @@ steps:
       DTB-Id: sun8i-h3-nanopi-r1.dtb
       U-Boot-Script-Name: bootscr.sunxi
       Required-Packages: u-boot-tools
+
+  # According    /usr/share/doc/flash-kernel/README.gz  documentation,
+  # because  nanopi-r1  is not  yet supported,  then  skip the machine
+  # auto-detection from /proc/cpuinfo  or /proc/dtmodel  and forcing a
+  # specific Machine
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
@@ -277,20 +362,32 @@ steps:
     shell: |
       dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_21.05.1_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
-  - create-file: /etc/network/interfaces.d/lo
+  - create-file: /etc/network/interfaces
     contents: |+
-      auto lo
-      iface lo inet loopback
+      # loopback interface 
+      allow-auto lo
+      iface      lo inet loopback
 
-  - create-file: /etc/network/interfaces.d/eth0
-    contents: |+
-      auto eth0
-      iface eth0 inet dhcp
+      # interface WAN, eth0 (100 Mbit/sec), DHCP only on IPV4
+      allow-auto eth0
+      #iface     etho inet dhcp
+      iface      etho inet static
+      address    192.168.254.98
+      network    192.168.254.0
+      broadcast  192.168.254.255
+      netmask    255.255.255.0
+  
+      # interface LAN eth1 (1 Gbit/sec), DHCP only on IPV4
+      allow-auto eth1
+      #iface     eth1 inet dhcp
+      iface      eth1 inet static
+      address    192.168.254.99
+      network    192.168.254.0
+      broadcast  192.168.254.255
+      netmask    255.255.255.0
+      up         /usr/sbin/ip route add default via 192.168.254.253 dev eth1
+      down       /usr/sbin/ip route add default dev eth1
 
-  - create-file: /etc/network/interfaces.d/eth1
-    contents: |+
-      auto eth1
-      iface eth1 inet dhcp
 
   - root-fs: root
     shell: |
@@ -311,3 +408,4 @@ steps:
 
   - create-file: /etc/resolv.conf
     contents: |
+       nameserver  192.168.254.253
