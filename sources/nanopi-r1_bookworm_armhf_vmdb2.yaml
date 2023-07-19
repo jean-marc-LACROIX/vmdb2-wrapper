@@ -1,51 +1,70 @@
 # Use like this: sudo vmdb2 nanopi-r1_bookworm_armhf_vmdb2.yaml --output=../images/nanopi-r1_bookworm_armhf.img --rootfs-tarball=../rootfs/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_nanopi-r1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
+# Please remember that full documentation is available here :
+
+# https://vmdb2-manual.liw.fi/#step-mkpart
+
+# Following code  is   organized in   functionnal sections.  In   each
+# section, steps (for vmdb2 point of vue) are defined.
+
 steps:
 
+  # SECTION 1/5: Prepare environnement for new image
+  # ------------------------------------------------
+ 
   # Create one file with 4G size. File name is set by "--output" shell
   # parameter option
 
   - mkimg: "{{ output }}"
     size:  4G
 
-  # Create partition entry on new image file...
+  # Create  partition entry on new image  file. In  order to always be
+  # compatible  with previous old systems  and tools, prefer partition
+  # type "msdos" instead of "gpt"
 
   - mklabel: msdos
     device:  "{{ output }}"
 
-  # And then create one primary partition
+  # Then create  one primary partition.   In order to support multiple
+  # partitions,  create also one  logical name (option  tags) for this
+  # partition.  It  is  therefore possible to use  this  name later to
+  # reference this object.
 
   - mkpart: primary
     device: "{{ output }}"
     start:  16M
     end:    100%
-    tag:    root
+    tag:    rootfs_partition_name
 
-  # Create now one entry (into /dev/) in  the kernel with this new device
+  # Create loop devices for partitions in image file.
 
   - kpartx: "{{ output }}"
 
-  # Format image with standard ext4 filesystem tools
+  # Format image with standard "ext4" Linux
 
   - mkfs: ext4
-    partition: root
+    partition: rootfs_partition_name
 
   # Mount image (via loop device) on temporary mount point
 
-  - mount: root
+  - mount: rootfs_partition_name
 
   # Unpack a tarball of the root filesystem to the image, and set the
   # rootfs_unpacked condition to true. If the tarball doesnt exist,do
   # nothing and leave the rootfs_unpacked condition to false.
 
-  - unpack-rootfs: root
+  - unpack-rootfs: rootfs_partition_name
 
+  # SECTION 2/5: Create rootfs and minimal Debian configuration
+  # -----------------------------------------------------------
+ 
   # Create one rootfs on image according architecture, site and wished
-  # Debian release
+  # Debian  release. please remember that no  kernel and no u-boot are
+  # installed here
 
   - debootstrap: bookworm
     mirror: http://ftp.de.debian.org/debian
-    target: root
+    target: rootfs_partition_name
     arch:   armhf
     components:
     - main
@@ -53,14 +72,17 @@ steps:
     - non-free
     unless: rootfs_unpacked
 
+  # Install initramfs-tools before installing kernel, so that all
+  # hook post-instal are also installed
+
   - apt: install
     packages:
       - initramfs-tools
-    tag: root
+    tag: rootfs_partition_name
     unless: rootfs_unpacked
 
-  # Install default files definition for current Debian, so that
-  # futur Debian commands "apt update" and "apt upgrade" will run
+  # Install default files, so  that futur Debian commands "apt update"
+  # and "apt upgrade" will run
 
   - create-file: /etc/apt/sources.list
     contents: |+
@@ -71,14 +93,23 @@ steps:
         #
     unless: rootfs_unpacked
 
-  # Install preferences on the target. On nanopir1 target, only recent
-  # kernel (Debian trixie) has a correct native DTS/TDB, so that it is
-  # possible to flash-kernel and DTS suite tools
+  # Install flash-kernel packages using  apt,  which needs to  already
+  # have been installed before creating /boot final directory
+
+  - apt: install
+    packages:
+      - flash-kernel
+    tag: rootfs_partition_name
+    recommends: true
+    unless: rootfs_unpacked
+
+  # Install   preferences  on the  target.   On  many SBC target, only
+  # recent kernel  has a correct native  DTS/TDB. As a  result, define
+  # one policy (for apt point of vue)
 
   - create-file: /etc/apt/preferences.d/debian_preferences.pref
     contents: |+
        # file : /etc/apt/preferences.d/debian_preferences.pref
-       # This file is build by jeanmarc.lacroi@free.fr from project :
        # 
        # define behaviour on current release
        Package: *
@@ -91,37 +122,34 @@ steps:
        Pin-Priority: 50
 
        # define behaviour on kernel, so that new DTS is supported
-       Package: linux-image-rt-armmp
-       Pin: release o=Debian,l=Debian,n=trixie
-       Pin-Priority: 980
+       #Package: linux-image-rt-armmp
+       #Pin: release o=Debian,l=Debian,n=trixie
+       #Pin-Priority: 980
 
        # use this package for most recent firmware for internal wifi
-       Package: firmware-brcm80211
-       Pin: release o=Debian,l=Debian,n=trixie
-       Pin-Priority: 980
-    unless: rootfs_unpacked
-
-  # Install flash-kernel packages using  apt,  which needs to  already
-  # have been installed before creating /boot final directory
-
-  - apt: install
-    packages:
-      - flash-kernel
-    tag: root
-    recommends: true
+       #Package: firmware-brcm80211
+       #Pin: release o=Debian,l=Debian,n=trixie
+       #Pin-Priority: 980
     unless: rootfs_unpacked
 
   # launch a shell into chroot and make following actions...
 
-  - chroot: root
+  - chroot: rootfs_partition_name
     shell: |
       # Update internal Debian apt data base
 
       apt-get update
 
-      # Update local installed packages according current Debian apt reference
+      # Update local  installed packages according current  Debian apt
+      # preference
 
       apt-get --assume-yes upgrade
+
+      # When installing kernel, "flash-kernel" & "initramfs" tools are
+      # automatically called. Because the target is not yet configured
+      # (/etc/fstab) we  backup and   remove post installation  script
+      # during kernel installation, so that ther are no action on
+      # rootfs.
 
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
 
@@ -129,9 +157,14 @@ steps:
 
       apt-get --assume-yes install linux-image-rt-armmp
 
+      # resore  previous   post-hook script,   because now  kernel  is
+      # correcly installed on rootfs.
+
+      mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
+
       # python3 is needed to launch "Ansible" tools later
 
-      apt-get --assume-yes install python3 python3-apt
+      #apt-get --assume-yes install python3 python3-apt
 
       # openssh-server is needed to connect to target on Ethernet port
 
@@ -139,25 +172,24 @@ steps:
 
       # psmisc package for very usefull tools: pstree (!) 
 
-      apt-get --assume-yes install psmisc
+      #apt-get --assume-yes install psmisc
 
       # bind9-host package for very usefull tools: dig and host
 
-      apt-get --assume-yes install bind9-host
+      #apt-get --assume-yes install bind9-host
 
       # In order to support wifi in STA & AP mode, install dedicated firmwares
 
-      apt-get --assume-yes install firmware-brcm80211 firmware-linux-free
+      #apt-get --assume-yes install firmware-brcm80211 firmware-linux-free
 
       # In order to support wifi in STA mode, install user space tools
 
-      apt-get --assume-yes install iw wireless-tools wireless-regdb wpasupplicant isc-dhcp-clien
+      #apt-get --assume-yes install iw wireless-tools wireless-regdb wpasupplicant isc-dhcp-client
 
       # In order to support usb tools such as "lsusb"
 
-      apt-get --assume-yes install usbutils
+      #apt-get --assume-yes install usbutils
 
-      mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
     unless: rootfs_unpacked
 
   # When target will  boot later,  we must  be sure  to have  one  ssh
@@ -168,7 +200,9 @@ steps:
   # Debian  "/etc/ssh/sshd_config" profile bahaviour.   With  this new
   # profile configuration, root access is enable on the target without
   # password. Please  update  ASAP  this file according   your private
-  # security policy.
+  # security   policy.  Please be sure  to    install this file  after
+  # installing  Debian package,  so that  following  configuration  is
+  # used instead of Debian.
 
   - create-file: /etc/ssh/sshd_config
     contents: |+
@@ -225,7 +259,6 @@ steps:
        X11Forwarding                       yes
        X11UseLocalhost                     yes
        XAuthLocation                       /usr/bin/xauth
-    unless: rootfs_unpacked
 
   # Create mandatory kernel modules (/etc/modules) loaded on startup
 
@@ -245,21 +278,21 @@ steps:
 
       r8152
 
-    unless: rootfs_unpacked
+  # Create /etc/fstab file with uuid and mounting point
 
-  # Create one empty fstab entry (/etc/fstab file) on target. 
-
-  - fstab: root
-    unless: rootfs_unpacked
+  - fstab: rootfs_partition_name
 
   # Create a tarball of  the image root filesystem.  File name of this
   # file is defined by command  line option "--rootfs-tarball". Please
   # note  that  after    this step,  previous    condition  defined by
   # "rootfs_unpacked" change
 
-  #- cache-rootfs: root
+  #- cache-rootfs: rootfs_partition_name
   #  unless: rootfs_unpacked
 
+  # SECTION 3/5: Prepare initramfs & flashkernel configuration
+  # ----------------------------------------------------------
+ 
   # Now, all  code is not shared with  "rootfs cache" and is dedicated
   # to target
 
@@ -295,7 +328,7 @@ steps:
     contents: |+
       FriendlyElec NanoPi-R1
 
-  - chroot: root
+  - chroot: rootfs_partition_name
     shell: |
 
       # Add hostname to /etc/hosts for IPv4 & IPv6
@@ -307,40 +340,54 @@ steps:
 
       sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0@g" /etc/default/flash-kernel
 
-      # Back-up fsck
+      # "initramfs" & "flash-kernel" tools needs uuid rootfs in
+      # order to make the job. Back-up fsck hook now
+
       mv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak
       chmod -x /usr/share/initramfs-tools/hooks/fsck.bak
 
-      # Fix fsck to read root fstype in fstab
+      # Fix fsck to read rootfs_partition_name fstype in fstab
+
       sed "s@\[.*\"\/\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck
       chmod +x /usr/share/initramfs-tools/hooks/fsck
 
       update-initramfs -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
 
+      # remove root  password, so that first  login  on default tty is
+      # "root" without any password. It is user responsability to make
+      # changes according his security policy (!)
+
       sed -i "s@root:\*:@root::@g" /etc/shadow
 
-  # because nanopi-r1 u-boot is not available in Debian
+  # SECTION 4/5: Install u-boot
+  # ---------------------------
+ 
+  # Because nanopi-r1 u-boot is not available in Debian
   # package, get current package from Armbian project
 
-  - root-fs: root
+  - root-fs: rootfs_partition_name
     shell: |
-      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopi-r1-current/linux-u-boot-current-nanopi-r1_21.02.2_armhf.deb
+      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopi-r1-current/linux-u-boot-current-nanopi-r1_22.11.4_armhf.deb
 
   # Install Armbian u-boot package in rootfs
 
-  - chroot: root
+  - chroot: rootfs_partition_name
     shell: |
       dpkg -i u-boot.deb
       rm u-boot.deb
 
-  # Install directly u-boot on rootfs. Please note that in standard
-  # Debian   package   "u-boot-sunxi",     target nanopir1   is    not
-  # available. Look at command : dpkg -L u-boot-sunxi |grep -i nanopi
+  # Install  directly u-boot on rootfs.  Please note  that in standard
+  # Debian   package   "u-boot-sunxi",   target   nanopir1    is   not
+  # available.   Look  at command  :   dpkg  -L u-boot-sunxi |grep  -i
+  # nanopi.
 
-  - root-fs: root
+  - root-fs: rootfs_partition_name
     shell: |
-      dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_21.02.2_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
+      dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_22.11.4_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
+  # SECTION 5/5: Make configuration for current target
+  # --------------------------------------------------
+ 
   - create-file: /etc/network/interfaces
     contents: |+
       # loopback interface 
@@ -380,7 +427,7 @@ steps:
       wpa-ssid        "Pixel-3a-jm"
       wpa-ctrl_interface /var/run/wpa_supplicant
 
-  - root-fs: root
+  - root-fs: rootfs_partition_name
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
       mount -t proc proc $ROOT/proc
@@ -388,7 +435,7 @@ steps:
   - ansible: root
     playbook: vmdb2-ansible.yaml
 
-  - root-fs: root
+  - root-fs: rootfs_partition_name
     shell: |
       # Restore fsck
       mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
