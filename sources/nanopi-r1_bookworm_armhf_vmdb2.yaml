@@ -72,6 +72,15 @@ steps:
     - non-free
     unless: rootfs_unpacked
 
+  # Install initramfs-tools packages, which needs to already have been
+  # installed before creating /boot final directory
+
+  - apt: install
+    packages:
+      - initramfs-tools
+    tag: rootfs_partition_name
+    unless: rootfs_unpacked
+
   # Install default files, so  that futur Debian commands "apt update"
   # and "apt upgrade" will run
 
@@ -84,16 +93,21 @@ steps:
         #
     unless: rootfs_unpacked
 
-  # Install flash-kernel  &  initramfs-tools packages,  which needs to
-  # already have been installed before creating /boot final directory
+  # Install flash-kernel packages, which needs   to already have  been
+  # installed before creating /boot final directory
 
   - apt: install
     packages:
       - flash-kernel
-      - initramfs-tools
     tag: rootfs_partition_name
-    recommends: true
     unless: rootfs_unpacked
+
+  # Create a tarball of  the image root filesystem.  File name of this
+  # file is defined by command  line option "--rootfs-tarball". Please
+  # note  that  after    this step,  previous    condition  defined by
+  # "rootfs_unpacked" change
+
+  - cache-rootfs: rootfs_partition_name
 
   # Install   preferences  on the  target.   On  many SBC target, only
   # recent kernel  has a correct native DTS/DTB.  As  a result, define
@@ -182,8 +196,6 @@ steps:
 
       #apt-get --assume-yes install usbutils
 
-    unless: rootfs_unpacked
-
   # When target will  boot later,  we must  be sure  to have  one  ssh
   # access on  root  account because at  this time,  only Unix root is
   # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
@@ -270,17 +282,13 @@ steps:
 
       r8152
 
-  # Create /etc/fstab file with uuid and mounting point
+  # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
+  # generate a line with  following options... Remenber that this UUID
+  # is only here for example, because created by mkfs tool
+
+  # UUID=3af99e2a-b4ec-4874-924c-e42a50613644 / ext4 noatime,nodiratime,errors=remount-ro 0 
 
   - fstab: rootfs_partition_name
-
-  # Create a tarball of  the image root filesystem.  File name of this
-  # file is defined by command  line option "--rootfs-tarball". Please
-  # note  that  after    this step,  previous    condition  defined by
-  # "rootfs_unpacked" change
-
-  #- cache-rootfs: rootfs_partition_name
-  #  unless: rootfs_unpacked
 
   # SECTION 3/5: Prepare initramfs & flashkernel configuration
   # ----------------------------------------------------------
