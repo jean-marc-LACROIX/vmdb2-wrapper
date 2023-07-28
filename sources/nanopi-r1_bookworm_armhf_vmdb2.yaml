@@ -72,15 +72,6 @@ steps:
     - non-free
     unless: rootfs_unpacked
 
-  # Install initramfs-tools packages, which needs to already have been
-  # installed before creating /boot final directory
-
-  - apt: install
-    packages:
-      - initramfs-tools
-    tag: rootfs_partition_name
-    unless: rootfs_unpacked
-
   # Install default files, so  that futur Debian commands "apt update"
   # and "apt upgrade" will run
 
@@ -93,12 +84,13 @@ steps:
         #
     unless: rootfs_unpacked
 
-  # Install flash-kernel packages, which needs   to already have  been
-  # installed before creating /boot final directory
+  # Install flash-kernel  &  initramfs-tools packages,  which needs to
+  # already have been installed before creating /boot final directory
 
   - apt: install
     packages:
       - flash-kernel
+      - initramfs-tools
     tag: rootfs_partition_name
     unless: rootfs_unpacked
 
