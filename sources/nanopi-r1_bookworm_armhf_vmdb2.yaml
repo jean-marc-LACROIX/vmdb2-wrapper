@@ -282,6 +282,25 @@ steps:
 
       r8152
 
+  # Create also   mandatory  kernel modules  blacklisted.  It  is very
+  # important to never load specific  module due to staging drivers or
+  # more often due  to the generic  aspect of Debian. For example,  it
+  # can be noted that VGA/HDMI is not available on this target, but is
+  # available  on the  SoC. Of course,  video driver   is loaded  as a
+  # default condition, but we can blacklist for tis target
+
+  - create-file: /etc/modprobe.d/blacklist-driver-video.conf
+    contents: |+
+
+     # blacklist Linux hdmi/vga driver, because not available on this
+     # SBC
+
+     blacklist videodev 
+     blacklist v4l2_mem2mem
+     blacklist sunxi_cedrus
+     blacklist videobuf2_dma_contig 
+     blacklist videobuf2_memops 
+
   # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
   # generate a line with  following options... Remenber that this UUID
   # is only here for example, because created by mkfs tool
