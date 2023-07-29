@@ -116,19 +116,19 @@ steps:
   - chroot: rootfs_partition_tag
     shell: |
 
-      # Update internal Debian apt data base
+      # Update internal  Debian apt data base. In  case we use one old
+      # cache tarball, it is necessary to  look for new update
 
       apt-get update
 
-      # Update local  installed packages according current  Debian apt
-      # preference
+      # Upgrade packages
 
       apt-get --assume-yes upgrade
 
       # When installing kernel, "flash-kernel" & "initramfs" tools are
       # automatically called. Because the target is not yet configured
-      # (/etc/fstab) we  backup and   remove post installation  script
-      # during kernel installation, so that ther are no action on
+      # (/etc/fstab),  we backup  and remove  post installation script
+      # during kernel installation,  so that  ther  are no  action  on
       # rootfs.
 
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
