@@ -92,7 +92,9 @@ steps:
     unless: rootfs_unpacked
 
   # Install  flash-kernel &  initramfs-tools packages,  which needs to
-  # already have been installed before creating /boot final directory
+  # already   have   been  installed  before   creating  /boot   final
+  # directory.  Because this tools are  necessary for  on all SBC,  we
+  # install then now to include them into the rootfs cache
 
   - apt: install
     packages:
@@ -103,8 +105,8 @@ steps:
 
   # Create a tarball of  the image root filesystem.  File name of this
   # file     is     defined   by   previous    command   line   option
-  # "--rootfs-tarball".  Please note that   after this step,  previous
-  # condition defined by "rootfs_unpacked" change
+  # "--rootfs-tarball".    Please note that    step is  linked  to the
+  # previous "unpack_rootfs".
 
   - cache-rootfs: rootfs_partition_tag
     unless: rootfs_unpacked
