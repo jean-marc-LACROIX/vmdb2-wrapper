@@ -45,12 +45,12 @@ steps:
 
   - kpartx: "{{ output }}"
 
-  # Format image with standard "ext4" Linux
+  # Format root partition with standard "ext4" Linux
 
   - mkfs: ext4
     partition: rootfs_partition_tag
 
-  # Mount image (via loop device) on temporary mount point
+  # Mount root partition (via loop device) on temporary mount point
 
   - mount: rootfs_partition_tag
 
@@ -63,12 +63,11 @@ steps:
   # SECTION 2/5: Create rootfs and minimal Debian configuration
   # -----------------------------------------------------------
 
-  # Create one rootfs on image according architecture, site and wished
-  # Debian  release. please remember that no  kernel and no u-boot are
-  # installed here (because rootfs)
+  # We choose a Debian  version and architecture. Please remember that
+  # no kernel and no u-boot are installed here (because rootfs)
 
   - debootstrap: bookworm
-    mirror: http://ftp.de.debian.org/debian
+    mirror: http://deb.debian.org/debian
     target: rootfs_partition_tag
     arch: arm64
     components:
@@ -83,13 +82,13 @@ steps:
   - create-file: /etc/apt/sources.list
     contents: |+
         # current Debian release (V12)
-        deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
+        deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
         # current Debian release (V12) security for bookworm release
         deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
         # current Debian release (V12) update, only for bookworm release
-        deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+        deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
         # current Debian release (V12) backports from next (Trixie) V13 release
-        deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+        deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
     unless: rootfs_unpacked
 
   # Install  flash-kernel &  initramfs-tools packages,  which needs to
