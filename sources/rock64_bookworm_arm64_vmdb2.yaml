@@ -1,31 +1,71 @@
 # Use like this : sudo vmdb2 rock64_bookworm_arm64_vmdb2.yaml --output=../images/rock64_bookworm_arm64.img --rootfs-tarball=../rootfs/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_rock64_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
+# Please remember that full documentation is available here :
+# https://vmdb2-manual.liw.fi/
+
+# Following code  is   organized in   functionnal sections.  In   each
+# section, steps (for vmdb2 point of vue) are defined.
+
 steps:
+
+  # SECTION 1/5: Prepare local environnement for new image
+  # ------------------------------------------------------
+
+  # Create one file with 4G size. File name is set by "--output" shell
+  # parameter option
+
   - mkimg: "{{ output }}"
-    size: 3G
+    size: 4G
+
+  # Create  partition entry on new image  file. In  order to always be
+  # compatible  with previous old systems  and tools, prefer partition
+  # type "msdos" instead of "gpt"
 
   - mklabel: msdos
     device: "{{ output }}"
 
+  # Then create  one primary partition.   In order to support multiple
+  # partitions,  create also one  logical name (option  tags) for this
+  # partition.  It  is  therefore possible to use  this  name later to
+  # reference this object.
+
   - mkpart: primary
     device: "{{ output }}"
-# We have to start higher than 12M because of the tzsw.bin.hardkernel which needs to be at 24576*512 Bytes
+    # We   have    to start    higher   than    12M   because of   the
+    # tzsw.bin.hardkernel which needs to be at 24576*512 Bytes
     start: 16M
     end: 100%
-    tag: root
+    tag:    rootfs_partition_name
+
+  # Create loop devices for partitions in image file.
 
   - kpartx: "{{ output }}"
 
+  # Format image with standard "ext4" Linux
+
   - mkfs: ext4
-    partition: root
+    partition: rootfs_partition_name
 
-  - mount: root
+  # Mount image (via loop device) on temporary mount point
 
-  - unpack-rootfs: root
+  - mount: rootfs_partition_name
+
+  # Unpack a tarball of the root filesystem to the image, and set the
+  # rootfs_unpacked  condition to    true.  If the   tarball does  not
+  # exist,do nothing and leave the rootfs_unpacked condition to false.
+
+  - unpack-rootfs: rootfs_partition_name
+
+  # SECTION 2/5: Create rootfs and minimal Debian configuration
+  # -----------------------------------------------------------
+
+  # Create one rootfs on image according architecture, site and wished
+  # Debian  release. please remember that no  kernel and no u-boot are
+  # installed here (because rootfs)
 
   - debootstrap: bookworm
     mirror: http://ftp.de.debian.org/debian
-    target: root
+    target: rootfs_partition_name
     arch: arm64
     components:
     - main
@@ -33,59 +73,232 @@ steps:
     - non-free
     unless: rootfs_unpacked
 
+  # Install default files, so  that futur Debian commands "apt update"
+  # and "apt upgrade" will run
+
+  - create-file: /etc/apt/sources.list
+    contents: |+
+        # current Debian release (V12)
+        deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
+        # current Debian release (V12) security for bookworm release
+        deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
+        # current Debian release (V12) update, only for bookworm release
+        deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+        # current Debian release (V12) backports from next (Trixie) V13 release
+        deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+    unless: rootfs_unpacked
+
+  # Install  flash-kernel &  initramfs-tools packages,  which needs to
+  # already have been installed before creating /boot final directory
+
   - apt: install
     packages:
       - initramfs-tools
-    tag: root
-    unless: rootfs_unpacked
-
-  - chroot: root
-    shell: |
-      echo "deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware" > /etc/apt/sources.list
-      echo "deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware" >> /etc/apt/sources.list
-      echo "deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware" >> /etc/apt/sources.list
-      echo "deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware" >> /etc/apt/sources.list
-    unless: rootfs_unpacked
-
-  - apt: install
-    packages:
       - flash-kernel
-    tag: root
+    tag: rootfs_partition_name
     unless: rootfs_unpacked
 
-  - cache-rootfs: root
+  # Create a tarball of  the image root filesystem.  File name of this
+  # file     is     defined   by   previous    command   line   option
+  # "--rootfs-tarball".  Please note that   after this step,  previous
+  # condition defined by "rootfs_unpacked" change
+
+  - cache-rootfs: rootfs_partition_name
     unless: rootfs_unpacked
 
-  - chroot: root
+  # Launch a shell into chroot and make following actions...
+
+  - chroot: rootfs_partition_name
     shell: |
+
+      # Update internal Debian apt data base
+
       apt-get update
-      apt-get -y upgrade
+
+      # Update local  installed packages according current  Debian apt
+      # preference
+
+      apt-get --assume-yes upgrade
+
+      # When installing kernel, "flash-kernel" & "initramfs" tools are
+      # automatically called. Because the target is not yet configured
+      # (/etc/fstab) we  backup and   remove post installation  script
+      # during kernel installation, so that ther are no action on
+      # rootfs.
+
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
-      apt-get -y install linux-image-arm64
+
+      # Install the current generic linux kernel for all armhf architecture
+
+      apt-get --assume-yes install linux-image-arm64
+
+      # restore  previous   post-hook script,   because now  kernel  is
+      # correcly installed on rootfs.
+
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
+
+      # python3 is needed to launch "Ansible" tools later
+
+      apt-get --assume-yes install python3 python3-apt
+
+      # openssh-server is needed to connect to target on Ethernet port
+      # (and also from Ansible script)
+
+      apt-get --assume-yes install openssh-server openssh-sftp-server
+
+      # Because this target boot first time in DHCP mode, then install
+      # Debian ISC client
+
+      apt-get --assume-yes install isc-dhcp-client
+
+  # When target will  boot later,  we must  be sure  to have  one  ssh
+  # access on  root  account because at  this time,  only Unix root is
+  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
+  # infrastructure,    so that one IPV4   address   is assigned to the
+  # target.  Because this is the  first connection, we change  default
+  # Debian  "/etc/ssh/sshd_config" profile bahaviour.   With  this new
+  # profile configuration, root access is enable on the target without
+  # password. Please  update  ASAP  this file according   your private
+  # security   policy.  Please be sure  to    install this file  after
+  # installing  Debian package,  so that  following  configuration  is
+  # used instead of Debian.
+
+  - create-file: /etc/ssh/sshd_config
+    contents: |+
+       AllowUsers                          root
+       AcceptEnv                           LANG
+       AddressFamily                       inet
+       AllowTcpForwarding                  no
+       AuthorizedKeysFile                  %h/.ssh/authorized_keys
+       Banner                              none
+       ChallengeResponseAuthentication     no
+       Ciphers                             aes256-ctr
+       ClientAliveCountMax                 5
+       ClientAliveInterval                 20
+       Compression                         no
+       DebianBanner                        yes
+       GSSAPIAuthentication                no
+       GSSAPIKeyExchange                   no
+       GSSAPICleanupCredentials            no
+       HostbasedAuthentication             no
+       HostbasedUsesNameFromPacketOnly     no
+       HostKey                             /etc/ssh/ssh_host_ed25519_key
+       IgnoreRhosts                        yes
+       IgnoreUserKnownHosts                no
+       KerberosAuthentication              no
+       KerberosOrLocalPasswd               no
+       KerberosTicketCleanup               no
+       Port                                22
+       ListenAddress                       0.0.0.0
+       LoginGraceTime                      30
+       LogLevel                            INFO
+       MACs                                hmac-sha2-512
+       MaxAuthTries                        3
+       MaxSessions                         1
+       MaxStartups                         10:30:60
+       PasswordAuthentication              yes
+       PermitEmptyPasswords                yes
+       PermitRootLogin                     yes
+       PermitTTY                           yes
+       PermitTunnel                        yes
+       PermitUserEnvironment               yes
+       PermitUserRC                        yes
+       PidFile                             /var/run/sshd.pid
+       PrintLastLog                        yes
+       PrintMotd                           no
+       PubkeyAcceptedKeyTypes              ssh-ed25519
+       PubkeyAuthentication                yes
+       StrictModes                         yes
+       Subsystem                           sftp   /usr/lib/openssh/sftp-server
+       SyslogFacility                      AUTH
+       TCPKeepAlive                        yes
+       UsePAM                              no
+       UseDNS                              yes
+       X11DisplayOffset                    10
+       X11Forwarding                       yes
+       X11UseLocalhost                     yes
+       XAuthLocation                       /usr/bin/xauth
+
+  # Create mandatory kernel modules (/etc/modules) loaded on startup
+
+  - create-file: /etc/modules
+    contents: |+
+      # Install 8021q module, in order to manage VLAN truncking
+
+      8021q
+
+      # Ethernet chip is RTL8211F Gigabit. There are many issues on
+      # this Chip   (!).  Later,  change kernel   and/or  add firmware
+      # ... Also, change kernel in order to support Bootlin patch
+
+      # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
+      # https://linux-sunxi.org/Ethernet
+      # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
+
+  # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
+  # generate a line with  following options... Remenber that this UUID
+  # is only here for example, because created by mkfs tool
+
+  # UUID=3af99e2a-b4ec-4874-924c-e42a50613644 / ext4 noatime,nodiratime,errors=remount-ro 0 
+
+  - fstab: rootfs_partition_name
+
+  # SECTION 3/5: Prepare initramfs & flashkernel configuration
+  # ----------------------------------------------------------
+
+  # Now,  next actions  are not  shared   with "rootfs cache" and   is
+  # dedicated to target
+
+  # Set default  hostname    of target.  Please   note  there  are  no
+  # requirements for this value, it is  user defined. Good practice is
+  # to use the same name than in DTS
 
   - create-file: /etc/hostname
     contents: |+
-      Rock64
+      rock64
 
-  - fstab: root
+  # According    /usr/share/doc/flash-kernel/README.gz  documentation,
+  # default data-base    for   all  supported   SBC  (located     into
+  # /usr/share/flash-kernel/db/all.db)  support rock64  board.   As  a
+  # result,     it    is then   not    mandatory    to install  either
+  # "/etc/flashkernel/db", either  "/etc/flash-kernel/db file, so skip
+  # this step
 
-  - create-file: /etc/flash-kernel/machine
+  # Install /etc/hosts file
+
+  - create-file: /etc/hosts
     contents: |+
-      Pine64 Rock64
+        # file /etc/hosts
+        # IPV4 loopback address on localhost (RFC 5735 compliant)
+        127.0.0.1  localhost
+    
+        # IPV4 loopback address on localhost (RFC 5735 compliant)
+        127.0.0.2  rock64  
 
-  - chroot: root
+   # Remove root  password, so  that first  login   on default tty  is
+   # "root"  without any password.  It is user  responsability to make
+   # changes according  his security   policy (!),  not  vmdb2-wrapper
+   # project (!)
+
+  - chroot: rootfs_partition_name
     shell: |
-      # Add hostname to /etc/hosts for IPv4 & IPv6
-      HOSTNAME=$(cat /etc/hostname)
-      sed -i "2i127.0.0.2\t$HOSTNAME" /etc/hosts
-      sed -i "4i::2\t\t$HOSTNAME" /etc/hosts
+      sed -i "s@root:\*:@root::@g" /etc/shadow
 
+   # Because too many issues on SDCARD on SBC (due to bad hardware !),
+   # be sure to add "noatime,nodiratime" option on rootfs mount
+
+  - chroot: rootfs_partition_name
+    shell: |
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
+
+  - chroot: rootfs_partition_name
+    shell: |
 
       sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0@g" /etc/default/flash-kernel
 
-      # Back-up fsck
+      # "initramfs" & "flash-kernel" tools needs uuid rootfs in
+      # order to make the job. Back-up fsck hook now
+
       mv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak
       chmod -x /usr/share/initramfs-tools/hooks/fsck.bak
 
@@ -95,28 +308,113 @@ steps:
 
       update-initramfs -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
 
-      sed -i "s@root:\*:@root::@g" /etc/shadow
+  # Because rock64 u-boot is now available in standard Debian package,
+  # install it on target
 
   - apt: install
     packages:
       - u-boot-rockchip
-    tag: root
+    tag: rootfs_partition_name
 
-  - root-fs: root
+  # SECTION 4/5: Install u-boot
+  # ---------------------------
+
+  # Install now specific script for this SBC.
+
+  - root-fs: rootfs_partition_name
     shell: |
       TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
-  - create-file: /etc/network/interfaces.d/lo
-    contents: |+
-      auto lo
-      iface lo inet loopback
+  # SECTION 5/5: Make configuration for current target
+  # --------------------------------------------------
 
-  - create-file: /etc/network/interfaces.d/eth0
-    contents: |+
-      auto eth0
-      iface eth0 inet dhcp
+  # Create  Debian  network interface.   Because   the only  interface
+  # (eth0) is   set in DHCP  mode,  there is  no   need to  create DNS
+  # resolvers  file  (/etc/resolv.conf).    It is  then   dhcp  server
+  # responsability to answer  to request option (domain-name-servers).
+  # Look at configuration /etc/dhcp/dhclient.conf
 
-  - root-fs: root
+  - create-file: /etc/network/interfaces
+    contents: |+
+      # loopback interface 
+      allow-auto lo
+      iface      lo inet loopback
+
+      # interface 1/1, eth0 (1 Gbit/sec), DHCP only on IPV4
+      allow-auto eth0
+      iface      etho inet dhcp
+
+  - create-file: /etc/dhcp/dhclient.conf
+    contents: |+
+
+      # Normally,  if the DHCP  server provides reasonable information
+      # and does  not  leave anything out (like   the domain name, for
+      # example),  then few changes must   be made  to default  Debian
+      # configuration file.
+
+      option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
+
+      # global dhclient parameters
+
+      backoff-cutoff    2;
+      initial-interval  2;
+      retry             60;
+      reboot            10;
+      select-timeout    5;
+      script            "/sbin/dhclient-script";
+      timeout           60;
+
+      # According   user  choice, send   mandatory DHCP  parameters to
+      # server for eth0 interface
+
+      interface "eth0" {
+        media          "eth0";
+ 
+        # dhcp-client-identifier:  According  RFC  6842,  set one uniq
+        # identifier (for target point of vue !).
+ 
+        send          dhcp-client-identifier "rock64-from-vmdb2-wrapper";
+ 
+        # dhcp-lease-time: For target    point of  view,  define   the
+        # maximum life   of  lease ( in   seconds  ) for   the current
+        # DHCPOFFER from server
+
+        send          dhcp-lease-time    600;
+        send          host-name          "rock64-from-vmdb2-wrapper";
+        require       subnet-mask;
+        also require  domain-search;
+        also require  domain-name-servers;
+        also require  routers;
+
+        # also require broadcast-address:  Some time,  Stupid  routers
+        # (!) does not understand  standard RFC.  As a result, comment
+        # it, otherwise Linux   client always retry dhcp request  with
+        # long timeout to obtain dhcp lease ... without success !
+
+        #also require  broadcast-address;
+
+        # It is  sometimes possible to  have  many  DHCP servers on  a
+        # network,  and very  often more  brands and different  models
+        # (!).  In order  to favor  the most  serious servers, a  good
+        # practice  is to  trust  those who  know   the RFCs (!),  and
+        # therefore who  respond correctly to  the  initial request of
+        # the DHCP-REQUEST
+
+        request        subnet-mask;
+        also request   host-name;
+        also request   broadcast-address;
+        also request   interface-mtu;
+        also request   ntp-servers;
+        also request   time-offset;
+        also request   routers;
+        also request   domain-name-servers;
+        also request   domain-search;
+       }
+
+  # if  user define one Ansible file,  then launch it to add dedicated
+  # configuration to this SBC
+
+  - root-fs: rootfs_partition_name
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
       mount -t proc proc $ROOT/proc
@@ -124,7 +422,7 @@ steps:
   - ansible: root
     playbook: vmdb2-ansible.yaml
 
-  - root-fs: root
+  - root-fs: rootfs_partition_name
     shell: |
       # Restore fsck
       mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
@@ -133,6 +431,3 @@ steps:
       umount $ROOT/proc
       rm $ROOT/etc/flash-kernel/machine
       diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
-
-  - create-file: /etc/resolv.conf
-    contents: |
