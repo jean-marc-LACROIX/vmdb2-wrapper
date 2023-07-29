@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 rock64_bookworm_arm64_vmdb2.yaml --output=../images/rock64_bookworm_arm64.img --rootfs-tarball=../rootfs/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_rock64_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 rock64_bookworm_arm64_vmdb2.yaml --output=../images/rock64_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_rock64_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 # Please remember that full documentation is available here :
 # https://vmdb2-manual.liw.fi/
