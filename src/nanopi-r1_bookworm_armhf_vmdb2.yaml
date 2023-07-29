@@ -1,4 +1,4 @@
-# Use like this: sudo vmdb2 nanopi-r1_bookworm_armhf_vmdb2.yaml --output=../images/nanopi-r1_bookworm_armhf.img --rootfs-tarball=../rootfs/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_nanopi-r1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this: sudo vmdb2 nanopi-r1_bookworm_armhf_vmdb2.yaml --output=../images/nanopi-r1_bookworm_armhf.img --rootfs-tarball=../rootfs_cache/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_nanopi-r1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 # Please remember that full documentation is available here :
 
