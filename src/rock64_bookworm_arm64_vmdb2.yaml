@@ -15,14 +15,14 @@ steps:
   # parameter option
 
   - mkimg: "{{ output }}"
-    size: 4G
+    size:  4G
 
   # Create  partition entry on new image  file. In  order to always be
   # compatible  with previous old systems  and tools, prefer partition
   # type "msdos" instead of "gpt"
 
   - mklabel: msdos
-    device: "{{ output }}"
+    device:  "{{ output }}"
 
   # Then create  one primary partition.   In order to support multiple
   # partitions,  create also one  logical name (option  tags) for this
@@ -31,30 +31,34 @@ steps:
 
   - mkpart: primary
     device: "{{ output }}"
-    # We   have    to start    higher   than    12M   because of   the
-    # tzsw.bin.hardkernel which needs to be at 24576*512 Bytes
-    start: 16M
-    end: 100%
-    tag:    rootfs_partition_name
 
-  # Create loop devices for partitions in image file.
+    # We  have  to   start   higher    than 12M  because    of     the
+    # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
+    # order to be  compliant on  all SBC, we  use  16 Mb as  a default
+    # configuration
+
+    start: 16M
+    end:   100%
+    tag:   rootfs_partition_tag
+
+  # Map image file partitions to loop device
 
   - kpartx: "{{ output }}"
 
   # Format image with standard "ext4" Linux
 
   - mkfs: ext4
-    partition: rootfs_partition_name
+    partition: rootfs_partition_tag
 
   # Mount image (via loop device) on temporary mount point
 
-  - mount: rootfs_partition_name
+  - mount: rootfs_partition_tag
 
   # Unpack a tarball of the root filesystem to the image, and set the
   # rootfs_unpacked  condition to    true.  If the   tarball does  not
   # exist,do nothing and leave the rootfs_unpacked condition to false.
 
-  - unpack-rootfs: rootfs_partition_name
+  - unpack-rootfs: rootfs_partition_tag
 
   # SECTION 2/5: Create rootfs and minimal Debian configuration
   # -----------------------------------------------------------
@@ -65,7 +69,7 @@ steps:
 
   - debootstrap: bookworm
     mirror: http://ftp.de.debian.org/debian
-    target: rootfs_partition_name
+    target: rootfs_partition_tag
     arch: arm64
     components:
     - main
@@ -95,7 +99,7 @@ steps:
     packages:
       - initramfs-tools
       - flash-kernel
-    tag: rootfs_partition_name
+    tag: rootfs_partition_tag
     unless: rootfs_unpacked
 
   # Create a tarball of  the image root filesystem.  File name of this
@@ -103,12 +107,12 @@ steps:
   # "--rootfs-tarball".  Please note that   after this step,  previous
   # condition defined by "rootfs_unpacked" change
 
-  - cache-rootfs: rootfs_partition_name
+  - cache-rootfs: rootfs_partition_tag
     unless: rootfs_unpacked
 
   # Launch a shell into chroot and make following actions...
 
-  - chroot: rootfs_partition_name
+  - chroot: rootfs_partition_tag
     shell: |
 
       # Update internal Debian apt data base
@@ -241,7 +245,7 @@ steps:
 
   # UUID=3af99e2a-b4ec-4874-924c-e42a50613644 / ext4 noatime,nodiratime,errors=remount-ro 0 
 
-  - fstab: rootfs_partition_name
+  - fstab: rootfs_partition_tag
 
   # SECTION 3/5: Prepare initramfs & flashkernel configuration
   # ----------------------------------------------------------
@@ -280,18 +284,18 @@ steps:
    # changes according  his security   policy (!),  not  vmdb2-wrapper
    # project (!)
 
-  - chroot: rootfs_partition_name
+  - chroot: rootfs_partition_tag
     shell: |
       sed -i "s@root:\*:@root::@g" /etc/shadow
 
    # Because too many issues on SDCARD on SBC (due to bad hardware !),
    # be sure to add "noatime,nodiratime" option on rootfs mount
 
-  - chroot: rootfs_partition_name
+  - chroot: rootfs_partition_tag
     shell: |
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
 
-  - chroot: rootfs_partition_name
+  - chroot: rootfs_partition_tag
     shell: |
 
       sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0@g" /etc/default/flash-kernel
@@ -314,14 +318,14 @@ steps:
   - apt: install
     packages:
       - u-boot-rockchip
-    tag: rootfs_partition_name
+    tag: rootfs_partition_tag
 
   # SECTION 4/5: Install u-boot
   # ---------------------------
 
   # Install now specific script for this SBC.
 
-  - root-fs: rootfs_partition_name
+  - root-fs: rootfs_partition_tag
     shell: |
       TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
@@ -414,7 +418,7 @@ steps:
   # if  user define one Ansible file,  then launch it to add dedicated
   # configuration to this SBC
 
-  - root-fs: rootfs_partition_name
+  - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
       mount -t proc proc $ROOT/proc
@@ -422,7 +426,7 @@ steps:
   - ansible: root
     playbook: vmdb2-ansible.yaml
 
-  - root-fs: rootfs_partition_name
+  - root-fs: rootfs_partition_tag
     shell: |
       # Restore fsck
       mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
