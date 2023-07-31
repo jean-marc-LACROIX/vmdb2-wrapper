@@ -85,7 +85,7 @@ steps:
       
       # on Wookworm, used standard debian package
 
-      apt-get -y install firmware-realtek
+      apt-get -y install firmware-realtek python3
 
       # Add hostname to /etc/hosts for IPv4 & IPv6
       HOSTNAME=$(cat /etc/hostname)
