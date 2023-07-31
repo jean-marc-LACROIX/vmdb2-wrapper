@@ -236,12 +236,10 @@ steps:
       # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
       # https://linux-sunxi.org/Ethernet
       # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
-
+      
   # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
   # generate a line with  following options... Remenber that this UUID
   # is only here for example, because created by mkfs tool
-
-  # UUID=3af99e2a-b4ec-4874-924c-e42a50613644 / ext4 noatime,nodiratime,errors=remount-ro 0 
 
   - fstab: rootfs_partition_tag
 
@@ -296,7 +294,9 @@ steps:
   - chroot: rootfs_partition_tag
     shell: |
 
-      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0@g" /etc/default/flash-kernel
+      # Be sure to force  fsck on rootfs so that ever time, target is ok
+
+      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
 
       # "initramfs" & "flash-kernel" tools needs uuid rootfs in
       # order to make the job. Back-up fsck hook now
