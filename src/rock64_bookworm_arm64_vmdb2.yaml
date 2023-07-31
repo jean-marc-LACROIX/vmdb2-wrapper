@@ -236,7 +236,7 @@ steps:
       # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
       # https://linux-sunxi.org/Ethernet
       # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
-      
+
   # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
   # generate a line with  following options... Remenber that this UUID
   # is only here for example, because created by mkfs tool
@@ -343,23 +343,23 @@ steps:
       # loopback interface 
       allow-auto lo
       iface      lo inet loopback
-
+      
       # interface 1/1, eth0 (1 Gbit/sec), DHCP only on IPV4
       allow-auto eth0
       iface      etho inet dhcp
 
   - create-file: /etc/dhcp/dhclient.conf
     contents: |+
-
+      
       # Normally,  if the DHCP  server provides reasonable information
       # and does  not  leave anything out (like   the domain name, for
       # example),  then few changes must   be made  to default  Debian
       # configuration file.
-
+      
       option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
-
+      
       # global dhclient parameters
-
+      
       backoff-cutoff    2;
       initial-interval  2;
       retry             60;
@@ -367,43 +367,43 @@ steps:
       select-timeout    5;
       script            "/sbin/dhclient-script";
       timeout           60;
-
+      
       # According   user  choice, send   mandatory DHCP  parameters to
       # server for eth0 interface
-
+      
       interface "eth0" {
         media          "eth0";
- 
+        
         # dhcp-client-identifier:  According  RFC  6842,  set one uniq
         # identifier (for target point of vue !).
- 
+        
         send          dhcp-client-identifier "Rock64-from-vmdb2-wrapper";
- 
+        
         # dhcp-lease-time: For target    point of  view,  define   the
         # maximum life   of  lease ( in   seconds  ) for   the current
         # DHCPOFFER from server
-
+        
         send          dhcp-lease-time    600;
         send          host-name          "Rock64-from-vmdb2-wrapper";
         require       subnet-mask;
         also require  domain-search;
         also require  domain-name-servers;
         also require  routers;
-
+        
         # also require broadcast-address:  Some time,  Stupid  routers
         # (!) does not understand  standard RFC.  As a result, comment
         # it, otherwise Linux   client always retry dhcp request  with
         # long timeout to obtain dhcp lease ... without success !
-
+        
         #also require  broadcast-address;
-
+        
         # It is  sometimes possible to  have  many  DHCP servers on  a
         # network,  and very  often more  brands and different  models
         # (!).  In order  to favor  the most  serious servers, a  good
         # practice  is to  trust  those who  know   the RFCs (!),  and
         # therefore who  respond correctly to  the  initial request of
         # the DHCP-REQUEST
-
+        
         request        subnet-mask;
         also request   host-name;
         also request   broadcast-address;
