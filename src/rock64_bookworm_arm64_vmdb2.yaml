@@ -295,8 +295,8 @@ steps:
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
       
       # Be sure to force fsck on rootfs  so that every time, target is
-      # ok. Furthermore, force interface  name with prefi  kernel name
-      # and suffix name based on one index
+      # ok.  Furthermore,  force interface  name  with  "prefix kernel
+      # name" and suffix name based on one index
        
       sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
       
