@@ -128,8 +128,8 @@ steps:
       # When installing kernel, "flash-kernel" & "initramfs" tools are
       # automatically called. Because the target is not yet configured
       # (/etc/fstab),  we backup  and remove  post installation script
-      # during kernel installation,  so that  ther  are no  action  on
-      # rootfs.
+      # during kernel   installation,   so that there  are   no action
+      # on rootfs.
 
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
 
@@ -137,7 +137,7 @@ steps:
 
       apt-get --assume-yes install linux-image-arm64
 
-      # restore  previous   post-hook script,   because now  kernel  is
+      # Restore  previous   post-hook script,   because now  kernel  is
       # correcly installed on rootfs.
 
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
