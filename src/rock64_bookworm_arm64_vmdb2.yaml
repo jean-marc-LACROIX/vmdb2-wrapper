@@ -228,10 +228,7 @@ steps:
 
   - create-file: /etc/modules
     contents: |+
-      # Install 8021q module, in order to manage VLAN truncking
-
-      8021q
-
+      
       # Ethernet chip is RTL8211F Gigabit. There are many issues on
       # this Chip   (!).  Later,  change kernel   and/or  add firmware
       # ... Also, change kernel in order to support Bootlin patch
