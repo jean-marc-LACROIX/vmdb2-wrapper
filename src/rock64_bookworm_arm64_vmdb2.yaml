@@ -284,30 +284,32 @@ steps:
     shell: |
       sed -i "s@root:\*:@root::@g" /etc/shadow
 
-   # Because too many issues on SDCARD on SBC (due to bad hardware !),
-   # be sure to add "noatime,nodiratime" option on rootfs mount
+  # Launch a shell into chroot and make following actions...
 
   - chroot: rootfs_partition_tag
     shell: |
+
+      # Because too many issues on SDCARD  on SBC (due to bad hardware
+      # !), be sure to add "noatime,nodiratime" option on rootfs mount
+      
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
-
-  - chroot: rootfs_partition_tag
-    shell: |
-
-      # Be sure to force  fsck on rootfs so that ever time, target is ok
-
+      
+      # Be sure to force fsck on rootfs  so that every time, target is
+      # ok. Furthermore, force interface  name with prefi  kernel name
+      # and suffix name based on one index
+       
       sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
-
+      
       # "initramfs" & "flash-kernel" tools needs uuid rootfs in
       # order to make the job. Back-up fsck hook now
-
+      
       mv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak
       chmod -x /usr/share/initramfs-tools/hooks/fsck.bak
-
+      
       # Fix fsck to read root fstype in fstab
       sed "s@\[.*\"\/\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck
       chmod +x /usr/share/initramfs-tools/hooks/fsck
-
+      
       update-initramfs -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
 
   # Because Rock64 u-boot is now available in standard Debian package,
