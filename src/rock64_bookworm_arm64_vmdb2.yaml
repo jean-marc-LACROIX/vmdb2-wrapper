@@ -232,7 +232,7 @@ steps:
       # Ethernet chip is RTL8211F Gigabit. There are many issues on
       # this Chip   (!).  Later,  change kernel   and/or  add firmware
       # ... Also, change kernel in order to support Bootlin patch
-
+      
       # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
       # https://linux-sunxi.org/Ethernet
       # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
@@ -255,7 +255,7 @@ steps:
 
   - create-file: /etc/hostname
     contents: |+
-      rock64
+      Rock64
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
@@ -271,10 +271,10 @@ steps:
         # file /etc/hosts
         # IPV4 loopback address on localhost (RFC 5735 compliant)
         127.0.0.1  localhost
-    
+        
         # IPV4 loopback address on localhost (RFC 5735 compliant)
-        127.0.0.2  rock64  
-
+        127.0.0.2  Rock64
+        
    # Remove root  password, so  that first  login   on default tty  is
    # "root"  without any password.  It is user  responsability to make
    # changes according  his security   policy (!),  not  vmdb2-wrapper
@@ -310,7 +310,7 @@ steps:
 
       update-initramfs -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
 
-  # Because rock64 u-boot is now available in standard Debian package,
+  # Because Rock64 u-boot is now available in standard Debian package,
   # install it on target
 
   - apt: install
@@ -375,14 +375,14 @@ steps:
         # dhcp-client-identifier:  According  RFC  6842,  set one uniq
         # identifier (for target point of vue !).
  
-        send          dhcp-client-identifier "rock64-from-vmdb2-wrapper";
+        send          dhcp-client-identifier "Rock64-from-vmdb2-wrapper";
  
         # dhcp-lease-time: For target    point of  view,  define   the
         # maximum life   of  lease ( in   seconds  ) for   the current
         # DHCPOFFER from server
 
         send          dhcp-lease-time    600;
-        send          host-name          "rock64-from-vmdb2-wrapper";
+        send          host-name          "Rock64-from-vmdb2-wrapper";
         require       subnet-mask;
         also require  domain-search;
         also require  domain-name-servers;
