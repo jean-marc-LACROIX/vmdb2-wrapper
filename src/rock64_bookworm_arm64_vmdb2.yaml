@@ -91,30 +91,71 @@ steps:
         deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
     unless: rootfs_unpacked
 
-  - apt: install
-    packages:
-      - initramfs-tools
-      - python3
-    tag: rootfs_partition_tag
-    unless: rootfs_unpacked
+  # Install  flash-kernel &  initramfs-tools packages,  which needs to
+  # already   have   been  installed  before   creating  /boot   final
+  # directory.  Because this tools are  necessary for  on all SBC,  we
+  # install then now to include them into the rootfs cache
 
   - apt: install
     packages:
       - flash-kernel
+      - initramfs-tools
     tag: rootfs_partition_tag
     unless: rootfs_unpacked
+
+  # Create a tarball of  the image root filesystem.  File name of this
+  # file     is     defined   by   previous    command   line   option
+  # "--rootfs-tarball".    Please note that    step is  linked  to the
+  # previous "unpack_rootfs".
 
   - cache-rootfs: rootfs_partition_tag
     unless: rootfs_unpacked
 
+  # Launch a shell into chroot and make following actions...
+
   - chroot: rootfs_partition_tag
     shell: |
+
+      # Update internal  Debian apt data base. In  case we use one old
+      # cache tarball, it is necessary to  look for new update
+
       apt-get update
+
+      # Upgrade packages
+
       apt-get -y upgrade
+
+      # When installing kernel, "flash-kernel" & "initramfs" tools are
+      # automatically called. Because the target is not yet configured
+      # (/etc/fstab),  we backup  and remove  post installation script
+      # during kernel   installation,   so that there  are   no action
+      # on rootfs.
+
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
+
+      # Install the current generic linux kernel for all armhf architecture
+
       apt-get -y install linux-image-arm64
+
+      # Restore  previous   post-hook script,   because now  kernel  is
+      # correcly installed on rootfs.
+
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
+
+      # python3 is needed to launch "Ansible" tools later
+
+      apt-get --assume-yes install python3 python3-apt
+
+      # openssh-server is needed to connect to target on Ethernet port
+      # (and also from Ansible script)
+
+      apt-get --assume-yes install openssh-server openssh-sftp-server
+
+      # Because this target boot first time in DHCP mode, then install
+      # Debian ISC client
+
+      apt-get --assume-yes install isc-dhcp-client
   - create-file: /etc/hostname
     contents: |+
       Rock64
