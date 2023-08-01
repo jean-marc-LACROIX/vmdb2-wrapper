@@ -1,31 +1,74 @@
 # Use like this : sudo vmdb2 rock64_bookworm_arm64_vmdb2.yaml --output=../images/rock64_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_rock64_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
+# Please remember that full documentation is available here :
+# https://vmdb2-manual.liw.fi/
+
+# Following code  is   organized in   functionnal sections.  In   each
+# section, steps (for vmdb2 point of vue) are defined.
+
 steps:
+
+  # SECTION 1/5: Prepare local environnement for new image
+  # ------------------------------------------------------
+
+  # Create one file with 4G size. File name is set by "--output" shell
+  # parameter option
+
   - mkimg: "{{ output }}"
     size: 3G
 
+  # Create  partition entry on new image  file. In  order to always be
+  # compatible  with previous old systems  and tools, prefer partition
+  # type "msdos" instead of "gpt"
+
   - mklabel: msdos
-    device: "{{ output }}"
+    device:  "{{ output }}"
+
+  # Then create  one primary partition.   In order to support multiple
+  # partitions,  create also one  logical name (option  tags) for this
+  # partition.  It  is  therefore possible to use  this  name later to
+  # reference this object.
 
   - mkpart: primary
     device: "{{ output }}"
-# We have to start higher than 12M because of the tzsw.bin.hardkernel which needs to be at 24576*512 Bytes
+
+    # We  have  to   start   higher    than 12M  because    of     the
+    # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
+    # order to be  compliant on  all SBC, we  use  16 Mb as  a default
+    # configuration
+
     start: 16M
-    end: 100%
-    tag: root
+    end:   100%
+    tag:   rootfs_partition_tag
+
+  # Map image file partitions to loop device
 
   - kpartx: "{{ output }}"
 
+  # Format root partition with standard "ext4" Linux
+
   - mkfs: ext4
-    partition: root
+    partition: rootfs_partition_tag
 
-  - mount: root
+  # Mount root partition (via loop device) on temporary mount point
 
-  - unpack-rootfs: root
+  - mount: rootfs_partition_tag
+
+  # Unpack a tarball of the root filesystem to the image, and set the
+  # rootfs_unpacked  condition to    true.  If the   tarball does  not
+  # exist,do nothing and leave the rootfs_unpacked condition to false.
+
+  - unpack-rootfs: rootfs_partition_tag
+
+  # SECTION 2/5: Create rootfs and minimal Debian configuration
+  # -----------------------------------------------------------
+
+  # We choose a Debian  version and architecture. Please remember that
+  # no kernel and no u-boot are installed here (because rootfs)
 
   - debootstrap: bookworm
-    mirror: http://ftp.de.debian.org/debian
-    target: root
+    mirror: http://deb.debian.org/debian
+    target: rootfs_partition_tag
     arch: arm64
     components:
     - main
@@ -33,30 +76,38 @@ steps:
     - non-free
     unless: rootfs_unpacked
 
+  # Install default files, so  that futur Debian commands "apt update"
+  # and "apt upgrade" will run
+
+  - create-file: /etc/apt/sources.list
+    contents: |+
+        # current Debian release (V12)
+        deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+        # current Debian release (V12) security for bookworm release
+        deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
+        # current Debian release (V12) update, only for bookworm release
+        deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+        # current Debian release (V12) backports from next (Trixie) V13 release
+        deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+    unless: rootfs_unpacked
+
   - apt: install
     packages:
       - initramfs-tools
-    tag: root
-    unless: rootfs_unpacked
-
-  - chroot: root
-    shell: |
-      echo "deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware" > /etc/apt/sources.list
-      echo "deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware" >> /etc/apt/sources.list
-      echo "deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware" >> /etc/apt/sources.list
-      echo "deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware" >> /etc/apt/sources.list
+      - python3
+    tag: rootfs_partition_tag
     unless: rootfs_unpacked
 
   - apt: install
     packages:
       - flash-kernel
-    tag: root
+    tag: rootfs_partition_tag
     unless: rootfs_unpacked
 
-  - cache-rootfs: root
+  - cache-rootfs: rootfs_partition_tag
     unless: rootfs_unpacked
 
-  - chroot: root
+  - chroot: rootfs_partition_tag
     shell: |
       apt-get update
       apt-get -y upgrade
@@ -68,13 +119,13 @@ steps:
     contents: |+
       Rock64
 
-  - fstab: root
+  - fstab: rootfs_partition_tag
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
       Pine64 Rock64
 
-  - chroot: root
+  - chroot: rootfs_partition_tag
     shell: |
       # Add hostname to /etc/hosts for IPv4 & IPv6
       HOSTNAME=$(cat /etc/hostname)
@@ -100,9 +151,9 @@ steps:
   - apt: install
     packages:
       - u-boot-rockchip
-    tag: root
+    tag: rootfs_partition_tag
 
-  - root-fs: root
+  - root-fs: rootfs_partition_tag
     shell: |
       TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
@@ -116,15 +167,15 @@ steps:
       auto eth0
       iface eth0 inet dhcp
 
-  - root-fs: root
+  - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
       mount -t proc proc $ROOT/proc
 
-  - ansible: root
+  - ansible: rootfs_partition_tag
     playbook: vmdb2-ansible.yaml
 
-  - root-fs: root
+  - root-fs: rootfs_partition_tag
     shell: |
       # Restore fsck
       mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
