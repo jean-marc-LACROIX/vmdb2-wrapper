@@ -423,7 +423,7 @@ steps:
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
       mount -t proc proc $ROOT/proc
 
-  - ansible: root
+  - ansible: rootfs_partition_tag
     playbook: vmdb2-ansible.yaml
 
   - root-fs: rootfs_partition_tag
