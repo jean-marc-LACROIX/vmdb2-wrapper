@@ -123,7 +123,7 @@ steps:
 
       # Upgrade packages
 
-      apt-get -y upgrade
+      apt-get --assume-yes upgrade
 
       # When installing kernel, "flash-kernel" & "initramfs" tools are
       # automatically called. Because the target is not yet configured
@@ -133,29 +133,15 @@ steps:
 
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
 
-      # Install the current generic linux kernel for all armhf architecture
+      # Install the current generic linux kernel for this architecture
 
-      apt-get -y install linux-image-arm64
+      apt-get --assume-yes install linux-image-arm64
 
       # Restore  previous   post-hook script,   because now  kernel  is
       # correcly installed on rootfs.
 
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
-
-      # python3 is needed to launch "Ansible" tools later
-
-      apt-get --assume-yes install python3 python3-apt
-
-      # openssh-server is needed to connect to target on Ethernet port
-      # (and also from Ansible script)
-
-      apt-get --assume-yes install openssh-server openssh-sftp-server
-
-      # Because this target boot first time in DHCP mode, then install
-      # Debian ISC client
-
-      apt-get --assume-yes install isc-dhcp-client
   - create-file: /etc/hostname
     contents: |+
       Rock64
@@ -169,9 +155,9 @@ steps:
   - chroot: rootfs_partition_tag
     shell: |
       # Add hostname to /etc/hosts for IPv4 & IPv6
-      HOSTNAME=$(cat /etc/hostname)
-      sed -i "2i127.0.0.2\t$HOSTNAME" /etc/hosts
-      sed -i "4i::2\t\t$HOSTNAME" /etc/hosts
+      #HOSTNAME=$(cat /etc/hostname)
+      #sed -i "2i127.0.0.2\t$HOSTNAME" /etc/hosts
+      #sed -i "4i::2\t\t$HOSTNAME" /etc/hosts
 
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
 
@@ -198,16 +184,6 @@ steps:
     shell: |
       TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
-  - create-file: /etc/network/interfaces.d/lo
-    contents: |+
-      auto lo
-      iface lo inet loopback
-
-  - create-file: /etc/network/interfaces.d/eth0
-    contents: |+
-      auto eth0
-      iface eth0 inet dhcp
-
   - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
@@ -225,6 +201,113 @@ steps:
       umount $ROOT/proc
       rm $ROOT/etc/flash-kernel/machine
       diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
+
+  # SECTION 6/5: Prepare network configuration 
+  # ------------------------------------------
+
+  # Create loopback mandatory "lo"  interface.  It is a best  practice
+  # to use proposal  Debian  directory /etc/network/interface.d.  This
+  # directory  is  parsed in  lexical name   order  by Debian tools to
+  # create interfaces (FIXME: verify it in man !)
+
+  - create-file: /etc/network/interfaces.d/lo
+    contents: |+
+      # loopback interface 
+      allow-auto lo
+      iface      lo inet loopback   
+
+  # On this SBC,  only one interface  is available (eth0), then create
+  # this iterfaces.  Please remember that interface name policy naming
+  # is managed by kernel parameter  boot option : "net.ifnames=0" (see
+  # above)
+
+  - create-file: /etc/network/interfaces.d/eth0
+    contents: |+
+      
+      # Ethernet  10/100/1000 full duplex interface. Because interface
+      # is set in dhcp mode, then dhcp request configuration file is
+      # set into /etc/dhcp/dhclient.conf 
+      
+      allow-auto eth0
+      iface      eth0 inet dhcp
+
+  # Set local DNS resolver if no DNS available (for example if no DHCP
+  # server available)
+
+  - create-file: /etc/hosts
+    contents: |+
+        # file /etc/hosts
+        # IPV4 loopback address on localhost (RFC 5735 compliant)
+        127.0.0.1  localhost
+        
+        # IPV4 loopback address on localhost (RFC 5735 compliant)
+        127.0.0.2  Rock64
+
+  # Launch a shell into chroot and make following actions...
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # python3 is needed to launch "Ansible" tools later
+
+      apt-get --assume-yes install python3 python3-apt
+
+      # openssh-server is needed to connect to target on Ethernet port
+      # (and also from Ansible script)
+
+      apt-get --assume-yes install openssh-server openssh-sftp-server
+
+      # Because this target boot first time in DHCP mode, then install
+      # Debian ISC client. Please rem
+
+      apt-get --assume-yes install isc-dhcp-client
+
+  # When target will  boot later,  we must  be sure  to have  one  ssh
+  # access on  root  account because at  this time,  only Unix root is
+  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
+  # infrastructure,    so that one IPV4   address   is assigned to the
+  # target.  Because this is the  first connection, we change  default
+  # Debian  "/etc/ssh/sshd_config" profile bahaviour.   With  this new
+  # profile configuration, root access is enable on the target without
+  # password. Please  update  ASAP  this file according   your private
+  # security policy.  Please be  sure to install this VMDB2 step after
+  # installing  Debian package,  so that  following  configuration  is
+  # used instead of Debian.
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # Be sure to enable root access on target 
+
+      sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config
+
+      # Enable public key 
+
+      sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+
+      # And finaly enable root  access without password for  the fisrt
+      # connection.
+
+      sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
+
+  # Create mandatory kernel modules (/etc/modules) loaded on startup
+
+  - create-file: /etc/modules
+    contents: |+
+      
+      # Ethernet chip is RTL8211F Gigabit. There are many issues on
+      # this Chip   (!).  Later,  change kernel   and/or  add firmware
+      # ... Also, change kernel in order to support Bootlin patch
+      
+      # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
+      # https://linux-sunxi.org/Ethernet
+      # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
+
+  # Create one empty file for DNS local  resolver. Remember that it is
+  # sysadmin reponsability  to     anwer to DHCP   option   : "request
+  # domain-name, domain-search" defined into /etc/dhcp/dhclient.conf
+  # file. When DHCP-REQUEST+DHCP-OFFER     is ok, following   file  is
+  # automaticaly modified by ifup/ifdown Debian infratructure.
 
   - create-file: /etc/resolv.conf
     contents: |
