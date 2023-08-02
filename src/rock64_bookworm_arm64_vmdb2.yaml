@@ -15,7 +15,7 @@ steps:
   # parameter option
 
   - mkimg: "{{ output }}"
-    size:  4G
+    size: 3G
 
   # Create  partition entry on new image  file. In  order to always be
   # compatible  with previous old systems  and tools, prefer partition
@@ -31,12 +31,12 @@ steps:
 
   - mkpart: primary
     device: "{{ output }}"
-
+    
     # We  have  to   start   higher    than 12M  because    of     the
     # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
     # order to be  compliant on  all SBC, we  use  16 Mb as  a default
     # configuration
-
+    
     start: 16M
     end:   100%
     tag:   rootfs_partition_tag
@@ -81,6 +81,7 @@ steps:
 
   - create-file: /etc/apt/sources.list
     contents: |+
+        # file /etc/apt/sources.list
         # current Debian release (V12)
         deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
         # current Debian release (V12) security for bookworm release
@@ -98,8 +99,8 @@ steps:
 
   - apt: install
     packages:
-      - initramfs-tools
       - flash-kernel
+      - initramfs-tools
     tag: rootfs_partition_tag
     unless: rootfs_unpacked
 
@@ -111,18 +112,18 @@ steps:
   - cache-rootfs: rootfs_partition_tag
     unless: rootfs_unpacked
 
-  # Launch a shell into chroot and make following actions...
+  # Launch one shell into chroot and make following actions...
 
   - chroot: rootfs_partition_tag
     shell: |
 
-      # Update internal  Debian apt data base. In  case we use one old
-      # cache tarball, it is necessary to  look for new update
-
+      # Update  internal Debian apt data base.  In case we use one old
+      # cache tarball, it is necessary to look for new update
+      
       apt-get update
-
+      
       # Upgrade packages
-
+      
       apt-get --assume-yes upgrade
 
       # When installing kernel, "flash-kernel" & "initramfs" tools are
@@ -130,121 +131,20 @@ steps:
       # (/etc/fstab),  we backup  and remove  post installation script
       # during kernel   installation,   so that there  are   no action
       # on rootfs.
-
+      
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
-
-      # Install the current generic linux kernel for all armhf architecture
-
+      
+      # Install the current generic linux kernel for this architecture
+      
       apt-get --assume-yes install linux-image-arm64
-
+      
       # Restore  previous   post-hook script,   because now  kernel  is
-      # correcly installed on rootfs.
-
+      # correctly installed on rootfs.
+      
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
-      # python3 is needed to launch "Ansible" tools later
-
-      apt-get --assume-yes install python3 python3-apt
-
-      # openssh-server is needed to connect to target on Ethernet port
-      # (and also from Ansible script)
-
-      apt-get --assume-yes install openssh-server openssh-sftp-server
-
-      # Because this target boot first time in DHCP mode, then install
-      # Debian ISC client
-
-      apt-get --assume-yes install isc-dhcp-client
-
-  # When target will  boot later,  we must  be sure  to have  one  ssh
-  # access on  root  account because at  this time,  only Unix root is
-  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
-  # infrastructure,    so that one IPV4   address   is assigned to the
-  # target.  Because this is the  first connection, we change  default
-  # Debian  "/etc/ssh/sshd_config" profile bahaviour.   With  this new
-  # profile configuration, root access is enable on the target without
-  # password. Please  update  ASAP  this file according   your private
-  # security   policy.  Please be sure  to    install this file  after
-  # installing  Debian package,  so that  following  configuration  is
-  # used instead of Debian.
-
-  - create-file: /etc/ssh/sshd_config
-    contents: |+
-       AllowUsers                          root
-       AcceptEnv                           LANG
-       AddressFamily                       inet
-       AllowTcpForwarding                  no
-       AuthorizedKeysFile                  %h/.ssh/authorized_keys
-       Banner                              none
-       ChallengeResponseAuthentication     no
-       Ciphers                             aes256-ctr
-       ClientAliveCountMax                 5
-       ClientAliveInterval                 20
-       Compression                         no
-       DebianBanner                        yes
-       GSSAPIAuthentication                no
-       GSSAPIKeyExchange                   no
-       GSSAPICleanupCredentials            no
-       HostbasedAuthentication             no
-       HostbasedUsesNameFromPacketOnly     no
-       HostKey                             /etc/ssh/ssh_host_ed25519_key
-       IgnoreRhosts                        yes
-       IgnoreUserKnownHosts                no
-       KerberosAuthentication              no
-       KerberosOrLocalPasswd               no
-       KerberosTicketCleanup               no
-       Port                                22
-       ListenAddress                       0.0.0.0
-       LoginGraceTime                      30
-       LogLevel                            INFO
-       MACs                                hmac-sha2-512
-       MaxAuthTries                        3
-       MaxSessions                         1
-       MaxStartups                         10:30:60
-       PasswordAuthentication              yes
-       PermitEmptyPasswords                yes
-       PermitRootLogin                     yes
-       PermitTTY                           yes
-       PermitTunnel                        yes
-       PermitUserEnvironment               yes
-       PermitUserRC                        yes
-       PidFile                             /var/run/sshd.pid
-       PrintLastLog                        yes
-       PrintMotd                           no
-       PubkeyAcceptedKeyTypes              ssh-ed25519
-       PubkeyAuthentication                yes
-       StrictModes                         yes
-       Subsystem                           sftp   /usr/lib/openssh/sftp-server
-       SyslogFacility                      AUTH
-       TCPKeepAlive                        yes
-       UsePAM                              no
-       UseDNS                              yes
-       X11DisplayOffset                    10
-       X11Forwarding                       yes
-       X11UseLocalhost                     yes
-       XAuthLocation                       /usr/bin/xauth
-
-  # Create mandatory kernel modules (/etc/modules) loaded on startup
-
-  - create-file: /etc/modules
-    contents: |+
-      
-      # Ethernet chip is RTL8211F Gigabit. There are many issues on
-      # this Chip   (!).  Later,  change kernel   and/or  add firmware
-      # ... Also, change kernel in order to support Bootlin patch
-      
-      # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
-      # https://linux-sunxi.org/Ethernet
-      # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
-
-  # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
-  # generate a line with  following options... Remenber that this UUID
-  # is only here for example, because created by mkfs tool
-
-  - fstab: rootfs_partition_tag
-
-  # SECTION 3/5: Prepare initramfs & flashkernel configuration
-  # ----------------------------------------------------------
+  # SECTION 3/5: Make initramfs & flashkernel configuration
+  # --------------------------------------------------------
 
   # Now,  next actions  are not  shared   with "rootfs cache" and   is
   # dedicated to target
@@ -257,49 +157,44 @@ steps:
     contents: |+
       Rock64
 
+  # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
+  # generate a  line  with correct UUID.  Remenber  that this  UUID is
+  # previously created by mkfs tool
+
+  - fstab: rootfs_partition_tag
+
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
   # /usr/share/flash-kernel/db/all.db)  support rock64  board.   As  a
   # result,     it    is then   not    mandatory    to install  either
-  # "/etc/flashkernel/db", either  "/etc/flash-kernel/db file, so skip
-  # this step
+  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file,  so
+  # skip  this step....But  if not  defined  the  machine (to  overlap
+  # default config), there is one 'inteligent system' who search the
+  # UUID, and ... fails. As a result  defined machine target, so that
+  # no error (FIXME)
 
-  # Install /etc/hosts file
-
-  - create-file: /etc/hosts
+  - create-file: /etc/flash-kernel/machine
     contents: |+
-        # file /etc/hosts
-        # IPV4 loopback address on localhost (RFC 5735 compliant)
-        127.0.0.1  localhost
-        
-        # IPV4 loopback address on localhost (RFC 5735 compliant)
-        127.0.0.2  Rock64
-        
-   # Remove root  password, so  that first  login   on default tty  is
-   # "root"  without any password.  It is user  responsability to make
-   # changes according  his security   policy (!),  not  vmdb2-wrapper
-   # project (!)
+      Pine64 Rock64
+
+  # launch one shell into rootfs 
 
   - chroot: rootfs_partition_tag
     shell: |
-      sed -i "s@root:\*:@root::@g" /etc/shadow
-
-  # Launch a shell into chroot and make following actions...
-
-  - chroot: rootfs_partition_tag
-    shell: |
-
+      
       # Because too many issues on SDCARD  on SBC (due to bad hardware
-      # !), be sure to add "noatime,nodiratime" option on rootfs mount
+      # !), be  sure  to add   "noatime,nodiratime" option on   rootfs
+      # mount, so that we increase flash SDcard lifetime
       
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
       
       # Be sure to force fsck on rootfs  so that every time, target is
       # ok.  Furthermore,  force interface  name  with  "prefix kernel
-      # name" and suffix name based on one index
-       
-      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
+      # name" and suffix name based  on current index. Force also fsck
+      # on rootfs
       
+      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
+
       # "initramfs" & "flash-kernel" tools needs uuid rootfs in
       # order to make the job. Back-up fsck hook now
       
@@ -310,121 +205,163 @@ steps:
       sed "s@\[.*\"\/\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck
       chmod +x /usr/share/initramfs-tools/hooks/fsck
       
-      update-initramfs -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
+      update-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
+      
+      # Remove root  password, so that  first login on default  tty is
+      # "root" without   any password.  It  is user  responsability to
+      # make   changes    according his   security   policy  (!),  not
+      # vmdb2-wrapper project (!)
+      
+      sed -i "s@root:\*:@root::@g" /etc/shadow
 
-  # Because Rock64 u-boot is now available in standard Debian package,
-  # install it on target
+  # SECTION 4/5: Prepare network configuration 
+  # ------------------------------------------
+
+  # Create loopback mandatory "lo"  interface.  It is a best  practice
+  # to use proposal  Debian  directory /etc/network/interface.d.  This
+  # directory  is  parsed in  lexical name   order  by Debian tools to
+  # create interfaces (FIXME: verify it in man !)
+
+  - create-file: /etc/network/interfaces.d/lo
+    contents: |+
+      # file /etc/network/interfaces.d/lo
+      # loopback interface 
+      allow-auto lo
+      iface      lo inet loopback   
+
+  # On this SBC,  only one interface  is available (eth0), then create
+  # this one.   Please    remember that  interface policy  naming   is
+  # controled by kernel  parameter boot option :  "net.ifnames=0" (see
+  # above)
+
+  - create-file: /etc/network/interfaces.d/eth0
+    contents: |+
+      # file /etc/network/interfaces.d/eth0
+      # Ethernet  10/100/1000 full duplex interface. Because interface
+      # is set in dhcp mode, then dhcp request configuration file is
+      # set into /etc/dhcp/dhclient.conf 
+      
+      allow-auto eth0
+      iface      eth0 inet dhcp
+
+  # Set local DNS resolver if no DNS available (for example if no DHCP
+  # server available)
+
+  - create-file: /etc/hosts
+    contents: |+
+        # file /etc/hosts
+        # IPV4 loopback address on localhost (RFC 5735 compliant)
+        127.0.0.1  localhost
+        
+        # IPV4 loopback address on localhost (RFC 5735 compliant)
+        127.0.0.2  Rock64
+
+  # Launch one shell into chroot and make following actions...
+
+  - chroot: rootfs_partition_tag
+    shell: |
+      
+      # python3 is needed  to  launch "Ansible"  tools later.
+      
+      apt-get --assume-yes install python3
+      
+      # openssh-server is needed to connect to target on Ethernet port
+      # (and also from external Ansible script)
+      
+      apt-get --assume-yes install openssh-server openssh-sftp-server
+      
+      # Because this target boot first time in DHCP mode, then install
+      # Debian   ISC   client.      Please   verify   default   Debian
+      # /etc/dhcp/dhclient.conf
+      
+      apt-get --assume-yes install isc-dhcp-client
+
+  # When target will  boot later,  we must  be sure  to have  one  ssh
+  # access on  root  account because at  this time,  only Unix root is
+  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
+  # infrastructure,    so that one IPV4   address   is assigned to the
+  # target.  Because this is the  first connection, we change  default
+  # Debian  "/etc/ssh/sshd_config" profile bahaviour.   With  this new
+  # profile configuration, root access is enable on the target without
+  # password. Please  update  ASAP  this file according   your private
+  # security policy.  Please be  sure to install this VMDB2 step after
+  # installing  Debian package,  so that  following  configuration  is
+  # used instead of Debian.
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # Be sure to enable ssh root access on target 
+
+      sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config
+
+      # Enable ssh public key 
+
+      sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+
+      # And finally enable ssh   root access without password  for  the
+      # first connection.
+
+      sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
+
+  # Create mandatory kernel modules (/etc/modules) loaded on startup
+
+  - create-file: /etc/modules
+    contents: |+     
+      # file /etc/modules
+      
+      # Ethernet chip is RTL8211F Gigabit. There are many issues on
+      # this Chip   (!).  Later,  change kernel   and/or  add firmware
+      # ... Also, change kernel in order to support Bootlin patch
+      
+      # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
+      # https://linux-sunxi.org/Ethernet
+      # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
+
+  # Create one empty file for DNS local  resolver. Remember that it is
+  # sysadmin responsability  to   answer to strategic   DHCP option  :
+  # "request domain-name, domain-search" defined into file :
+  # /etc/dhcp/dhclient.conf.     When   DHCP-REQUEST+DHCP-OFFER is ok,
+  # following  file is  automaticaly   modified by ifup/ifdown  Debian
+  # infrastructure.
+
+  - create-file: /etc/resolv.conf
+    contents: |+
+      # file /etc/resolv.conf
+      
+      # This  file is installed by   vmdb2-project. It is automatically
+      # updated    according   network        sysadmin policy       on
+      # DHCP-REQUEST/DHCP-OFFER PDUs
+
+  # SECTION 5/5: Install u-boot and launch Ansible user script
+  # ----------------------------------------------------------
+
+  # Install Debian u-boot package for this target
 
   - apt: install
     packages:
       - u-boot-rockchip
     tag: rootfs_partition_tag
 
-  # SECTION 4/5: Install u-boot
-  # ---------------------------
-
-  # Install now specific script for this SBC.
+  # Install u-boot binaries on target
 
   - root-fs: rootfs_partition_tag
     shell: |
       TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
-  # SECTION 5/5: Make configuration for current target
-  # --------------------------------------------------
-
-  # Create  Debian  network interface.   Because   the only  interface
-  # (eth0) is   set in DHCP  mode,  there is  no   need to  create DNS
-  # resolvers  file  (/etc/resolv.conf).    It is  then   dhcp  server
-  # responsability to answer  to request option (domain-name-servers).
-  # Look at configuration /etc/dhcp/dhclient.conf
-
-  - create-file: /etc/network/interfaces
-    contents: |+
-      # loopback interface 
-      allow-auto lo
-      iface      lo inet loopback
-      
-      # interface 1/1, eth0 (1 Gbit/sec), DHCP only on IPV4
-      allow-auto eth0
-      iface      etho inet dhcp
-
-  - create-file: /etc/dhcp/dhclient.conf
-    contents: |+
-      
-      # Normally,  if the DHCP  server provides reasonable information
-      # and does  not  leave anything out (like   the domain name, for
-      # example),  then few changes must   be made  to default  Debian
-      # configuration file.
-      
-      option rfc3442-classless-static-routes code 121 = array of unsigned integer 8;
-      
-      # global dhclient parameters
-      
-      backoff-cutoff    2;
-      initial-interval  2;
-      retry             60;
-      reboot            10;
-      select-timeout    5;
-      script            "/sbin/dhclient-script";
-      timeout           60;
-      
-      # According   user  choice, send   mandatory DHCP  parameters to
-      # server for eth0 interface
-      
-      interface "eth0" {
-        media          "eth0";
-        
-        # dhcp-client-identifier:  According  RFC  6842,  set one uniq
-        # identifier (for target point of vue !).
-        
-        send          dhcp-client-identifier "Rock64-from-vmdb2-wrapper";
-        
-        # dhcp-lease-time: For target    point of  view,  define   the
-        # maximum life   of  lease ( in   seconds  ) for   the current
-        # DHCPOFFER from server
-        
-        send          dhcp-lease-time    600;
-        send          host-name          "Rock64-from-vmdb2-wrapper";
-        require       subnet-mask;
-        also require  domain-search;
-        also require  domain-name-servers;
-        also require  routers;
-        
-        # also require broadcast-address:  Some time,  Stupid  routers
-        # (!) does not understand  standard RFC.  As a result, comment
-        # it, otherwise Linux   client always retry dhcp request  with
-        # long timeout to obtain dhcp lease ... without success !
-        
-        #also require  broadcast-address;
-        
-        # It is  sometimes possible to  have  many  DHCP servers on  a
-        # network,  and very  often more  brands and different  models
-        # (!).  In order  to favor  the most  serious servers, a  good
-        # practice  is to  trust  those who  know   the RFCs (!),  and
-        # therefore who  respond correctly to  the  initial request of
-        # the DHCP-REQUEST
-        
-        request        subnet-mask;
-        also request   host-name;
-        also request   broadcast-address;
-        also request   interface-mtu;
-        also request   ntp-servers;
-        also request   time-offset;
-        also request   routers;
-        also request   domain-name-servers;
-        also request   domain-search;
-       }
-
-  # if  user define one Ansible file,  then launch it to add dedicated
-  # configuration to this SBC
+  # FIXME
 
   - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
       mount -t proc proc $ROOT/proc
 
+  # Launch final user application
+
   - ansible: rootfs_partition_tag
     playbook: vmdb2-ansible.yaml
+
+  # FIXME
 
   - root-fs: rootfs_partition_tag
     shell: |
@@ -435,3 +372,5 @@ steps:
       umount $ROOT/proc
       rm $ROOT/etc/flash-kernel/machine
       diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
+
+
