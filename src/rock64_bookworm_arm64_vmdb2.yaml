@@ -31,12 +31,12 @@ steps:
 
   - mkpart: primary
     device: "{{ output }}"
-
+    
     # We  have  to   start   higher    than 12M  because    of     the
     # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
     # order to be  compliant on  all SBC, we  use  16 Mb as  a default
     # configuration
-
+    
     start: 16M
     end:   100%
     tag:   rootfs_partition_tag
@@ -116,8 +116,8 @@ steps:
   - chroot: rootfs_partition_tag
     shell: |
 
-      # Update internal  Debian apt data base. In  case we use one old
-      # cache tarball, it is necessary to  look for new update
+      # Update  internal Debian apt data base.  In case we use one old
+      # cache tarball, it is necessary to look for new update
 
       apt-get update
 
@@ -142,67 +142,78 @@ steps:
 
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
+  # SECTION 3/5: Make initramfs & flashkernel configuration
+  # --------------------------------------------------------
+
+  # Now,  next actions  are not  shared   with "rootfs cache" and   is
+  # dedicated to target
+
+  # Set default  hostname    of target.  Please   note  there  are  no
+  # requirements for this value, it is  user defined. Good practice is
+  # to use the same name than in DTS
+
   - create-file: /etc/hostname
     contents: |+
       Rock64
 
+  # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
+  # generate a  line  with correct UUID.  Remenber  that this  UUID is
+  # previously created by mkfs tool
+
   - fstab: rootfs_partition_tag
+
+  # According    /usr/share/doc/flash-kernel/README.gz  documentation,
+  # default data-base    for   all  supported   SBC  (located     into
+  # /usr/share/flash-kernel/db/all.db)  support rock64  board.   As  a
+  # result,     it    is then   not    mandatory    to install  either
+  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file,  so
+  # skip  this step....But  if not  defined  the  machine (to  overlap
+  # default config), there is one 'inteligent system' who search the
+  # UUID, and ... fails. As a result  defined machine target, so that
+  # no error (FIXME)
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
       Pine64 Rock64
 
+  # launch one shell into rootfs 
+
   - chroot: rootfs_partition_tag
     shell: |
-      # Add hostname to /etc/hosts for IPv4 & IPv6
-      #HOSTNAME=$(cat /etc/hostname)
-      #sed -i "2i127.0.0.2\t$HOSTNAME" /etc/hosts
-      #sed -i "4i::2\t\t$HOSTNAME" /etc/hosts
-
+      
+      # Because too many issues on SDCARD  on SBC (due to bad hardware
+      # !), be  sure  to add   "noatime,nodiratime" option on   rootfs
+      # mount, so that we increase flash SDcard lifetime
+      
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
+      
+      # Be sure to force fsck on rootfs  so that every time, target is
+      # ok.  Furthermore,  force interface  name  with  "prefix kernel
+      # name" and suffix name based  on current index. Force also fsck
+      # on rootfs
+      
+      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
 
-      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0@g" /etc/default/flash-kernel
-
-      # Back-up fsck
+      # "initramfs" & "flash-kernel" tools needs uuid rootfs in
+      # order to make the job. Back-up fsck hook now
+      
       mv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak
       chmod -x /usr/share/initramfs-tools/hooks/fsck.bak
-
+      
       # Fix fsck to read root fstype in fstab
       sed "s@\[.*\"\/\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck
       chmod +x /usr/share/initramfs-tools/hooks/fsck
-
-      update-initramfs -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
-
+      
+      update-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
+      
+      # Remove root  password, so that  first login on default  tty is
+      # "root" without   any password.  It  is user  responsability to
+      # make   changes    according his   security   policy  (!),  not
+      # vmdb2-wrapper project (!)
+      
       sed -i "s@root:\*:@root::@g" /etc/shadow
 
-  - apt: install
-    packages:
-      - u-boot-rockchip
-    tag: rootfs_partition_tag
-
-  - root-fs: rootfs_partition_tag
-    shell: |
-      TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
-
-  - root-fs: rootfs_partition_tag
-    shell: |
-      test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
-      mount -t proc proc $ROOT/proc
-
-  - ansible: rootfs_partition_tag
-    playbook: vmdb2-ansible.yaml
-
-  - root-fs: rootfs_partition_tag
-    shell: |
-      # Restore fsck
-      mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
-      chmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck
-
-      umount $ROOT/proc
-      rm $ROOT/etc/flash-kernel/machine
-      diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
-
-  # SECTION 6/5: Prepare network configuration 
+  # SECTION 4/5: Prepare network configuration 
   # ------------------------------------------
 
   # Create loopback mandatory "lo"  interface.  It is a best  practice
@@ -217,8 +228,8 @@ steps:
       iface      lo inet loopback   
 
   # On this SBC,  only one interface  is available (eth0), then create
-  # this iterfaces.  Please remember that interface name policy naming
-  # is managed by kernel parameter  boot option : "net.ifnames=0" (see
+  # this one.   Please    remember that  interface policy  naming   is
+  # controled by kernel  parameter boot option :  "net.ifnames=0" (see
   # above)
 
   - create-file: /etc/network/interfaces.d/eth0
@@ -247,19 +258,21 @@ steps:
 
   - chroot: rootfs_partition_tag
     shell: |
-
-      # python3 is needed to launch "Ansible" tools later
-
+      
+      # python3 is needed  to  launch "Ansible"  tools later  FIXME on
+      # package python3-apt ?
+      
       apt-get --assume-yes install python3 python3-apt
-
+      
       # openssh-server is needed to connect to target on Ethernet port
-      # (and also from Ansible script)
-
+      # (and also from external Ansible script)
+      
       apt-get --assume-yes install openssh-server openssh-sftp-server
-
+      
       # Because this target boot first time in DHCP mode, then install
-      # Debian ISC client. Please rem
-
+      # Debian   ISC   client.      Please   verify   default   Debian
+      # /etc/dhcp/dhclient.conf
+      
       apt-get --assume-yes install isc-dhcp-client
 
   # When target will  boot later,  we must  be sure  to have  one  ssh
@@ -277,16 +290,16 @@ steps:
   - chroot: rootfs_partition_tag
     shell: |
 
-      # Be sure to enable root access on target 
+      # Be sure to enable ssh root access on target 
 
       sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config
 
-      # Enable public key 
+      # Enable ssh public key 
 
       sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
 
-      # And finaly enable root  access without password for  the fisrt
-      # connection.
+      # And finaly enable ssh   root access without password  for  the
+      # first connection.
 
       sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
 
@@ -304,10 +317,53 @@ steps:
       # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
 
   # Create one empty file for DNS local  resolver. Remember that it is
-  # sysadmin reponsability  to     anwer to DHCP   option   : "request
-  # domain-name, domain-search" defined into /etc/dhcp/dhclient.conf
+  # sysadmin   reponsability  to  answer  to   strateic  DHCP option :
+  # "request      domain-name,     domain-search"     defined     into
+  # /etc/dhcp/dhclient.conf
   # file. When DHCP-REQUEST+DHCP-OFFER     is ok, following   file  is
   # automaticaly modified by ifup/ifdown Debian infratructure.
 
   - create-file: /etc/resolv.conf
     contents: |
+
+  # SECTION 5/5: Install u-boot and launch Ansible user script
+  # ----------------------------------------------------------
+
+  # Install Debian u-boot package for this target
+
+  - apt: install
+    packages:
+      - u-boot-rockchip
+    tag: rootfs_partition_tag
+
+  # Install u-boot binaries on target
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      TARGET="$ROOT/usr/lib/u-boot/rock64-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
+
+  # FIXME
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
+      mount -t proc proc $ROOT/proc
+
+  # Launch final user application
+
+  - ansible: rootfs_partition_tag
+    playbook: vmdb2-ansible.yaml
+
+  # FIXME
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      # Restore fsck
+      mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
+      chmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck
+
+      umount $ROOT/proc
+      rm $ROOT/etc/flash-kernel/machine
+      diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
+
+
