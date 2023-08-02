@@ -81,6 +81,7 @@ steps:
 
   - create-file: /etc/apt/sources.list
     contents: |+
+        # file /etc/apt/sources.list
         # current Debian release (V12)
         deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
         # current Debian release (V12) security for bookworm release
@@ -111,18 +112,18 @@ steps:
   - cache-rootfs: rootfs_partition_tag
     unless: rootfs_unpacked
 
-  # Launch a shell into chroot and make following actions...
+  # Launch one shell into chroot and make following actions...
 
   - chroot: rootfs_partition_tag
     shell: |
 
       # Update  internal Debian apt data base.  In case we use one old
       # cache tarball, it is necessary to look for new update
-
+      
       apt-get update
-
+      
       # Upgrade packages
-
+      
       apt-get --assume-yes upgrade
 
       # When installing kernel, "flash-kernel" & "initramfs" tools are
@@ -130,16 +131,16 @@ steps:
       # (/etc/fstab),  we backup  and remove  post installation script
       # during kernel   installation,   so that there  are   no action
       # on rootfs.
-
+      
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
-
+      
       # Install the current generic linux kernel for this architecture
-
+      
       apt-get --assume-yes install linux-image-arm64
-
+      
       # Restore  previous   post-hook script,   because now  kernel  is
-      # correcly installed on rootfs.
-
+      # correctly installed on rootfs.
+      
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
   # SECTION 3/5: Make initramfs & flashkernel configuration
@@ -223,6 +224,7 @@ steps:
 
   - create-file: /etc/network/interfaces.d/lo
     contents: |+
+      # file /etc/network/interfaces.d/lo
       # loopback interface 
       allow-auto lo
       iface      lo inet loopback   
@@ -234,7 +236,7 @@ steps:
 
   - create-file: /etc/network/interfaces.d/eth0
     contents: |+
-      
+      # file /etc/network/interfaces.d/eth0
       # Ethernet  10/100/1000 full duplex interface. Because interface
       # is set in dhcp mode, then dhcp request configuration file is
       # set into /etc/dhcp/dhclient.conf 
@@ -254,15 +256,14 @@ steps:
         # IPV4 loopback address on localhost (RFC 5735 compliant)
         127.0.0.2  Rock64
 
-  # Launch a shell into chroot and make following actions...
+  # Launch one shell into chroot and make following actions...
 
   - chroot: rootfs_partition_tag
     shell: |
       
-      # python3 is needed  to  launch "Ansible"  tools later  FIXME on
-      # package python3-apt ?
+      # python3 is needed  to  launch "Ansible"  tools later.
       
-      apt-get --assume-yes install python3 python3-apt
+      apt-get --assume-yes install python3
       
       # openssh-server is needed to connect to target on Ethernet port
       # (and also from external Ansible script)
@@ -298,7 +299,7 @@ steps:
 
       sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
 
-      # And finaly enable ssh   root access without password  for  the
+      # And finally enable ssh   root access without password  for  the
       # first connection.
 
       sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
@@ -306,7 +307,8 @@ steps:
   # Create mandatory kernel modules (/etc/modules) loaded on startup
 
   - create-file: /etc/modules
-    contents: |+
+    contents: |+     
+      # file /etc/modules
       
       # Ethernet chip is RTL8211F Gigabit. There are many issues on
       # this Chip   (!).  Later,  change kernel   and/or  add firmware
@@ -317,14 +319,19 @@ steps:
       # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
 
   # Create one empty file for DNS local  resolver. Remember that it is
-  # sysadmin   reponsability  to  answer  to   strateic  DHCP option :
-  # "request      domain-name,     domain-search"     defined     into
-  # /etc/dhcp/dhclient.conf
-  # file. When DHCP-REQUEST+DHCP-OFFER     is ok, following   file  is
-  # automaticaly modified by ifup/ifdown Debian infratructure.
+  # sysadmin responsability  to   answer to strategic   DHCP option  :
+  # "request domain-name, domain-search" defined into file :
+  # /etc/dhcp/dhclient.conf.     When   DHCP-REQUEST+DHCP-OFFER is ok,
+  # following  file is  automaticaly   modified by ifup/ifdown  Debian
+  # infrastructure.
 
   - create-file: /etc/resolv.conf
-    contents: |
+    contents: |+
+      # file /etc/resolv.conf
+      
+      # This  file is installed by   vmdb2-project. It is automatically
+      # updated    according   network        sysadmin policy       on
+      # DHCP-REQUEST/DHCP-OFFER PDUs
 
   # SECTION 5/5: Install u-boot and launch Ansible user script
   # ----------------------------------------------------------
