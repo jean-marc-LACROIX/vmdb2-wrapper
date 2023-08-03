@@ -90,6 +90,44 @@ steps:
         deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
         # current Debian release (V12) backports from next (Trixie) V13 release
         deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+        # current Debian release (V13) next (Trixie) V13 release
+        deb http://deb.debian.org/debian trixie main contrib non-free non-free-firmware
+    unless: rootfs_unpacked
+
+  # Install preferences  on the  target.   On Debian 12.1  target, not
+  # possible to start the kernel due to following errors
+
+  # [    4.851312] fan53555-regulator 0-0040: FAN53555 Option[8] Rev[1] Detected!
+
+  # https://patchwork.kernel.org/project/linux-rockchip/patch/20180604171523.28454-1-xypron.glpk@gmx.de/
+
+  # As a result, try to install recent u-boot & kernel from trixie release ...
+
+  - create-file: /etc/apt/preferences.d/debian_preferences.pref
+    contents: |+
+       # file : /etc/apt/preferences.d/debian_preferences.pref
+       # 
+       # define behaviour on current release
+       Package: *
+       Pin: release o=Debian,l=Debian,n=bookworm
+       Pin-Priority: 500
+
+       # define behaviour on next release
+       Package: *
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 50
+
+       # define behaviour on kernel, so  that new DTS is supported and
+       # used by flash-kernel
+
+       Package: linux-image-arm64
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 980
+
+       # use this package for u-boot
+       Package: u-boot-rockchip
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 980
     unless: rootfs_unpacked
 
   # Install  flash-kernel &  initramfs-tools packages,  which needs to
@@ -205,9 +243,10 @@ steps:
       # Be sure to force fsck on rootfs  so that every time, target is
       # ok.  Furthermore,  force interface  name  with  "prefix kernel
       # name" and suffix name based  on current index. Force also fsck
-      # on rootfs
+      # on  rootfs. Try  to remove  USB-core module  to remove all usb
+      # kernel modules
       
-      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
+      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes usbcore.nousb @g" /etc/default/flash-kernel
 
       # "initramfs" & "flash-kernel" tools needs uuid rootfs in
       # order to make the job. Back-up fsck hook now
