@@ -176,7 +176,7 @@ steps:
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      Cubietruck
+      Cubietech Cubietruck
 
   # launch one shell into rootfs 
 
@@ -337,18 +337,27 @@ steps:
   # SECTION 5/5: Install u-boot and launch Ansible user script
   # ----------------------------------------------------------
 
-  # Install Debian u-boot package for this target
+  # Install Debian  u-boot package for this target.  It seems there is
+  # no  dependancy on u-boot-tools for  package  u-boot-sunxi. In fact
+  # this is a mandatory package, because u-boot-install-sunxi tool is
+  # defined into u-boot-tools packages. Please report to Debian
 
   - apt: install
     packages:
-      - u-boot-suni
+      - u-boot-tools
+      - u-boot-sunxi
     tag: rootfs_partition_tag
 
   # Install u-boot binaries on target
 
+  # Because on Debian 12.1 ...even if u-boot-tools installed ????
+
+  # 2023-08-05 09:13:49 DEBUG STDERR: /tmp/tmp9smmpmtz/usr/bin/u-boot-install-sunxi: mkimage: command not found. Please install u-boot-tools.
+
+  # and because 
   - root-fs: rootfs_partition_tag
     shell: |
-      TARGET="$ROOT/usr/lib/u-boot/cubietruck-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
+      TARGET="$ROOT/usr/lib/u-boot/cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
 
   # FIXME
 
