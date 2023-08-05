@@ -65,6 +65,7 @@ steps:
     contents: |+
       CubietruckPlus
 
+
   - fstab: root
 
   - create-file: /etc/flash-kernel/machine
