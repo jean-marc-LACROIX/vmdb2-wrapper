@@ -22,9 +22,9 @@ starting USB...
 Bus usb@1c19000: No host cable detected: Port not available.
 Bus usb@1c1a000: USB EHCI 1.00
 Bus usb@1c1b000: USB EHCI 1.00
-scanning bus usb@1c1a000 for devices... 1 USB Device(s) found
+scanning bus usb@1c1a000 for devices... 2 USB Device(s) found
 scanning bus usb@1c1b000 for devices... 1 USB Device(s) found
-       scanning usb for storage devices... 0 Storage Device(s) found
+       scanning usb for storage devices... 1 Storage Device(s) found
 Hit any key to stop autoboot:  2  1  0 
 switch to partitions #0, OK
 mmc0 is current device
@@ -33,8 +33,8 @@ Found U-Boot script /boot/boot.scr
 2715 bytes read in 2 ms (1.3 MiB/s)
 ## Executing script at 43100000
 Mainline u-boot / new-style environment detected.
-5403136 bytes read in 225 ms (22.9 MiB/s)
-26381 bytes read in 4 ms (6.3 MiB/s)
+5403136 bytes read in 226 ms (22.8 MiB/s)
+26381 bytes read in 5 ms (5 MiB/s)
 23417749 bytes read in 969 ms (23 MiB/s)
 Booting Debian 6.1.0-10-armmp-lpae from mmc 0:1...
 Kernel image @ 0x42000000 [ 0x000000 - 0x527200 ]
@@ -86,398 +86,404 @@ Starting kernel ...
 [    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
 [    0.000002] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
 [    0.000019] Switching to timer-based delay loop, resolution 41ns
-[    0.001321] clocksource: timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 79635851949 ns
-[    0.003216] Console: colour dummy device 80x30
-[    0.003324] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=96000)
+[    0.001317] clocksource: timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 79635851949 ns
+[    0.003212] Console: colour dummy device 80x30
+[    0.003323] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=96000)
 [    0.003350] pid_max: default: 32768 minimum: 301
-[    0.003957] LSM: Security Framework initializing
-[    0.004082] landlock: Up and running.
-[    0.004088] Yama: disabled by default; enable with sysctl kernel.yama.*
-[    0.004484] AppArmor: AppArmor initialized
-[    0.004502] TOMOYO Linux initialized
-[    0.004571] LSM support for eBPF active
-[    0.004941] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
-[    0.004974] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
-[    0.007144] CPU: Testing write buffer coherency: ok
-[    0.008226] /cpus/cpu@0 missing clock-frequency property
-[    0.008282] /cpus/cpu@1 missing clock-frequency property
-[    0.008304] /cpus/cpu@2 missing clock-frequency property
-[    0.008328] /cpus/cpu@3 missing clock-frequency property
-[    0.008351] /cpus/cpu@100 missing clock-frequency property
-[    0.008376] /cpus/cpu@101 missing clock-frequency property
-[    0.008403] /cpus/cpu@102 missing clock-frequency property
-[    0.008431] /cpus/cpu@103 missing clock-frequency property
-[    0.008446] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
-[    0.009875] cblist_init_generic: Setting adjustable number of callback queues.
-[    0.009905] cblist_init_generic: Setting shift to 3 and lim to 1.
-[    0.010083] cblist_init_generic: Setting shift to 3 and lim to 1.
-[    0.010372] Setting up static identity map for 0x40400000 - 0x404000ac
+[    0.003968] LSM: Security Framework initializing
+[    0.004097] landlock: Up and running.
+[    0.004104] Yama: disabled by default; enable with sysctl kernel.yama.*
+[    0.004490] AppArmor: AppArmor initialized
+[    0.004509] TOMOYO Linux initialized
+[    0.004577] LSM support for eBPF active
+[    0.004953] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.004982] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.007166] CPU: Testing write buffer coherency: ok
+[    0.008241] /cpus/cpu@0 missing clock-frequency property
+[    0.008292] /cpus/cpu@1 missing clock-frequency property
+[    0.008315] /cpus/cpu@2 missing clock-frequency property
+[    0.008336] /cpus/cpu@3 missing clock-frequency property
+[    0.008360] /cpus/cpu@100 missing clock-frequency property
+[    0.008386] /cpus/cpu@101 missing clock-frequency property
+[    0.008411] /cpus/cpu@102 missing clock-frequency property
+[    0.008438] /cpus/cpu@103 missing clock-frequency property
+[    0.008453] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+[    0.009892] cblist_init_generic: Setting adjustable number of callback queues.
+[    0.009920] cblist_init_generic: Setting shift to 3 and lim to 1.
+[    0.010092] cblist_init_generic: Setting shift to 3 and lim to 1.
+[    0.010375] Setting up static identity map for 0x40400000 - 0x404000ac
 [    0.011551] ARM CCI driver probed
-[    0.012182] sunxi multi cluster SMP support installed
-[    0.012782] rcu: Hierarchical SRCU implementation.
-[    0.012790] rcu: 	Max phase no-delay instances is 1000.
-[    0.015281] EFI services will not be available.
-[    0.016652] smp: Bringing up secondary CPUs ...
-[    0.018190] CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
-[    0.019985] CPU2: thread -1, cpu 2, socket 0, mpidr 80000002
-[    0.021608] CPU3: thread -1, cpu 3, socket 0, mpidr 80000003
-[    0.023365] CPU4: thread -1, cpu 0, socket 1, mpidr 80000100
-[    0.025373] CPU5: thread -1, cpu 1, socket 1, mpidr 80000101
-[    0.026994] CPU6: thread -1, cpu 2, socket 1, mpidr 80000102
-[    0.028650] CPU7: thread -1, cpu 3, socket 1, mpidr 80000103
-[    0.028817] smp: Brought up 1 node, 8 CPUs
-[    0.028850] SMP: Total of 8 processors activated (384.00 BogoMIPS).
-[    0.028861] CPU: All CPU(s) started in SVC mode.
-[    0.031360] devtmpfs: initialized
-[    0.041265] VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
-[    0.041744] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
-[    0.041945] futex hash table entries: 2048 (order: 5, 131072 bytes, linear)
-[    0.043886] pinctrl core: initialized pinctrl subsystem
-[    0.045547] DMI not present or invalid.
-[    0.046787] NET: Registered PF_NETLINK/PF_ROUTE protocol family
-[    0.051471] DMA: preallocated 256 KiB pool for atomic coherent allocations
-[    0.053127] audit: initializing netlink subsys (disabled)
-[    0.053886] audit: type=2000 audit(0.052:1): state=initialized audit_enabled=0 res=1
-[    0.055624] thermal_sys: Registered thermal governor 'fair_share'
-[    0.055639] thermal_sys: Registered thermal governor 'bang_bang'
-[    0.055644] thermal_sys: Registered thermal governor 'step_wise'
-[    0.055650] thermal_sys: Registered thermal governor 'user_space'
-[    0.055655] thermal_sys: Registered thermal governor 'power_allocator'
-[    0.055909] No ATAGs?
-[    0.056300] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
-[    0.056317] hw-breakpoint: maximum watchpoint size is 8 bytes.
-[    0.057913] Serial: AMBA PL011 UART driver
-[    0.065624] platform 1100000.mixer: Fixed dependency cycle(s) with /soc/lcd-controller@1c0d000
-[    0.065672] platform 1100000.mixer: Fixed dependency cycle(s) with /soc/lcd-controller@1c0c000
-[    0.069014] platform 1c0d000.lcd-controller: Fixed dependency cycle(s) with /soc/hdmi@1ee0000
-[    0.080020] platform 1ee0000.hdmi: Fixed dependency cycle(s) with /hdmi-connector
-[    0.091431] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
-[    0.094528] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
-[    0.094543] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
-[    0.100949] iommu: Default domain type: Translated 
-[    0.100967] iommu: DMA domain TLB invalidation policy: strict mode 
-[    0.104682] NetLabel: Initializing
-[    0.104701] NetLabel:  domain hash size = 128
-[    0.104707] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
-[    0.104867] NetLabel:  unlabeled traffic allowed by default
-[    0.105454] vgaarb: loaded
-[    0.118608] clocksource: Switched to clocksource arch_sys_counter
-[    0.222689] VFS: Disk quotas dquot_6.6.0
-[    0.222981] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
-[    0.224529] AppArmor: AppArmor Filesystem Enabled
-[    0.239486] NET: Registered PF_INET protocol family
-[    0.240064] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
-[    0.243977] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
-[    0.244348] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
-[    0.244424] TCP established hash table entries: 8192 (order: 3, 32768 bytes, linear)
-[    0.244662] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
-[    0.245439] TCP: Hash tables configured (established 8192 bind 8192)
-[    0.246124] MPTCP token hash table entries: 1024 (order: 2, 16384 bytes, linear)
-[    0.246366] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
-[    0.246462] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
-[    0.247090] NET: Registered PF_UNIX/PF_LOCAL protocol family
-[    0.247156] NET: Registered PF_XDP protocol family
-[    0.247180] PCI: CLS 0 bytes, default 64
-[    0.248151] Trying to unpack rootfs image as initramfs...
-[    0.251047] Initialise system trusted keyrings
-[    0.251276] Key type blacklist registered
-[    0.251893] workingset: timestamp_bits=14 max_order=19 bucket_order=5
-[    0.262290] zbud: loaded
-[    0.265302] integrity: Platform Keyring initialized
-[    0.265375] integrity: Machine keyring initialized
-[    0.265389] Key type asymmetric registered
-[    0.265400] Asymmetric key parser 'x509' registered
-[    3.448583] Freeing initrd memory: 22872K
-[    3.497111] alg: self-tests for CTR-KDF (hmac(sha256)) passed
-[    3.497947] bounce: pool size: 64 pages
-[    3.498287] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
-[    3.498722] io scheduler mq-deadline registered
-[    3.526079] Serial: 8250/16550 driver, 5 ports, IRQ sharing enabled
-[    3.529822] Serial: AMBA driver
-[    3.531448] STM32 USART driver initialized
-[    3.535368] mousedev: PS/2 mouse device common for all mice
-[    3.540929] ledtrig-cpu: registered to indicate activity on CPUs
-[    3.545457] NET: Registered PF_INET6 protocol family
-[    3.590077] Segment Routing with IPv6
-[    3.590227] In-situ OAM (IOAM) with IPv6
-[    3.590386] mip6: Mobile IPv6
-[    3.590431] NET: Registered PF_PACKET protocol family
-[    3.590825] mpls_gso: MPLS GSO support
-[    3.590997] ThumbEE CPU extension supported.
-[    3.591019] Registering SWP/SWPB emulation handler
-[    3.592483] registered taskstats version 1
-[    3.592539] Loading compiled-in X.509 certificates
-[    4.438598] Loaded X.509 cert 'Debian Secure Boot CA: 6ccece7e4c6c0d1f6149f3dd27dfcc5cbb419ea1'
-[    4.438795] Loaded X.509 cert 'Debian Secure Boot Signer 2022 - linux: 14011249c2675ea8e5148542202005810584b25f'
-[    4.447432] zswap: loaded using pool lzo/zbud
-[    4.449308] Key type .fscrypt registered
-[    4.449327] Key type fscrypt-provisioning registered
-[    4.491420] Key type encrypted registered
-[    4.491471] AppArmor: AppArmor sha1 policy hashing enabled
-[    4.491570] ima: No TPM chip found, activating TPM-bypass!
-[    4.491626] ima: Allocated hash algorithm: sha256
-[    4.491720] ima: No architecture policies found
-[    4.491841] evm: Initialising EVM extended attributes:
-[    4.491849] evm: security.selinux
-[    4.491857] evm: security.SMACK64 (disabled)
-[    4.491862] evm: security.SMACK64EXEC (disabled)
-[    4.491867] evm: security.SMACK64TRANSMUTE (disabled)
-[    4.491872] evm: security.SMACK64MMAP (disabled)
-[    4.491876] evm: security.apparmor
-[    4.491881] evm: security.ima
-[    4.491885] evm: security.capability
-[    4.491889] evm: HMAC attrs: 0x1
-[    5.567584] sun8i-a83t-pinctrl 1c20800.pinctrl: initialized sunXi PIO driver
-[    5.570759] sun8i-a83t-r-pinctrl 1f02c00.pinctrl: initialized sunXi PIO driver
-[    5.571821] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pb not found, using dummy regulator
-[    5.573022] printk: console [ttyS0] disabled
-[    5.593309] 1c28000.serial: ttyS0 at MMIO 0x1c28000 (irq = 163, base_baud = 1500000) is a U6_16550A
-[    6.650874] printk: console [ttyS0] enabled
-[    6.656853] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pg not found, using dummy regulator
-[    6.686768] 1c28400.serial: ttyS1 at MMIO 0x1c28400 (irq = 164, base_baud = 1500000) is a U6_16550A
-[    6.696113] serial serial0: tty port ttyS1 registered
-[    6.703318] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pd not found, using dummy regulator
-[    6.713034] sun8i-a83t-r-pinctrl 1f02c00.pinctrl: supply vcc-pl not found, using dummy regulator
-[    6.723196] sunxi-rsb 1f03400.rsb: RSB running at 3000000 Hz
-[    6.729426] axp20x-rsb sunxi-rsb-3a3: AXP20x variant AXP813 found
-[    6.736949] axp20x-rsb sunxi-rsb-3a3: mask_invert=true is deprecated; please switch to unmask_base
-[    6.752256] axp20x-rsb sunxi-rsb-3a3: AXP20X driver loaded
-[    6.759504] dw-apb-uart 1c28400.serial: Failed to create device link (0x180) with ac100-rtc
-[    6.769090] dw-apb-uart 1c28400.serial: Failed to create device link (0x180) with 1f03400.rsb
-[    6.794165] Freeing unused kernel image (initmem) memory: 2048K
-[    6.801066] Checked W+X mappings: passed, no W+X pages found
-[    6.806791] Run /init as init process
+[    0.012181] sunxi multi cluster SMP support installed
+[    0.012777] rcu: Hierarchical SRCU implementation.
+[    0.012784] rcu: 	Max phase no-delay instances is 1000.
+[    0.015285] EFI services will not be available.
+[    0.016625] smp: Bringing up secondary CPUs ...
+[    0.018168] CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+[    0.019978] CPU2: thread -1, cpu 2, socket 0, mpidr 80000002
+[    0.021650] CPU3: thread -1, cpu 3, socket 0, mpidr 80000003
+[    0.023428] CPU4: thread -1, cpu 0, socket 1, mpidr 80000100
+[    0.025438] CPU5: thread -1, cpu 1, socket 1, mpidr 80000101
+[    0.027048] CPU6: thread -1, cpu 2, socket 1, mpidr 80000102
+[    0.028761] CPU7: thread -1, cpu 3, socket 1, mpidr 80000103
+[    0.028934] smp: Brought up 1 node, 8 CPUs
+[    0.028962] SMP: Total of 8 processors activated (384.00 BogoMIPS).
+[    0.028976] CPU: All CPU(s) started in SVC mode.
+[    0.031483] devtmpfs: initialized
+[    0.041446] VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 5
+[    0.041918] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.042119] futex hash table entries: 2048 (order: 5, 131072 bytes, linear)
+[    0.044019] pinctrl core: initialized pinctrl subsystem
+[    0.045544] DMI not present or invalid.
+[    0.046766] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.051135] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.052477] audit: initializing netlink subsys (disabled)
+[    0.053122] audit: type=2000 audit(0.052:1): state=initialized audit_enabled=0 res=1
+[    0.054759] thermal_sys: Registered thermal governor 'fair_share'
+[    0.054779] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.054785] thermal_sys: Registered thermal governor 'step_wise'
+[    0.054792] thermal_sys: Registered thermal governor 'user_space'
+[    0.054797] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.055032] No ATAGs?
+[    0.055405] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+[    0.055419] hw-breakpoint: maximum watchpoint size is 8 bytes.
+[    0.056979] Serial: AMBA PL011 UART driver
+[    0.064602] platform 1100000.mixer: Fixed dependency cycle(s) with /soc/lcd-controller@1c0d000
+[    0.064642] platform 1100000.mixer: Fixed dependency cycle(s) with /soc/lcd-controller@1c0c000
+[    0.067997] platform 1c0d000.lcd-controller: Fixed dependency cycle(s) with /soc/hdmi@1ee0000
+[    0.079036] platform 1ee0000.hdmi: Fixed dependency cycle(s) with /hdmi-connector
+[    0.090383] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    0.094958] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.094980] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+[    0.102028] iommu: Default domain type: Translated 
+[    0.102051] iommu: DMA domain TLB invalidation policy: strict mode 
+[    0.105980] NetLabel: Initializing
+[    0.105999] NetLabel:  domain hash size = 128
+[    0.106006] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.106112] NetLabel:  unlabeled traffic allowed by default
+[    0.106717] vgaarb: loaded
+[    0.117665] clocksource: Switched to clocksource arch_sys_counter
+[    0.222626] VFS: Disk quotas dquot_6.6.0
+[    0.222850] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    0.224297] AppArmor: AppArmor Filesystem Enabled
+[    0.239178] NET: Registered PF_INET protocol family
+[    0.239810] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.244561] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.244925] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.245012] TCP established hash table entries: 8192 (order: 3, 32768 bytes, linear)
+[    0.245250] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    0.246097] TCP: Hash tables configured (established 8192 bind 8192)
+[    0.246785] MPTCP token hash table entries: 1024 (order: 2, 16384 bytes, linear)
+[    0.247005] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.247102] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.247614] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.247680] NET: Registered PF_XDP protocol family
+[    0.247704] PCI: CLS 0 bytes, default 64
+[    0.248953] Trying to unpack rootfs image as initramfs...
+[    0.251812] Initialise system trusted keyrings
+[    0.251973] Key type blacklist registered
+[    0.252668] workingset: timestamp_bits=14 max_order=19 bucket_order=5
+[    0.263587] zbud: loaded
+[    0.266804] integrity: Platform Keyring initialized
+[    0.266875] integrity: Machine keyring initialized
+[    0.266888] Key type asymmetric registered
+[    0.266901] Asymmetric key parser 'x509' registered
+[    3.475194] Freeing initrd memory: 22872K
+[    3.524287] alg: self-tests for CTR-KDF (hmac(sha256)) passed
+[    3.525162] bounce: pool size: 64 pages
+[    3.525508] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
+[    3.525946] io scheduler mq-deadline registered
+[    3.553527] Serial: 8250/16550 driver, 5 ports, IRQ sharing enabled
+[    3.557307] Serial: AMBA driver
+[    3.558967] STM32 USART driver initialized
+[    3.563263] mousedev: PS/2 mouse device common for all mice
+[    3.568943] ledtrig-cpu: registered to indicate activity on CPUs
+[    3.573511] NET: Registered PF_INET6 protocol family
+[    3.617849] Segment Routing with IPv6
+[    3.617999] In-situ OAM (IOAM) with IPv6
+[    3.618157] mip6: Mobile IPv6
+[    3.618203] NET: Registered PF_PACKET protocol family
+[    3.618575] mpls_gso: MPLS GSO support
+[    3.618743] ThumbEE CPU extension supported.
+[    3.618762] Registering SWP/SWPB emulation handler
+[    3.620330] registered taskstats version 1
+[    3.620397] Loading compiled-in X.509 certificates
+[    4.466280] Loaded X.509 cert 'Debian Secure Boot CA: 6ccece7e4c6c0d1f6149f3dd27dfcc5cbb419ea1'
+[    4.466509] Loaded X.509 cert 'Debian Secure Boot Signer 2022 - linux: 14011249c2675ea8e5148542202005810584b25f'
+[    4.475040] zswap: loaded using pool lzo/zbud
+[    4.476748] Key type .fscrypt registered
+[    4.476768] Key type fscrypt-provisioning registered
+[    4.518901] Key type encrypted registered
+[    4.518937] AppArmor: AppArmor sha1 policy hashing enabled
+[    4.519025] ima: No TPM chip found, activating TPM-bypass!
+[    4.519076] ima: Allocated hash algorithm: sha256
+[    4.519168] ima: No architecture policies found
+[    4.519274] evm: Initialising EVM extended attributes:
+[    4.519281] evm: security.selinux
+[    4.519288] evm: security.SMACK64 (disabled)
+[    4.519293] evm: security.SMACK64EXEC (disabled)
+[    4.519298] evm: security.SMACK64TRANSMUTE (disabled)
+[    4.519302] evm: security.SMACK64MMAP (disabled)
+[    4.519308] evm: security.apparmor
+[    4.519312] evm: security.ima
+[    4.519316] evm: security.capability
+[    4.519320] evm: HMAC attrs: 0x1
+[    5.595425] sun8i-a83t-pinctrl 1c20800.pinctrl: initialized sunXi PIO driver
+[    5.598558] sun8i-a83t-r-pinctrl 1f02c00.pinctrl: initialized sunXi PIO driver
+[    5.599603] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pb not found, using dummy regulator
+[    5.600770] printk: console [ttyS0] disabled
+[    5.621084] 1c28000.serial: ttyS0 at MMIO 0x1c28000 (irq = 163, base_baud = 1500000) is a U6_16550A
+[    6.678876] printk: console [ttyS0] enabled
+[    6.684777] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pg not found, using dummy regulator
+[    6.717481] 1c28400.serial: ttyS1 at MMIO 0x1c28400 (irq = 164, base_baud = 1500000) is a U6_16550A
+[    6.726825] serial serial0: tty port ttyS1 registered
+[    6.733954] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pd not found, using dummy regulator
+[    6.743528] sun8i-a83t-r-pinctrl 1f02c00.pinctrl: supply vcc-pl not found, using dummy regulator
+[    6.753830] sunxi-rsb 1f03400.rsb: RSB running at 3000000 Hz
+[    6.760087] axp20x-rsb sunxi-rsb-3a3: AXP20x variant AXP813 found
+[    6.767615] axp20x-rsb sunxi-rsb-3a3: mask_invert=true is deprecated; please switch to unmask_base
+[    6.783118] axp20x-rsb sunxi-rsb-3a3: AXP20X driver loaded
+[    6.790285] dw-apb-uart 1c28400.serial: Failed to create device link (0x180) with ac100-rtc
+[    6.799856] dw-apb-uart 1c28400.serial: Failed to create device link (0x180) with 1f03400.rsb
+[    6.824809] Freeing unused kernel image (initmem) memory: 2048K
+[    6.831699] Checked W+X mappings: passed, no W+X pages found
+[    6.837419] Run /init as init process
 Loading, please wait...
 Starting systemd-udevd version 252.12-1~deb12u1
-[    7.759853] usbcore: registered new interface driver usbfs
-[    7.774760] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
-[    7.775265] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pc not found, using dummy regulator
-[    7.788195] usbcore: registered new interface driver hub
-[    7.798326] usbcore: registered new device driver usb
-[    7.821101] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
-[    7.832890] pps_core: LinuxPPS API ver. 1 registered
-[    7.838051] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
-[    7.852516] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pc not found, using dummy regulator
-[    7.876714] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
-[    7.876868] vcc-3v: Bringing 3300000uV into 3000000-3000000uV
-[    7.877374] axp20x-gpio axp20x-gpio: DMA mask not set
-[    7.907402] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pc not found, using dummy regulator
-[    7.910220] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
-[    7.920847] axp20x-gpio axp20x-gpio: AXP209 pinctrl and GPIO driver loaded
-[    7.929624] PTP clock support registered
-[    7.943517] axp20x-usb-power-supply axp20x-usb-power-supply: DMA mask not set
-[    7.945657] sunxi-mmc 1c0f000.mmc: Got CD GPIO
-[    7.954858] vcc-dram: Bringing 1480000uV into 1500000-1500000uV
-[    7.976142] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-ph not found, using dummy regulator
-[    7.986787] sunxi-mmc 1c11000.mmc: initialized, max. request size: 16384 KB, uses new timings mode
-[    7.986845] sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
-[    7.986941] sun4i-usb-phy 1c19400.phy: Couldn't get regulator usb0_vbus... Deferring probe
-[    7.996000] dp-pwr: Bringing 2900000uV into 3300000-3300000uV
-[    8.018341] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-ph not found, using dummy regulator
-[    8.024632] dp-bridge-1: Bringing 700000uV into 1200000-1200000uV
-[    8.034059] mmc2: host does not support reading read-only switch, assuming write-enable
-[    8.049980] mmc2: new high speed SDHC card at address aaaa
-[    8.058169] sun4i-usb-phy 1c19400.phy: Couldn't get regulator usb0_vbus... Deferring probe
-[    8.064705] mmcblk2: mmc2:aaaa SC16G 14.8 GiB 
-[    8.083622] dp-bridge-2: Bringing 700000uV into 1200000-1200000uV
-[    8.113301]  mmcblk2: p1
-[    8.133457] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-ph not found, using dummy regulator
-[    8.149515] usb_phy_generic usb_phy_generic.0.auto: supply vcc not found, using dummy regulator
-[    8.158743] usb_phy_generic usb_phy_generic.0.auto: dummy supplies not allowed for exclusive requests
-[    8.168179] dwmac-sun8i 1c30000.ethernet: IRQ eth_wake_irq not found
-[    8.169640] musb-hdrc musb-hdrc.1.auto: MUSB HDRC host driver
-[    8.174643] dwmac-sun8i 1c30000.ethernet: IRQ eth_lpi not found
-[    8.175356] mmc1: new DDR MMC card at address 0001
-[    8.175517] dwmac-sun8i 1c30000.ethernet: PTP uses main clock
-[    8.175560] dwmac-sun8i 1c30000.ethernet: Current syscon value is not the default 6 (expect 0)
-[    8.176880] dwmac-sun8i 1c30000.ethernet: No HW DMA feature register supported
-[    8.176906] dwmac-sun8i 1c30000.ethernet: RX Checksum Offload Engine supported
-[    8.176914] dwmac-sun8i 1c30000.ethernet: COE Type 2
-[    8.176929] dwmac-sun8i 1c30000.ethernet: TX Checksum insertion supported
-[    8.176943] dwmac-sun8i 1c30000.ethernet: Normal descriptors
-[    8.176955] dwmac-sun8i 1c30000.ethernet: Chain mode enabled
-[    8.243471] musb-hdrc musb-hdrc.1.auto: new USB bus registered, assigned bus number 1
-[    8.251825] mmcblk1: mmc1:0001 NCard  7.30 GiB 
-[    8.252284] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
-[    8.265037] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-[    8.270648]  mmcblk1: p1 p2 p3 < p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 >
-[    8.272366] usb usb1: Product: MUSB HDRC host driver
-[    8.279253] mmcblk1: p1 size 10483712 extends beyond EOD, truncated
-[    8.284269] usb usb1: Manufacturer: Linux 6.1.0-10-armmp-lpae musb-hcd
-[    8.284298] usb usb1: SerialNumber: musb-hdrc.1.auto
-[    8.286191] hub 1-0:1.0: USB hub found
-[    8.299367] mmcblk1boot0: mmc1:0001 NCard  4.00 MiB 
-[    8.302716] hub 1-0:1.0: 1 port detected
-[    8.327345] mmcblk1boot1: mmc1:0001 NCard  4.00 MiB 
-[    8.337834] ehci-platform 1c1a000.usb: EHCI Host Controller
-[    8.339651] ehci-platform 1c1b000.usb: EHCI Host Controller
-[    8.343814] ehci-platform 1c1a000.usb: new USB bus registered, assigned bus number 2
-[    8.350068] ehci-platform 1c1b000.usb: new USB bus registered, assigned bus number 3
-[    8.366674] ehci-platform 1c1a000.usb: irq 207, io mem 0x01c1a000
-[    8.386732] ehci-platform 1c1a000.usb: USB 2.0 started, EHCI 1.00
-[    8.394264] usb usb2: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
-[    8.394825] ehci-platform 1c1b000.usb: irq 208, io mem 0x01c1b000
-[    8.402716] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-[    8.402748] usb usb2: Product: EHCI Host Controller
-[    8.402773] usb usb2: Manufacturer: Linux 6.1.0-10-armmp-lpae ehci_hcd
-[    8.428048] usb usb2: SerialNumber: 1c1a000.usb
-[    8.430680] ehci-platform 1c1b000.usb: USB 2.0 started, EHCI 1.00
-[    8.434467] hub 2-0:1.0: USB hub found
-[    8.442815] hub 2-0:1.0: 1 port detected
-[    8.449449] usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
-[    8.458149] usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
-[    8.465576] usb usb3: Product: EHCI Host Controller
-[    8.470620] usb usb3: Manufacturer: Linux 6.1.0-10-armmp-lpae ehci_hcd
-[    8.477237] usb usb3: SerialNumber: 1c1b000.usb
-[    8.484155] hub 3-0:1.0: USB hub found
-[    8.488239] hub 3-0:1.0: 1 port detected
+[    7.729468] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pc not found, using dummy regulator
+[    7.730004] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
+[    7.777138] usbcore: registered new interface driver usbfs
+[    7.783215] usbcore: registered new interface driver hub
+[    7.802191] usbcore: registered new device driver usb
+[    7.816069] pps_core: LinuxPPS API ver. 1 registered
+[    7.821286] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    7.844543] vcc-3v: Bringing 3300000uV into 3000000-3000000uV
+[    7.846363] PTP clock support registered
+[    7.866617] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pc not found, using dummy regulator
+[    7.872882] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
+[    7.886637] axp20x-gpio axp20x-gpio: DMA mask not set
+[    7.898390] axp20x-gpio axp20x-gpio: AXP209 pinctrl and GPIO driver loaded
+[    7.907584] sunxi-mmc 1c0f000.mmc: Got CD GPIO
+[    7.910655] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pc not found, using dummy regulator
+[    7.910847] vcc-dram: Bringing 1480000uV into 1500000-1500000uV
+[    7.937744] dp-pwr: Bringing 2900000uV into 3300000-3300000uV
+[    7.941384] sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
+[    7.959571] dp-bridge-1: Bringing 700000uV into 1200000-1200000uV
+[    7.961861] sunxi-mmc 1c11000.mmc: initialized, max. request size: 16384 KB, uses new timings mode
+[    7.976558] dp-bridge-2: Bringing 700000uV into 1200000-1200000uV
+[    7.982261] axp20x-usb-power-supply axp20x-usb-power-supply: DMA mask not set
+[    8.009803] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-ph not found, using dummy regulator
+[    8.024387] mmc1: host does not support reading read-only switch, assuming write-enable
+[    8.033769] sun4i-usb-phy 1c19400.phy: Couldn't get regulator usb0_vbus... Deferring probe
+[    8.036478] mmc1: new high speed SDHC card at address aaaa
+[    8.068030] mmcblk1: mmc1:aaaa SC16G 14.8 GiB 
+[    8.105933] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-ph not found, using dummy regulator
+[    8.123107]  mmcblk1: p1
+[    8.125915] usb_phy_generic usb_phy_generic.0.auto: supply vcc not found, using dummy regulator
+[    8.135209] usb_phy_generic usb_phy_generic.0.auto: dummy supplies not allowed for exclusive requests
+[    8.148266] musb-hdrc musb-hdrc.1.auto: MUSB HDRC host driver
+[    8.154224] musb-hdrc musb-hdrc.1.auto: new USB bus registered, assigned bus number 1
+[    8.162634] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
+[    8.166449] mmc0: new DDR MMC card at address 0001
+[    8.171012] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    8.171678] dwmac-sun8i 1c30000.ethernet: IRQ eth_wake_irq not found
+[    8.171697] dwmac-sun8i 1c30000.ethernet: IRQ eth_lpi not found
+[    8.172824] dwmac-sun8i 1c30000.ethernet: PTP uses main clock
+[    8.172883] dwmac-sun8i 1c30000.ethernet: Current syscon value is not the default 6 (expect 0)
+[    8.174017] dwmac-sun8i 1c30000.ethernet: No HW DMA feature register supported
+[    8.174041] dwmac-sun8i 1c30000.ethernet: RX Checksum Offload Engine supported
+[    8.174052] dwmac-sun8i 1c30000.ethernet: COE Type 2
+[    8.174069] dwmac-sun8i 1c30000.ethernet: TX Checksum insertion supported
+[    8.174094] dwmac-sun8i 1c30000.ethernet: Normal descriptors
+[    8.174105] dwmac-sun8i 1c30000.ethernet: Chain mode enabled
+[    8.247223] usb usb1: Product: MUSB HDRC host driver
+[    8.252206] usb usb1: Manufacturer: Linux 6.1.0-10-armmp-lpae musb-hcd
+[    8.258744] usb usb1: SerialNumber: musb-hdrc.1.auto
+[    8.266814] hub 1-0:1.0: USB hub found
+[    8.268599] mmcblk0: mmc0:0001 NCard  7.30 GiB 
+[    8.271182] hub 1-0:1.0: 1 port detected
+[    8.288734]  mmcblk0: p1 p2 p3 < p5 p6 p7 p8 p9 p10 p11 p12 p13 p14 p15 >
+[    8.292732] ehci-platform 1c1a000.usb: EHCI Host Controller
+[    8.295798] mmcblk0: p1 size 10483712 extends beyond EOD, 
+[    8.295803] ehci-platform 1c1b000.usb: EHCI Host Controller
+[    8.295833] truncated
+[    8.303294] ehci-platform 1c1a000.usb: new USB bus registered, assigned bus number 2
+[    8.308532] ehci-platform 1c1b000.usb: new USB bus registered, assigned bus number 3
+[    8.321982] mmcblk0boot0: mmc0:0001 NCard  4.00 MiB 
+[    8.339062] ehci-platform 1c1a000.usb: irq 207, io mem 0x01c1a000
+[    8.348105] ehci-platform 1c1b000.usb: irq 208, io mem 0x01c1b000
+[    8.350992] mmcblk0boot1: mmc0:0001 NCard  4.00 MiB 
+[    8.361730] ehci-platform 1c1a000.usb: USB 2.0 started, EHCI 1.00
+[    8.368768] usb usb2: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
+[    8.377328] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    8.381791] ehci-platform 1c1b000.usb: USB 2.0 started, EHCI 1.00
+[    8.384719] usb usb2: Product: EHCI Host Controller
+[    8.395768] usb usb2: Manufacturer: Linux 6.1.0-10-armmp-lpae ehci_hcd
+[    8.402372] usb usb2: SerialNumber: 1c1a000.usb
+[    8.408769] hub 2-0:1.0: USB hub found
+[    8.412889] hub 2-0:1.0: 1 port detected
+[    8.447450] usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
+[    8.456077] usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    8.463421] usb usb3: Product: EHCI Host Controller
+[    8.468356] usb usb3: Manufacturer: Linux 6.1.0-10-armmp-lpae ehci_hcd
+[    8.474914] usb usb3: SerialNumber: 1c1b000.usb
+[    8.482456] hub 3-0:1.0: USB hub found
+[    8.486674] hub 3-0:1.0: 1 port detected
+[    8.681676] usb 2-1: new high-speed USB device number 2 using ehci-platform
 Begin: Loading essential drivers ... done.
 Begin: Running /scripts/init-premount ... done.
 Begin: Mounting root file system ... Begin: Running /scripts/local-top ... done.
 Begin: Running /scripts/local-premount ... done.
-[    8.706761] usb 2-1: new high-speed USB device number 2 using ehci-platform
-[    8.758624] usb 3-1: new high-speed USB device number 2 using ehci-platform
+[    8.749697] usb 3-1: new high-speed USB device number 2 using ehci-platform
 Begin: Will now check root file system ... fsck from util-linux 2.38.1
-[    8.877176] usb 2-1: New USB device found, idVendor=05e3, idProduct=0718, bcdDevice= 0.16
-[    8.885497] usb 2-1: New USB device strings: Mfr=0, Product=1, SerialNumber=2
-[/sbin/fsck.ext4 (1) -- /dev/mmcblk2p1] fsck.ext4 -f [    8.892756] usb 2-1: Product: USB Storage
--y -C0 /dev/mmcblk2p1 [    8.901399] usb 2-1: SerialNumber: 000000000033
-
+[    8.848058] usb 2-1: New USB device found, idVendor=05e3, idProduct=0718, bcdDevice= 0.16
+[    8.856358] usb 2-1: New USB device strings: Mfr=0, Product=1, SerialNumber=2
+[    8.863514] usb 2-1: Product: USB Storage
+[    8.867542] usb 2-1: SerialNumber: 000000000033
+[    8.906708] SCSI subsystem initialized
+[    8.918053] usb-storage 2-1:1.0: USB Mass Storage device detected
+[    8.918430] usb 3-1: New USB device found, idVendor=0424, idProduct=3503, bcdDevice=a1.a0
+[    8.932630] usb 3-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[    8.941348] scsi host0: usb-storage 2-1:1.0
+[    8.941754] hub 3-1:1.0: USB hub found
+[/sbin/fsck.ext4 (1) -- /dev/mmcblk1p1] [    8.947007] usbcore: registered new interface driver usb-storage
+fsck.ext4 -f -y -C0 /dev/mmcblk1p1 
+[    8.950361] hub 3-1:1.0: 2 ports detected
 e2fsck 1.47.0 (5-Feb-2023)
-[    8.920692] usb 3-1: New USB device found, idVendor=0424, idProduct=3503, bcdDevice=a1.a0
-[    8.929175] usb 3-1: New USB device strings: Mfr=0, Product=0, SerialNumber=0
-[    8.938920] hub 3-1:1.0: USB hub found
+[    8.976432] usbcore: registered new interface driver uas
+/dev/mmcblk1p1: recovering journal
 Pass 1: Checking inodes, blocks, and sizes
-[    8.943153] hub 3-1:1.0: 2 ports detected
-[    8.947077] SCSI subsystem initialized
-[    8.972792] usb-storage 2-1:1.0: USB Mass Storage device detected
-[    8.981031] scsi host0: usb-storage 2-1:1.0
-[    8.986396] usbcore: registered new interface driver usb-storage
-[    9.001063] usbcore: registered new interface driver uas
-/dev/mmcblk2p1: |=                                               |  2.9%   /dev/mmcblk2p1: |===                                             /  5.8%   /dev/mmcblk2p1: |====                                            -  8.8%                                                                                  Pass 2: Checking directory structure
-/dev/mmcblk2p1: |==================================              \ 70.1%   /dev/mmcblk2p1: |=====================================           | 76.6%   /dev/mmcblk2p1: |=====================================           / 77.0%   /dev/mmcblk2p1: |========================================        - 83.5%   [   10.016585] scsi 0:0:0:0: Direct-Access     USB TO I DE/SATA Device   0016 PQ: 0 ANSI: 4
-/dev/mmcblk2p1: |==========================================      \ 88.4%   [   10.168042] sd 0:0:0:0: [sda] Media removed, stopped polling
-[   10.175390] sd 0:0:0:0: [sda] 0 512-byte logical blocks: (0 B/0 B)
-[   10.181629] sd 0:0:0:0: [sda] 0-byte physical blocks
-[   10.187867] sd 0:0:0:0: [sda] Test WP failed, assume Write Enabled
-[   10.195215] sd 0:0:0:0: [sda] Asking for cache data failed
-[   10.200734] sd 0:0:0:0: [sda] Assuming drive cache: write through
-[   10.209482] sd 0:0:0:0: [sda] Attached SCSI disk
-                                                                               Pass 3: Checking directory connectivity
+/dev/mmcblk1p1: |=                                               |  2.9%   /dev/mmcblk1p1: |===                                             /  5.8%   /dev/mmcblk1p1: |====                                            -  8.8%                                                                                  Pass 2: Checking directory structure
+/dev/mmcblk1p1: |==================================              \ 70.1%   [    9.952779] scsi 0:0:0:0: Direct-Access     SanDisk  SSD PLUS 1000GB  0016 PQ: 0 ANSI: 4
+/dev/mmcblk1p1: |====================================            | 76.0%   [   10.094030] sd 0:0:0:0: [sda] 1953529852 512-byte logical blocks: (1.00 TB/932 GiB)
+[   10.103211] sd 0:0:0:0: [sda] Write Protect is off
+[   10.110875] sd 0:0:0:0: [sda] No Caching mode page found
+[   10.116255] sd 0:0:0:0: [sda] Assuming drive cache: write through
+/dev/mmcblk1p1: |=====================================           / 76.7%   [   10.198735]  sda: sda1 sda2 < sda5 sda6 sda7 sda8 sda9 sda10 sda11 sda12 sda13 sda14 sda15 sda16 sda17 sda18 sda19 sda20 sda21 sda22 sda23 sda24 sda25 sda26 sda27 sda28 sda29 sda30 sda31 sda32 sda33 sda34 sda35 sda36 sda37 sda38 sda39 >
+[   10.233833] sd 0:0:0:0: [sda] Attached SCSI disk
+/dev/mmcblk1p1: |=======================================         - 81.7%   /dev/mmcblk1p1: |==========================================      \ 86.8%   /dev/mmcblk1p1: |===========================================     | 89.6%                                                                                  Pass 3: Checking directory connectivity
 Pass 4: Checking reference counts
-/dev/mmcblk2p1: |============================================    | 92.2%                                                                                  Pass 5: Checking group summary information
-/dev/mmcblk2p1: |================================================| 100.0%                                                                                  /dev/mmcblk2p1: 23814/195840 files (0.1% non-contiguous), 191362/782592 blocks
+/dev/mmcblk1p1: |=============================================   / 93.5%                                                                                  Pass 5: Checking group summary information
+Free blocks count wrong (547746, counted=545355).
+Fix? yes
+
+/dev/mmcblk1p1: |================================================| 100.0%                                                                                  Free inodes count wrong (170091, counted=170089).
+Fix? yes
+
+
+/dev/mmcblk1p1: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/mmcblk1p1: 25751/195840 files (0.1% non-contiguous), 237237/782592 blocks
+fsck exited with status code 1
 done.
-[   10.617004] EXT4-fs (mmcblk2p1): mounted filesystem with ordered data mode. Quota mode: none.
+[   10.953402] EXT4-fs (mmcblk1p1): mounted filesystem with ordered data mode. Quota mode: none.
 done.
 Begin: Running /scripts/local-bottom ... done.
 Begin: Running /scripts/init-bottom ... done.
-[   10.951669] Not activating Mandatory Access Control as /sbin/tomoyo-init does not exist.
-[   11.453160] systemd[1]: System time before build time, advancing clock.
-[   11.523441] systemd[1]: Inserted module 'autofs4'
-[   11.635223] systemd[1]: systemd 252.12-1~deb12u1 running in system mode (+PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK +SECCOMP +GCRYPT -GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified)
-[   11.667995] systemd[1]: Detected architecture arm.
+[   11.408571] Not activating Mandatory Access Control as /sbin/tomoyo-init does not exist.
+[   11.917193] systemd[1]: System time before build time, advancing clock.
+[   11.988404] systemd[1]: Inserted module 'autofs4'
+[   12.101488] systemd[1]: systemd 252.12-1~deb12u1 running in system mode (+PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK +SECCOMP +GCRYPT -GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified)
+[   12.134316] systemd[1]: Detected architecture arm.
 
 Welcome to Debian GNU/Linux 12 (bookworm)!
 
-[   11.695502] systemd[1]: Hostname set to <Cubietruck-Plus>.
-[   12.724376] systemd[1]: Queued start job for default target graphical.target.
-[   12.780119] systemd[1]: Created slice system-getty.slice - Slice /system/getty.
+[   12.162796] systemd[1]: Hostname set to <Cubietruck-Plus>.
+[   13.225655] systemd[1]: Queued start job for default target graphical.target.
+[   13.263648] systemd[1]: Created slice system-getty.slice - Slice /system/getty.
 [  OK  ] Created slice system-getty.slice - Slice /system/getty.
-[   12.806827] systemd[1]: Created slice system-modprobe.slice - Slice /system/modprobe.
+[   13.289909] systemd[1]: Created slice system-modprobe.slice - Slice /system/modprobe.
 [  OK  ] Created slice system-modpr…lice - Slice /system/modprobe.
-[   12.834398] systemd[1]: Created slice system-serial\x2dgetty.slice - Slice /system/serial-getty.
+[   13.318086] systemd[1]: Created slice system-serial\x2dgetty.slice - Slice /system/serial-getty.
 [  OK  ] Created slice system-seria… - Slice /system/serial-getty.
-[   12.861371] systemd[1]: Created slice user.slice - User and Session Slice.
+[   13.344567] systemd[1]: Created slice user.slice - User and Session Slice.
 [  OK  ] Created slice user.slice - User and Session Slice.
-[   12.883559] systemd[1]: Started systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch.
+[   13.366685] systemd[1]: Started systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch.
 [  OK  ] Started systemd-ask-passwo…quests to Console Directory Watch.
-[   12.911335] systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
+[   13.394402] systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
 [  OK  ] Started systemd-ask-passwo… Requests to Wall Directory Watch.
-[   12.940509] systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
+[   13.423544] systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
 [  OK  ] Set up automount proc-sys-…rmats File System Automount Point.
-[   12.971168] systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
+[   13.454240] systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
 [  OK  ] Reached target cryptsetup.…get - Local Encrypted Volumes.
-[   12.995030] systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
+[   13.478094] systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
 [  OK  ] Reached target integrityse…Local Integrity Protected Volumes.
-[   13.019056] systemd[1]: Reached target paths.target - Path Units.
+[   13.502122] systemd[1]: Reached target paths.target - Path Units.
 [  OK  ] Reached target paths.target - Path Units.
-[   13.042944] systemd[1]: Reached target remote-fs.target - Remote File Systems.
+[   13.526017] systemd[1]: Reached target remote-fs.target - Remote File Systems.
 [  OK  ] Reached target remote-fs.target - Remote File Systems.
-[   13.066784] systemd[1]: Reached target slices.target - Slice Units.
+[   13.549899] systemd[1]: Reached target slices.target - Slice Units.
 [  OK  ] Reached target slices.target - Slice Units.
-[   13.090955] systemd[1]: Reached target swap.target - Swaps.
+[   13.573997] systemd[1]: Reached target swap.target - Swaps.
 [  OK  ] Reached target swap.target - Swaps.
-[   13.110859] systemd[1]: Reached target veritysetup.target - Local Verity Protected Volumes.
+[   13.593999] systemd[1]: Reached target veritysetup.target - Local Verity Protected Volumes.
 [  OK  ] Reached target veritysetup… - Local Verity Protected Volumes.
-[   13.136171] systemd[1]: Listening on systemd-fsckd.socket - fsck to fsckd communication Socket.
+[   13.619252] systemd[1]: Listening on systemd-fsckd.socket - fsck to fsckd communication Socket.
 [  OK  ] Listening on systemd-fsckd…sck to fsckd communication Socket.
-[   13.163483] systemd[1]: Listening on systemd-initctl.socket - initctl Compatibility Named Pipe.
+[   13.646639] systemd[1]: Listening on systemd-initctl.socket - initctl Compatibility Named Pipe.
 [  OK  ] Listening on systemd-initc… initctl Compatibility Named Pipe.
-[   13.189110] systemd[1]: Listening on systemd-journald-audit.socket - Journal Audit Socket.
+[   13.672331] systemd[1]: Listening on systemd-journald-audit.socket - Journal Audit Socket.
 [  OK  ] Listening on systemd-journ…socket - Journal Audit Socket.
-[   13.216252] systemd[1]: Listening on systemd-journald-dev-log.socket - Journal Socket (/dev/log).
+[   13.699333] systemd[1]: Listening on systemd-journald-dev-log.socket - Journal Socket (/dev/log).
 [  OK  ] Listening on systemd-journ…t - Journal Socket (/dev/log).
-[   13.244228] systemd[1]: Listening on systemd-journald.socket - Journal Socket.
+[   13.727374] systemd[1]: Listening on systemd-journald.socket - Journal Socket.
 [  OK  ] Listening on systemd-journald.socket - Journal Socket.
-[   13.268476] systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+[   13.751610] systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
 [  OK  ] Listening on systemd-udevd….socket - udev Control Socket.
-[   13.291895] systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
+[   13.779017] systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
 [  OK  ] Listening on systemd-udevd…l.socket - udev Kernel Socket.
-[   13.339382] systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
+[   13.826522] systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
          Mounting dev-hugepages.mount - Huge Pages File System...
-[   13.372545] systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
+[   13.860811] systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
          Mounting dev-mqueue.mount��POSIX Message Queue File System...
-[   13.423517] systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
+[   13.914577] systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
          Mounting sys-kernel-debug.… - Kernel Debug File System...
-[   13.455539] systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
+[   13.950702] systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
          Mounting sys-kernel-tracin… - Kernel Trace File System...
-[   13.489969] systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+[   13.985011] systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
          Starting kmod-static-nodes…ate List of Static Device Nodes...
-[   13.525889] systemd[1]: Starting modprobe@configfs.service - Load Kernel Module configfs...
+[   14.020710] systemd[1]: Starting modprobe@configfs.service - Load Kernel Module configfs...
          Starting modprobe@configfs…m - Load Kernel Module configfs...
-[   13.580569] systemd[1]: Starting modprobe@dm_mod.service - Load Kernel Module dm_mod...
+[   14.059153] systemd[1]: Starting modprobe@dm_mod.service - Load Kernel Module dm_mod...
          Starting modprobe@dm_mod.s…[0m - Load Kernel Module dm_mod...
-[   13.617324] systemd[1]: Starting modprobe@drm.service - Load Kernel Module drm...
+[   14.100410] systemd[1]: Starting modprobe@drm.service - Load Kernel Module drm...
          Starting modprobe@drm.service - Load Kernel Module drm...
-[   13.646898] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
-[   13.653933] systemd[1]: Starting modprobe@efi_pstore.service - Load Kernel Module efi_pstore...
-[   13.659468] device-mapper: uevent: version 1.0.3
-         Starting modprobe@efi_psto…- Load Kernel Mod[   13.673466] device-mapper: ioctl: 4.47.0-ioctl (2022-07-28) initialised: dm-devel@redhat.com
+[   14.130779] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+[   14.141055] systemd[1]: Starting modprobe@efi_pstore.service - Load Kernel Module efi_pstore...
+[   14.143557] device-mapper: uevent: version 1.0.3
+         Starting modprobe@efi_psto…- Load Kernel Mod[   14.157378] device-mapper: ioctl: 4.47.0-ioctl (2022-07-28) initialised: dm-devel@redhat.com
 ule efi_pstore...
-[   13.711538] systemd[1]: Starting modprobe@fuse.service - Load Kernel Module fuse...
+[   14.227256] systemd[1]: Starting modprobe@fuse.service - Load Kernel Module fuse...
          Starting modprobe@fuse.ser…e - Load Kernel Module fuse...
-[   13.757623] fuse: init (API version 7.37)
-[   13.780279] systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
+[   14.261415] systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
          Starting modprobe@loop.ser…e - Load Kernel Module loop...
-[   13.803609] systemd[1]: systemd-fsck-root.service - File System Check on Root Device was skipped because of an unmet condition check (ConditionPathExists=!/run/initramfs/fsck-root).
-[   13.832871] loop: module loaded
-[   13.837725] systemd[1]: Starting systemd-journald.service - Journal Service...
+[   14.279009] fuse: init (API version 7.37)
+[   14.286610] systemd[1]: systemd-fsck-root.service - File System Check on Root Device was skipped because of an unmet condition check (ConditionPathExists=!/run/initramfs/fsck-root).
+[   14.333848] loop: module loaded
+[   14.347454] systemd[1]: Starting systemd-journald.service - Journal Service...
          Starting systemd-journald.service - Journal Service...
-[   13.904594] systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+[   14.390394] systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
          Starting systemd-modules-l…rvice - Load Kernel Modules...
-[   13.945067] systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
+[   14.429790] systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
          Starting systemd-remount-f…nt Root and Kernel File Systems...
-[   13.984557] systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
+[   14.472506] systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
          Starting systemd-udev-trig…[0m - Coldplug All udev Devices...
-[   14.030795] systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
-[  OK  ] Mounted dev-hugepages.mount - Huge Pages File System.
-[   14.046584] EXT4-fs (mmcblk2p1): re-mounted. Quota mode: none.
-[   14.064729] systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
+[   14.518407] systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
+[  OK  ] Mounted dev-hugepages.mount - H[   14.527202] EXT4-fs (mmcblk1p1): re-mounted. Quota mode: none.
+uge Pages File System.
+[   14.559868] systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
 [  OK  ] Mounted dev-mqueue.mount��- POSIX Message Queue File System.
-[   14.092656] systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
+[   14.587642] systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
 [  OK  ] Mounted sys-kernel-debug.m…nt - Kernel Debug File System.
-[   14.116667] systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
+[   14.611951] systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
 [  OK  ] Mounted sys-kernel-tracing…nt - Kernel Trace File System.
-[   14.145995] systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[   14.641076] systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
 [  OK  ] Finished kmod-static-nodes…reate List of Static Device Nodes.
-[   14.176254] systemd[1]: modprobe@configfs.service: Deactivated successfully.
-[   14.185325] systemd[1]: Finished modprobe@configfs.service - Load Kernel Module configfs.
+[   14.670581] systemd[1]: modprobe@configfs.service: Deactivated successfully.
+[   14.679831] systemd[1]: Finished modprobe@configfs.service - Load Kernel Module configfs.
 [  OK  ] Finished modprobe@configfs…[0m - Load Kernel Module configfs.
-[   14.214903] systemd[1]: modprobe@dm_mod.service: Deactivated successfully.
-[   14.224444] systemd[1]: Finished modprobe@dm_mod.service - Load Kernel Module dm_mod.
+[   14.709854] systemd[1]: modprobe@dm_mod.service: Deactivated successfully.
+[   14.718946] systemd[1]: Finished modprobe@dm_mod.service - Load Kernel Module dm_mod.
 [  OK  ] Finished modprobe@dm_mod.s…e - Load Kernel Module dm_mod.
-[   14.252657] systemd[1]: Started systemd-journald.service - Journal Service.
+[   14.743594] systemd[1]: Started systemd-journald.service - Journal Service.
 [  OK  ] Started systemd-journald.service - Journal Service.
 [  OK  ] Finished modprobe@drm.service - Load Kernel Module drm.
 [  OK  ] Finished modprobe@efi_psto…m - Load Kernel Module efi_pstore.
@@ -490,71 +496,41 @@ ule efi_pstore...
          Starting systemd-journal-f…h Journal to Persistent Storage...
          Starting systemd-random-se…ice - Load/Save Random Seed...
          Starting systemd-sysctl.se…ce - Apply Kernel Variables...
-[   14.602777] systemd-journald[270]: Received client request to flush runtime journal.
+[   15.091185] systemd-journald[275]: Received client request to flush runtime journal.
          Starting systemd-sysusers.…rvice - Create System Users...
+[   15.110206] systemd-journald[275]: File /var/log/journal/879b5977e6964cb4aa0bbaded58f9d01/system.journal corrupted or uncleanly shut down, renaming and replacing.
 [  OK  ] Mounted sys-fs-fuse-connec…nt - FUSE Control File System.
 [  OK  ] Mounted sys-kernel-config.… Kernel Configuration File System.
 [  OK  ] Finished systemd-sysctl.service - Apply Kernel Variables.
 [  OK  ] Finished systemd-sysusers.service - Create System Users.
          Starting systemd-tmpfiles-…ate Static Device Nodes in /dev...
 [  OK  ] Finished systemd-journal-f…ush Journal to Persistent Storage.
-[  OK  ] Finished systemd-tmpfiles-�reate Static Device Nodes in /dev.
-[  OK  ] Finished systemd-udev-trig…e - Coldplug All udev Devices.
+[  OK  ] Finished systemd-tmpfiles-…reate Static Device Nodes in /dev.
 [  OK  ] Reached target local-fs-pr…reparation for Local File Systems.
 [  OK  ] Reached target local-fs.target - Local File Systems.
          Starting apparmor.service - Load AppArmor profiles...
-         Starting ifupdown-pre.serv…ynchronize boot up for ifupdown...
-         Starting systemd-binfmt.se�et Up Additional Binary Formats...
+         Starting systemd-binfmt.se…et Up Additional Binary Formats...
          Starting systemd-tmpfiles-… Volatile Files and Directories...
          Starting systemd-udevd.ser…ger for Device Events and Files...
+[  OK  ] Finished systemd-udev-trig…e - Coldplug All udev Devices.
          Mounting proc-sys-fs-binfm…utable File Formats File System...
+         Starting ifupdown-pre.serv…ynchronize boot up for ifupdown...
 [  OK  ] Mounted proc-sys-fs-binfmt…ecutable File Formats File System.
-[  OK  ] Finished systemd-tmpfiles-…te Volatile Files and Directories.
 [  OK  ] Finished systemd-binfmt.se… Set Up Additional Binary Formats.
-         Starting systemd-update-ut…rd System Boot/Sh[   15.566670] random: crng init done
-utdown in UTMP...
-[  OK  ] Finished systemd-random-se…rvice - Load/Save Random Seed.
+[  OK  ] Finished systemd-tmpfiles-…te Volatile Files and Directories.
+[   15.904083] audit: type=1400 audit(1689025478.984:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="lsb_release" pid=305 comm="apparmor_parser"
+[   15.922989] audit: type=1400 audit(1689025478.988:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe" pid=306 comm="apparmor_parser"
+[   15.937690] random: crng init done
+[   15.938793] audit: type=1400 audit(1689025478.988:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe//kmod" pid=306 comm="apparmor_parser"
+         Starting systemd-update-ut…rd System Boot/Shutdown in UTMP...
+[  OK  ] Finished systemd-random-se…rvice  16.010398] audit: type=1400 audit(1689025479.092:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=307 comm="apparmor_parser"
+[0m - Load/Save Random Seed.
+[   16.033551] audit: type=1400 audit(1689025479.092:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=307 comm="apparmor_parser"
+[   16.053212] audit: type=1400 audit(1689025479.092:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=307 comm="apparmor_parser"
+[   16.070809] audit: type=1400 audit(1689025479.092:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/{,usr/}sbin/dhclient" pid=307 comm="apparmor_parser"
+[  OK  ] Finished apparmor.service - Load AppArmor profiles.
 [  OK  ] Started systemd-udevd.serv…nager for Device Events and Files.
 [  OK  ] Finished systemd-update-ut…cord System Boot/Shutdown in UTMP.
-[  OK  ] Found device dev-ttyS0.device - /dev/ttyS0.
-[   16.324032] sd 0:0:0:0: Attached scsi generic sg0 type 0
-[   16.737713] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pe not found, using dummy regulator
-[   16.747980] audit: type=1400 audit(1689025480.292:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="lsb_release" pid=303 comm="apparmor_parser"
-[   16.811781] audit: type=1400 audit(1689025480.356:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe" pid=304 comm="apparmor_parser"
-[   16.830648] audit: type=1400 audit(1689025480.364:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe//kmod" pid=304 comm="apparmor_parser"
-[   17.046371] sunxi-wdt 1c20ca0.watchdog: Watchdog enabled (timeout=16 sec, nowayout=0)
-[   17.120470] thermal_sys: Failed to find 'trips' node
-[   17.125620] thermal_sys: Failed to find trip points for thermal-sensor id=2
-[   17.132753] sun8i-thermal: probe of 1f04000.thermal-sensor failed with error -22
-[   17.214865] usb3503 usb-hub: Ports disabled with no control interface
-[   17.230715] usb3503 usb-hub: switched to HUB mode
-[   17.235514] usb3503 usb-hub: usb3503_probe: probed in hub mode
-[   17.256983] axp20x-battery-power-supply axp20x-battery-power-supply: DMA mask not set
-[   17.341868] axp20x-ac-power-supply axp20x-ac-power-supply: DMA mask not set
-[   17.343606] input: axp20x-pek as /devices/platform/soc/1f03400.rsb/sunxi-rsb-3a3/axp221-pek/input/input0
-[   17.419466] axp20x-adc axp813-adc: DMA mask not set
-[   17.523866] sun4i-drm display-engine: bound 1100000.mixer (ops sun8i_mixer_platform_driver_exit [sun8i_mixer])
-[   17.556004] sun4i-drm display-engine: bound 1200000.mixer (ops sun8i_mixer_platform_driver_exit [sun8i_mixer])
-[   17.569628] sun4i-drm display-engine: No panel or bridge found... RGB output disabled
-[   17.578042] sun4i-drm display-engine: bound 1c0c000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
-[   17.591602] sun4i-drm display-engine: bound 1c0d000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
-[   17.603310] sun8i-dw-hdmi 1ee0000.hdmi: supply hvcc not found, using dummy regulator
-[   17.639341] sun8i-dw-hdmi 1ee0000.hdmi: Detected HDMI TX controller v1.32a with HDCP (sun8i_dw_hdmi_phy)
-[   17.647195] cryptd: max_cpu_qlen set to 1000
-[   17.658437] sun8i-dw-hdmi 1ee0000.hdmi: registered DesignWare HDMI I2C bus driver
-[   17.737724] sun4i-drm display-engine: bound 1ee0000.hdmi (ops sun8i_dw_hdmi_exit [sun8i_drm_hdmi])
-[   17.892327] [drm] Initialized sun4i-drm 1.0.0 20150629 for display-engine on minor 0
-[   17.904001] sun4i-drm display-engine: [drm] Cannot find any crtc or sizes
-[   17.982159] Registered IR keymap rc-cec
-[   17.987452] rc rc0: dw_hdmi as /devices/platform/soc/1ee0000.hdmi/rc/rc0
-[   17.995801] input: dw_hdmi as /devices/platform/soc/1ee0000.hdmi/rc/rc0/input1
-[*     ] (1 of 2) Job apparmor.service/start running (5s / no limit)
-[   18.195050] audit: type=1400 audit(1689025481.740:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=305 comm="apparmor_parser"
-[   18.213997] audit: type=1400 audit(1689025481.748:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=305 comm="apparmor_parser"
-[   18.231542] audit: type=1400 audit(1689025481.756:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=305 comm="apparmor_parser"
-[   18.249327] audit: type=1400 audit(1689025481.772:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/{,usr/}sbin/dhclient" pid=305 comm="apparmor_parser"
-[  OK  ] Finished apparmor.service - Load AppArmor profiles.
-[  OK  ] Reached target sound.target - Sound Card.
 [  OK  ] Reached target sysinit.target - System Initialization.
 [  OK  ] Started apt-daily.timer - Daily apt download activities.
 [  OK  ] Started apt-daily-upgrade.… apt upgrade and clean activities.
@@ -564,418 +540,956 @@ utdown in UTMP...
 [  OK  ] Started logrotate.timer - Daily rotation of log files.
 [  OK  ] Started systemd-tmpfiles-c… Cleanup of Temporary Directories.
 [  OK  ] Reached target timers.target - Timer Units.
-[  OK  ] Reached target usb-gadget.…m - Hardware activated USB gadget.
 [  OK  ] Listening on dbus.socket��- D-Bus System Message Bus Socket.
 [  OK  ] Reached target sockets.target - Socket Units.
-[  OK  ] Listening on systemd-rfkil…l Switch Status /dev/rfkill Watch.
 [  OK  ] Reached target basic.target - Basic System.
 [  OK  ] Started cron.service -…kground program processing daemon.
+[   16.609798] sd 0:0:0:0: Attached scsi generic sg0 type 0
          Starting dbus.service - D-Bus System Message Bus...
          Starting e2scrub_reap.serv…e ext4 Metadata Check Snapshots...
-[   18.880863] Bluetooth: Core ver 2.22
-[   18.884895] NET: Registered PF_BLUETOOTH protocol family
-[   18.890345] Bluetooth: HCI device and connection manager initialized
-[   18.896866] Bluetooth: HCI socket layer initialized
-[   18.901869] Bluetooth: L2CAP socket layer initialized
-[   18.907102] Bluetooth: SCO socket layer initialized
          Starting systemd-logind.se…ice - User Login Management...
-[   18.976344] Bluetooth: HCI UART driver ver 2.3
-[   18.980970] Bluetooth: HCI UART protocol H4 registered
-[   18.986924] Bluetooth: HCI UART protocol LL registered
-[   18.992173] Bluetooth: HCI UART protocol ATH3K registered
-[   18.997954] Bluetooth: HCI UART protocol Three-wire (H5) registered
-[   19.005075] Bluetooth: HCI UART protocol Intel registered
-[   19.012004] Bluetooth: HCI UART protocol Broadcom registered
-[   19.018366] Bluetooth: HCI UART protocol QCA registered
-[   19.023769] Bluetooth: HCI UART protocol AG6XX registered
-[   19.029519] Bluetooth: HCI UART protocol Marvell registered
 [  OK  ] Started dbus.service - D-Bus System Message Bus.
-[  OK  ] Finished ifupdown-pre.serv… synchronize boot up for ifupdown.
+[   17.141107] sun8i-a83t-pinctrl 1c20800.pinctrl: supply vcc-pe not found, using dummy regulator
+[  OK  ] Found device dev-ttyS0.device - /dev/ttyS0.
 [  OK  ] Finished e2scrub_reap.serv…ine ext4 Metadata Check Snapshots.
-         Starting networking.service - Raise network interfaces...
+[   18.104904] sunxi-wdt 1c20ca0.watchdog: Watchdog enabled (timeout=16 sec, nowayout=0)
+[   18.185053] thermal_sys: Failed to find 'trips' node
+[   18.190335] thermal_sys: Failed to find trip points for thermal-sensor id=2
+[   18.197630] sun8i-thermal: probe of 1f04000.thermal-sensor failed with error -22
+[   18.241970] usb3503 usb-hub: Ports disabled with no control interface
+[   18.257988] usb3503 usb-hub: switched to HUB mode
+[   18.262936] usb3503 usb-hub: usb3503_probe: probed in hub mode
+[   18.308584] axp20x-ac-power-supply axp20x-ac-power-supply: DMA mask not set
+[   18.334949] axp20x-battery-power-supply axp20x-battery-power-supply: DMA mask not set
+[   18.364962] input: axp20x-pek as /devices/platform/soc/1f03400.rsb/sunxi-rsb-3a3/axp221-pek/input/input0
+[   18.413698] axp20x-adc axp813-adc: DMA mask not set
+[   18.426507] sun4i-drm display-engine: bound 1100000.mixer (ops sun8i_mixer_platform_driver_exit [sun8i_mixer])
+[   18.444515] sun4i-drm display-engine: bound 1200000.mixer (ops sun8i_mixer_platform_driver_exit [sun8i_mixer])
+[   18.465447] sun4i-drm display-engine: No panel or bridge found... RGB output disabled
+[   18.473841] sun4i-drm display-engine: bound 1c0c000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
+[   18.488924] sun4i-drm display-engine: bound 1c0d000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
+[   18.503730] sun8i-dw-hdmi 1ee0000.hdmi: supply hvcc not found, using dummy regulator
+[   18.552966] sun8i-dw-hdmi 1ee0000.hdmi: Detected HDMI TX controller v1.32a with HDCP (sun8i_dw_hdmi_phy)
+[   18.577413] cryptd: max_cpu_qlen set to 1000
+[   18.608996] sun8i-dw-hdmi 1ee0000.hdmi: registered DesignWare HDMI I2C bus driver
+[   18.684518] sun4i-drm display-engine: bound 1ee0000.hdmi (ops sun8i_dw_hdmi_exit [sun8i_drm_hdmi])
+[   18.781894] [drm] Initialized sun4i-drm 1.0.0 20150629 for display-engine on minor 0
+[   18.793441] sun4i-drm display-engine: [drm] Cannot find any crtc or sizes
+[   18.900147] Registered IR keymap rc-cec
+[   18.905114] rc rc0: dw_hdmi as /devices/platform/soc/1ee0000.hdmi/rc/rc0
+[   18.920696] input: dw_hdmi as /devices/platform/soc/1ee0000.hdmi/rc/rc0/input1
+[*     ] (1 of 2) Job systemd-logind.service… 1min 33s): Processing requests...
+[   19.648475] Bluetooth: Core ver 2.22
+[   19.652399] NET: Registered PF_BLUETOOTH protocol family
+[   19.657796] Bluetooth: HCI device and connection manager initialized
+[   19.664220] Bluetooth: HCI socket layer initialized
+[   19.669138] Bluetooth: L2CAP socket layer initialized
+[   19.674260] Bluetooth: SCO socket layer initialized
+[   19.752192] Bluetooth: HCI UART driver ver 2.3
+[   19.756752] Bluetooth: HCI UART protocol H4 registered
+[   19.762174] Bluetooth: HCI UART protocol LL registered
+[   19.767374] Bluetooth: HCI UART protocol ATH3K registered
+[   19.772918] Bluetooth: HCI UART protocol Three-wire (H5) registered
+[   19.779719] Bluetooth: HCI UART protocol Intel registered
+[   19.785741] Bluetooth: HCI UART protocol Broadcom registered
+[   19.792875] Bluetooth: HCI UART protocol QCA registered
+[   19.798441] Bluetooth: HCI UART protocol AG6XX registered
+[   19.805856] Bluetooth: HCI UART protocol Marvell registered
+[  OK  ] Finished ifupdown-pre.serv… synchronize boot up for ifupdown.
 [  OK  ] Started systemd-logind.service - User Login Management.
-[   19.720266] dwmac-sun8i 1c30000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
-[   19.734731] dwmac-sun8i 1c30000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
-[   19.744895] dwmac-sun8i 1c30000.ethernet eth0: No Safety Features support found
-[   19.752282] dwmac-sun8i 1c30000.ethernet eth0: No MAC Management Counters available
-[   19.760000] dwmac-sun8i 1c30000.ethernet eth0: PTP not supported by HW
-[   19.768043] dwmac-sun8i 1c30000.ethernet eth0: configuring for phy/rgmii-id link mode
-[**    ] Job networking.service/start running (8s / 5min 6s)
-[***   ] Job networking.service/start running (9s / 5min 6s)
-[ ***  ] Job networking.service/start running (9s / 5min 6s)
-[  *** ] Job networking.service/start running (10s / 5min 6s)
-[   23.871683] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
-[   23.880067] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
-[   ***] Job networking.service/start running (11s / 5min 6s)
-[    **] Job networking.service/start running (11s / 5min 6s)
-[     *] Job networking.service/start running (12s / 5min 6s)
-[    **] Job networking.service/start running (12s / 5min 6s)
-[   ***] Job networking.service/start running (13s / 5min 6s)
-[  *** ] Job networking.service/start running (14s / 5min 6s)
-[ ***  ] Job networking.service/start running (14s / 5min 6s)
-[***   ] Job networking.service/start running (15s / 5min 6s)
-[**    ] Job networking.service/start running (15s / 5min 6s)
-[*     ] Job networking.service/start running (16s / 5min 6s)
-[   29.153590] ac100-rtc ac100-rtc: DMA mask not set
-[   29.162628] ac100-rtc ac100-rtc: registered as rtc0
-[   29.167861] ac100-rtc ac100-rtc: setting system clock to 1970-01-02T07:36:41 UTC (113801)
-[   29.176326] dw-apb-uart 1c28400.serial: Failed to create device link (0x180) with ac100-rtc
-[   29.179565] systemd-journald[270]: Time jumped backwards, rotating.
-[   29.201475] sunxi-mmc 1c10000.mmc: allocated mmc-pwrseq
-[   29.234924] sunxi-mmc 1c10000.mmc: initialized, max. request size: 16384 KB
-[   29.313699] mmc0: new high speed SDIO card at address 0001
-         Starting systemd-rfkill.se…Load/Save RF Kill Switch Status...
-[   29.539879] Bluetooth: hci0: BCM: chip id 62
-[   29.546913] Bluetooth: hci0: BCM: features 0x0f
-[   29.575377] Bluetooth: hci0: BCM4330B1
-[   29.579206] Bluetooth: hci0: BCM4330B1 (002.001.003) build 0000
-[   29.612975] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.cubietech,cubietruck-plus.hcd (-2)
-[   29.622674] firmware_class: See https://wiki.debian.org/Firmware for information about missing firmware
-[   29.632377] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.cubietech,cubietruck-plus.hcd (-2)
-[   29.642037] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.hcd (-2)
-[   29.649579] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.hcd (-2)
-[   29.657261] bluetooth hci0: firmware: failed to load brcm/BCM.cubietech,cubietruck-plus.hcd (-2)
-[   29.666807] bluetooth hci0: firmware: failed to load brcm/BCM.cubietech,cubietruck-plus.hcd (-2)
-[**    ] (2 of 2) Job networking.service[   29.675997] bluetooth hci0: firmware: failed to load brcm/BCM.hcd (-2)
-/start running (16s / 5min 6s)
-[   29.688198] bluetooth hci0: firmware: failed to load brcm/BCM.hcd (-2)
-[   29.697589] Bluetooth: hci0: BCM: firmware Patch file not found, tried:
-[   29.704411] Bluetooth: hci0: BCM: 'brcm/BCM4330B1.cubietech,cubietruck-plus.hcd'
-[   29.712033] Bluetooth: hci0: BCM: 'brcm/BCM4330B1.hcd'
-[   29.717227] Bluetooth: hci0: BCM: 'brcm/BCM.cubietech,cubietruck-plus.hcd'
-[  OK  ] Started systemd-rfkill.ser…[   29.724175] Bluetooth: hci0: BCM: 'brcm/BCM.hcd'
-- Load/Save RF Kill Switch Status.
+[  OK  ] Reached target sound.target - Sound Card.
+[  OK  ] Reached target usb-gadget.…m - Hardware activated USB gadget.
+[  OK  ] Listening on systemd-rfkil…l Switch Status /dev/rfkill Watch.
+         Starting networking.service - Raise network interfaces...
+[   20.981408] dwmac-sun8i 1c30000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+[   20.995791] dwmac-sun8i 1c30000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+[   21.005973] dwmac-sun8i 1c30000.ethernet eth0: No Safety Features support found
+[   21.013347] dwmac-sun8i 1c30000.ethernet eth0: No MAC Management Counters available
+[   21.021067] dwmac-sun8i 1c30000.ethernet eth0: PTP not supported by HW
+[   21.028993] dwmac-sun8i 1c30000.ethernet eth0: configuring for phy/rgmii-id link mode
+[**    ] Job networking.service/start running (9s / 5min 7s)
+[***   ] Job networking.service/start running (10s / 5min 7s)
+[ ***  ] Job networking.service/start running (10s / 5min 7s)
+[  *** ] Job networking.service/start running (11s / 5min 7s)
+[   ***] Job networking.service/start running (11s / 5min 7s)
+[   25.118753] dwmac-sun8i 1c30000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+[   25.127128] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[    **] Job networking.service/start running (12s / 5min 7s)
+[     *] Job networking.service/start running (13s / 5min 7s)
+[    **] Job networking.service/start running (13s / 5min 7s)
+[   ***] Job networking.service/start running (14s / 5min 7s)
+[  *** ] Job networking.service/start running (14s / 5min 7s)
+[ ***  ] Job networking.service/start running (15s / 5min 7s)
+[***   ] Job networking.service/start running (15s / 5min 7s)
+[**    ] Job networking.service/start running (16s / 5min 7s)
+[   29.920517] ac100-rtc ac100-rtc: DMA mask not set
+[   29.930084] ac100-rtc ac100-rtc: registered as rtc0
+[   29.935355] ac100-rtc ac100-rtc: setting system clock to 1970-01-03T07:37:47 UTC (200267)
+[   29.943672] dw-apb-uart 1c28400.serial: Failed to create device link (0x180) with ac100-rtc
+[   29.947209] systemd-journald[275]: Time jumped backwards, rotating.
+[   29.968698] sunxi-mmc 1c10000.mmc: allocated mmc-pwrseq
+[   30.002039] sunxi-mmc 1c10000.mmc: initialized, max. request size: 16384 KB
+[   30.081758] mmc2: new high speed SDIO card at address 0001
+[*     ] Job networking.service/start running (16s / 5min 7s)
 [  OK  ] Reached target bluetooth.target - Bluetooth Support.
-[   29.962111] cfg80211: Loading compiled-in X.509 certificates for regulatory database
-[   29.972468] cfg80211: Loaded X.509 cert 'benh@debian.org: 577e021cb980e0e820821ba7b54b4961b8b4fadf'
-[   29.983465] cfg80211: Loaded X.509 cert 'romain.perier@gmail.com: 3abbc6ec146e09d1b6016ab9d6cf71dd233f0328'
-[   29.995086] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
-[   30.001957] platform regulatory.0: firmware: failed to load regulatory.db (-2)
-[   30.010243] platform regulatory.0: firmware: failed to load regulatory.db (-2)
-[   30.017709] platform regulatory.0: Direct firmware load for regulatory.db failed with error -2
-[   30.026953] cfg80211: failed to load regulatory.db
-[   30.071968] brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac4330-sdio for chip BCM4330/4
-[   30.080816] brcmfmac mmc0:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.bin (-2)
-[   30.084147] usbcore: registered new interface driver brcmfmac
-[   30.092040] brcmfmac mmc0:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.bin (-2)
-[   30.108049] brcmfmac mmc0:0001:1: Direct firmware load for brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.bin failed with error -2
-[   30.120611] brcmfmac mmc0:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.bin (-2)
-[   30.129125] brcmfmac mmc0:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.bin (-2)
-[   30.137506] brcmfmac mmc0:0001:1: Direct firmware load for brcm/brcmfmac4330-sdio.bin failed with error -2
-[   31.160117] brcmfmac: brcmf_sdio_htclk: HT Avail timeout (1000000): clkctl 0x50
-[***   ] Job networking.service/start running (19s / 5min 6s)
-[ ***  ] Job networking.service/start running (19s / 5min 6s)
-[  *** ] Job networking.service/start running (20s / 5min 6s)
-[   ***] Job networking.service/start running (21s / 5min 6s)
-[    **] Job networking.service/start running (21s / 5min 6s)
-[     *] Job networking.service/start running (21s / 5min 6s)
-[    **] Job networking.service/start running (22s / 5min 6s)
-[   ***] Job networking.service/start running (23s / 5min 6s)
-[  *** ] Job networking.service/start running (23s / 5min 6s)
-[ ***  ] Job networking.service/start running (24s / 5min 6s)
-[***   ] Job networking.service/start running (24s / 5min 6s)
-[   37.854798] vdd-gpu: disabling
-[**    ] Job networking.service/start running (25s / 5min 6s)
-[*     ] Job networking.service/start running (26s / 5min 6s)
-[**    ] Job networking.service/start running (26s / 5min 6s)
-[***   ] Job networking.service/start running (27s / 5min 6s)
-[ ***  ] Job networking.service/start running (27s / 5min 6s)
-[  *** ] Job networking.service/start running (28s / 5min 6s)
-[   ***] Job networking.service/start running (28s / 5min 6s)
-[    **] Job networking.service/start running (29s / 5min 6s)
-[     *] Job networking.service/start running (30s / 5min 6s)
-[    **] Job networking.service/start running (30s / 5min 6s)
-[   ***] Job networking.service/start running (31s / 5min 6s)
-[  *** ] Job networking.service/start running (31s / 5min 6s)
-[ ***  ] Job networking.service/start running (32s / 5min 6s)
-[***   ] Job networking.service/start running (33s / 5min 6s)
-[**    ] Job networking.service/start running (33s / 5min 6s)
-[*     ] Job networking.service/start running (34s / 5min 6s)
-[**    ] Job networking.service/start running (34s / 5min 6s)
-[***   ] Job networking.service/start running (35s / 5min 6s)
-[ ***  ] Job networking.service/start running (35s / 5min 6s)
-[  *** ] Job networking.service/start running (36s / 5min 6s)
-[   ***] Job networking.service/start running (36s / 5min 6s)
-[    **] Job networking.service/start running (37s / 5min 6s)
-[     *] Job networking.service/start running (37s / 5min 6s)
-[    **] Job networking.service/start running (38s / 5min 6s)
-[   ***] Job networking.service/start running (38s / 5min 6s)
-[  *** ] Job networking.service/start running (39s / 5min 6s)
-[ ***  ] Job networking.service/start running (39s / 5min 6s)
-[***   ] Job networking.service/start running (40s / 5min 6s)
-[**    ] Job networking.service/start running (40s / 5min 6s)
-[*     ] Job networking.service/start running (41s / 5min 6s)
-[**    ] Job networking.service/start running (41s / 5min 6s)
-[***   ] Job networking.service/start running (42s / 5min 6s)
-[ ***  ] Job networking.service/start running (42s / 5min 6s)
-[  *** ] Job networking.service/start running (43s / 5min 6s)
-[   ***] Job networking.service/start running (43s / 5min 6s)
-[    **] Job networking.service/start running (44s / 5min 6s)
-[     *] Job networking.service/start running (44s / 5min 6s)
-[    **] Job networking.service/start running (45s / 5min 6s)
-[   ***] Job networking.service/start running (45s / 5min 6s)
-[  *** ] Job networking.service/start running (46s / 5min 6s)
-[ ***  ] Job networking.service/start running (46s / 5min 6s)
-[***   ] Job networking.service/start running (47s / 5min 6s)
-[**    ] Job networking.service/start running (47s / 5min 6s)
-[*     ] Job networking.service/start running (48s / 5min 6s)
-[**    ] Job networking.service/start running (48s / 5min 6s)
-[***   ] Job networking.service/start running (49s / 5min 6s)
-[ ***  ] Job networking.service/start running (49s / 5min 6s)
-[  *** ] Job networking.service/start running (50s / 5min 6s)
-[   ***] Job networking.service/start running (50s / 5min 6s)
-[    **] Job networking.service/start running (51s / 5min 6s)
-[     *] Job networking.service/start running (51s / 5min 6s)
-[    **] Job networking.service/start running (52s / 5min 6s)
-[   ***] Job networking.service/start running (52s / 5min 6s)
-[  *** ] Job networking.service/start running (53s / 5min 6s)
-[ ***  ] Job networking.service/start running (53s / 5min 6s)
-[***   ] Job networking.service/start running (54s / 5min 6s)
-[**    ] Job networking.service/start running (54s / 5min 6s)
-[*     ] Job networking.service/start running (55s / 5min 6s)
-[**    ] Job networking.service/start running (55s / 5min 6s)
-[***   ] Job networking.service/start running (56s / 5min 6s)
-[ ***  ] Job networking.service/start running (56s / 5min 6s)
-[  *** ] Job networking.service/start running (57s / 5min 6s)
-[   ***] Job networking.service/start running (57s / 5min 6s)
-[    **] Job networking.service/start running (58s / 5min 6s)
-[     *] Job networking.service/start running (58s / 5min 6s)
-[    **] Job networking.service/start running (59s / 5min 6s)
-[   ***] Job networking.service/start running (59s / 5min 6s)
-[  *** ] Job networking.service/start running (1min / 5min 6s)
-[ ***  ] Job networking.service/start running (1min / 5min 6s)
-[***   ] Job networking.service/start running (1min 1s / 5min 6s)
-[**    ] Job networking.service/start running (1min 1s / 5min 6s)
-[*     ] Job networking.service/start running (1min 2s / 5min 6s)
-[**    ] Job networking.service/start running (1min 2s / 5min 6s)
-[***   ] Job networking.service/start running (1min 3s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 3s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 4s / 5min 6s)
-[   ***] Job networking.service/start running (1min 4s / 5min 6s)
-[    **] Job networking.service/start running (1min 5s / 5min 6s)
-[     *] Job networking.service/start running (1min 5s / 5min 6s)
-[    **] Job networking.service/start running (1min 6s / 5min 6s)
-[   ***] Job networking.service/start running (1min 6s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 7s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 7s / 5min 6s)
-[***   ] Job networking.service/start running (1min 8s / 5min 6s)
-[**    ] Job networking.service/start running (1min 8s / 5min 6s)
-[*     ] Job networking.service/start running (1min 9s / 5min 6s)
-[**    ] Job networking.service/start running (1min 9s / 5min 6s)
-[***   ] Job networking.service/start running (1min 10s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 10s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 11s / 5min 6s)
-[   ***] Job networking.service/start running (1min 11s / 5min 6s)
-[    **] Job networking.service/start running (1min 12s / 5min 6s)
-[     *] Job networking.service/start running (1min 12s / 5min 6s)
-[    **] Job networking.service/start running (1min 13s / 5min 6s)
-[   ***] Job networking.service/start running (1min 13s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 14s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 14s / 5min 6s)
-[***   ] Job networking.service/start running (1min 15s / 5min 6s)
-[**    ] Job networking.service/start running (1min 15s / 5min 6s)
-[*     ] Job networking.service/start running (1min 16s / 5min 6s)
-[**    ] Job networking.service/start running (1min 16s / 5min 6s)
-[***   ] Job networking.service/start running (1min 17s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 17s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 18s / 5min 6s)
-[   ***] Job networking.service/start running (1min 18s / 5min 6s)
-[    **] Job networking.service/start running (1min 19s / 5min 6s)
-[     *] Job networking.service/start running (1min 19s / 5min 6s)
-[    **] Job networking.service/start running (1min 20s / 5min 6s)
-[   ***] Job networking.service/start running (1min 20s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 21s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 21s / 5min 6s)
-[***   ] Job networking.service/start running (1min 22s / 5min 6s)
-[**    ] Job networking.service/start running (1min 22s / 5min 6s)
-[*     ] Job networking.service/start running (1min 23s / 5min 6s)
-[**    ] Job networking.service/start running (1min 23s / 5min 6s)
-[***   ] Job networking.service/start running (1min 24s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 24s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 25s / 5min 6s)
-[   ***] Job networking.service/start running (1min 25s / 5min 6s)
-[    **] Job networking.service/start running (1min 26s / 5min 6s)
-[     *] Job networking.service/start running (1min 26s / 5min 6s)
-[    **] Job networking.service/start running (1min 27s / 5min 6s)
-[   ***] Job networking.service/start running (1min 27s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 28s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 28s / 5min 6s)
-[***   ] Job networking.service/start running (1min 29s / 5min 6s)
-[**    ] Job networking.service/start running (1min 29s / 5min 6s)
-[*     ] Job networking.service/start running (1min 30s / 5min 6s)
-[**    ] Job networking.service/start running (1min 30s / 5min 6s)
-[***   ] Job networking.service/start running (1min 31s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 31s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 32s / 5min 6s)
-[   ***] Job networking.service/start running (1min 32s / 5min 6s)
-[    **] Job networking.service/start running (1min 33s / 5min 6s)
-[     *] Job networking.service/start running (1min 33s / 5min 6s)
-[    **] Job networking.service/start running (1min 34s / 5min 6s)
-[   ***] Job networking.service/start running (1min 34s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 35s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 35s / 5min 6s)
-[***   ] Job networking.service/start running (1min 36s / 5min 6s)
-[**    ] Job networking.service/start running (1min 36s / 5min 6s)
-[*     ] Job networking.service/start running (1min 37s / 5min 6s)
-[**    ] Job networking.service/start running (1min 37s / 5min 6s)
-[***   ] Job networking.service/start running (1min 38s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 38s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 39s / 5min 6s)
-[   ***] Job networking.service/start running (1min 39s / 5min 6s)
-[    **] Job networking.service/start running (1min 40s / 5min 6s)
-[     *] Job networking.service/start running (1min 40s / 5min 6s)
-[    **] Job networking.service/start running (1min 41s / 5min 6s)
-[   ***] Job networking.service/start running (1min 41s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 42s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 42s / 5min 6s)
-[***   ] Job networking.service/start running (1min 43s / 5min 6s)
-[**    ] Job networking.service/start running (1min 43s / 5min 6s)
-[*     ] Job networking.service/start running (1min 44s / 5min 6s)
-[**    ] Job networking.service/start running (1min 44s / 5min 6s)
-[***   ] Job networking.service/start running (1min 45s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 45s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 46s / 5min 6s)
-[   ***] Job networking.service/start running (1min 46s / 5min 6s)
-[    **] Job networking.service/start running (1min 47s / 5min 6s)
-[     *] Job networking.service/start running (1min 47s / 5min 6s)
-[    **] Job networking.service/start running (1min 48s / 5min 6s)
-[   ***] Job networking.service/start running (1min 48s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 49s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 49s / 5min 6s)
-[***   ] Job networking.service/start running (1min 50s / 5min 6s)
-[**    ] Job networking.service/start running (1min 50s / 5min 6s)
-[*     ] Job networking.service/start running (1min 51s / 5min 6s)
-[**    ] Job networking.service/start running (1min 51s / 5min 6s)
-[***   ] Job networking.service/start running (1min 52s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 52s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 53s / 5min 6s)
-[   ***] Job networking.service/start running (1min 53s / 5min 6s)
-[    **] Job networking.service/start running (1min 54s / 5min 6s)
-[     *] Job networking.service/start running (1min 54s / 5min 6s)
-[    **] Job networking.service/start running (1min 55s / 5min 6s)
-[   ***] Job networking.service/start running (1min 55s / 5min 6s)
-[  *** ] Job networking.service/start running (1min 56s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 56s / 5min 6s)
-[***   ] Job networking.service/start running (1min 57s / 5min 6s)
-[**    ] Job networking.service/start running (1min 57s / 5min 6s)
-[*     ] Job networking.service/start running (1min 58s / 5min 6s)
-[**    ] Job networking.service/start running (1min 58s / 5min 6s)
-[***   ] Job networking.service/start running (1min 59s / 5min 6s)
-[ ***  ] Job networking.service/start running (1min 59s / 5min 6s)
-[  *** ] Job networking.service/start running (2min / 5min 6s)
-[   ***] Job networking.service/start running (2min / 5min 6s)
-[    **] Job networking.service/start running (2min 1s / 5min 6s)
-[     *] Job networking.service/start running (2min 1s / 5min 6s)
-[    **] Job networking.service/start running (2min 2s / 5min 6s)
-[   ***] Job networking.service/start running (2min 2s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 3s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 3s / 5min 6s)
-[***   ] Job networking.service/start running (2min 4s / 5min 6s)
-[**    ] Job networking.service/start running (2min 4s / 5min 6s)
-[*     ] Job networking.service/start running (2min 5s / 5min 6s)
-[**    ] Job networking.service/start running (2min 5s / 5min 6s)
-[***   ] Job networking.service/start running (2min 6s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 6s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 7s / 5min 6s)
-[   ***] Job networking.service/start running (2min 7s / 5min 6s)
-[    **] Job networking.service/start running (2min 8s / 5min 6s)
-[     *] Job networking.service/start running (2min 8s / 5min 6s)
-[    **] Job networking.service/start running (2min 9s / 5min 6s)
-[   ***] Job networking.service/start running (2min 9s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 10s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 10s / 5min 6s)
-[***   ] Job networking.service/start running (2min 11s / 5min 6s)
-[**    ] Job networking.service/start running (2min 11s / 5min 6s)
-[*     ] Job networking.service/start running (2min 12s / 5min 6s)
-[**    ] Job networking.service/start running (2min 12s / 5min 6s)
-[***   ] Job networking.service/start running (2min 13s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 13s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 14s / 5min 6s)
-[   ***] Job networking.service/start running (2min 14s / 5min 6s)
-[    **] Job networking.service/start running (2min 15s / 5min 6s)
-[     *] Job networking.service/start running (2min 15s / 5min 6s)
-[    **] Job networking.service/start running (2min 16s / 5min 6s)
-[   ***] Job networking.service/start running (2min 16s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 17s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 17s / 5min 6s)
-[***   ] Job networking.service/start running (2min 18s / 5min 6s)
-[**    ] Job networking.service/start running (2min 18s / 5min 6s)
-[*     ] Job networking.service/start running (2min 19s / 5min 6s)
-[**    ] Job networking.service/start running (2min 19s / 5min 6s)
-[***   ] Job networking.service/start running (2min 20s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 20s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 21s / 5min 6s)
-[   ***] Job networking.service/start running (2min 21s / 5min 6s)
-[    **] Job networking.service/start running (2min 22s / 5min 6s)
-[     *] Job networking.service/start running (2min 22s / 5min 6s)
-[    **] Job networking.service/start running (2min 23s / 5min 6s)
-[   ***] Job networking.service/start running (2min 23s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 24s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 24s / 5min 6s)
-[***   ] Job networking.service/start running (2min 25s / 5min 6s)
-[**    ] Job networking.service/start running (2min 25s / 5min 6s)
-[*     ] Job networking.service/start running (2min 26s / 5min 6s)
-[**    ] Job networking.service/start running (2min 26s / 5min 6s)
-[***   ] Job networking.service/start running (2min 27s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 27s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 28s / 5min 6s)
-[   ***] Job networking.service/start running (2min 28s / 5min 6s)
-[    **] Job networking.service/start running (2min 29s / 5min 6s)
-[     *] Job networking.service/start running (2min 29s / 5min 6s)
-[    **] Job networking.service/start running (2min 30s / 5min 6s)
-[   ***] Job networking.service/start running (2min 30s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 31s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 31s / 5min 6s)
-[***   ] Job networking.service/start running (2min 32s / 5min 6s)
-[**    ] Job networking.service/start running (2min 32s / 5min 6s)
-[*     ] Job networking.service/start running (2min 33s / 5min 6s)
-[**    ] Job networking.service/start running (2min 33s / 5min 6s)
-[***   ] Job networking.service/start running (2min 34s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 34s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 35s / 5min 6s)
-[   ***] Job networking.service/start running (2min 35s / 5min 6s)
-[    **] Job networking.service/start running (2min 36s / 5min 6s)
-[     *] Job networking.service/start running (2min 36s / 5min 6s)
-[    **] Job networking.service/start running (2min 37s / 5min 6s)
-[   ***] Job networking.service/start running (2min 37s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 38s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 38s / 5min 6s)
-[***   ] Job networking.service/start running (2min 39s / 5min 6s)
-[**    ] Job networking.service/start running (2min 39s / 5min 6s)
-[*     ] Job networking.service/start running (2min 40s / 5min 6s)
-[**    ] Job networking.service/start running (2min 40s / 5min 6s)
-[***   ] Job networking.service/start running (2min 41s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 41s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 42s / 5min 6s)
-[   ***] Job networking.service/start running (2min 42s / 5min 6s)
-[    **] Job networking.service/start running (2min 43s / 5min 6s)
-[     *] Job networking.service/start running (2min 43s / 5min 6s)
-[    **] Job networking.service/start running (2min 44s / 5min 6s)
-[   ***] Job networking.service/start running (2min 44s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 45s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 45s / 5min 6s)
-[***   ] Job networking.service/start running (2min 46s / 5min 6s)
-[**    ] Job networking.service/start running (2min 46s / 5min 6s)
-[*     ] Job networking.service/start running (2min 47s / 5min 6s)
-[**    ] Job networking.service/start running (2min 47s / 5min 6s)
-[***   ] Job networking.service/start running (2min 48s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 48s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 49s / 5min 6s)
-[   ***] Job networking.service/start running (2min 49s / 5min 6s)
-[    **] Job networking.service/start running (2min 50s / 5min 6s)
-[     *] Job networking.service/start running (2min 50s / 5min 6s)
-[    **] Job networking.service/start running (2min 51s / 5min 6s)
-[   ***] Job networking.service/start running (2min 51s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 52s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 52s / 5min 6s)
-[***   ] Job networking.service/start running (2min 53s / 5min 6s)
-[**    ] Job networking.service/start running (2min 53s / 5min 6s)
-[*     ] Job networking.service/start running (2min 54s / 5min 6s)
-[**    ] Job networking.service/start running (2min 54s / 5min 6s)
-[***   ] Job networking.service/start running (2min 55s / 5min 6s)
-[ ***  ] Job networking.service/start running (2min 55s / 5min 6s)
-[  *** ] Job networking.service/start running (2min 56s / 5min 6s)
-[   ***] Job networking.service/start running (2min 56s / 5min 6s)
-[    **] Job networking.service/start running (2min 57s / 5min 6s)
-[     *] Job networking.service/start running (2min 57s / 5min 6s)
-[    **] Job networking.service/start running (2min 58s / 5min 6s)
+[   30.327267] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[   30.331844] Bluetooth: hci0: BCM: chip id 62
+[   30.337277] cfg80211: Loaded X.509 cert 'benh@debian.org: 577e021cb980e0e820821ba7b54b4961b8b4fadf'
+[   30.342267] Bluetooth: hci0: BCM: features 0x0f
+[   30.350400] cfg80211: Loaded X.509 cert 'romain.perier@gmail.com: 3abbc6ec146e09d1b6016ab9d6cf71dd233f0328'
+[   30.364496] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[   30.375917] platform regulatory.0: firmware: failed to load regulatory.db (-2)
+[   30.377006] Bluetooth: hci0: BCM4330B1
+[   30.383311] firmware_class: See https://wiki.debian.org/Firmware for information about missing firmware
+[   30.383495] platform regulatory.0: firmware: failed to load regulatory.db (-2)
+[   30.387239] Bluetooth: hci0: BCM4330B1 (002.001.003) build 0000
+[   30.396651] platform regulatory.0: Direct firmware load for regulatory.db failed with error -2
+[   30.405961] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.cubietech,cubietruck-plus.hcd (-2)
+[   30.409961] cfg80211: failed to load regulatory.db
+[   30.434112] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.cubietech,cubietruck-plus.hcd (-2)
+[   30.444017] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.hcd (-2)
+         Starting systemd-rfkill.se…Load/Save RF Kill[   30.451785] bluetooth hci0: firmware: failed to load brcm/BCM4330B1.hcd (-2)
+ Switch Status...
+[   30.464630] bluetooth hci0: firmware: failed to load brcm/BCM.cubietech,cubietruck-plus.hcd (-2)
+[   30.464718] brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac4330-sdio for chip BCM4330/4
+[   30.474729] bluetooth hci0: firmware: failed to load brcm/BCM.cubietech,cubietruck-plus.hcd (-2)
+[   30.483446] brcmfmac mmc2:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.bin (-2)
+[   30.492341] bluetooth hci0: firmware: failed to load brcm/BCM.hcd (-2)
+[   30.494139] usbcore: registered new interface driver brcmfmac
+[   30.502813] brcmfmac mmc2:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.bin (-2)
+[   30.509919] bluetooth hci0: firmware: failed to load brcm/BCM.hcd (-2)
+[   30.515381] brcmfmac mmc2:0001:1: Direct firmware load for brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.bin failed with error -2
+[   30.526013] Bluetooth: hci0: BCM: firmware Patch file not found, tried:
+[   30.545704] brcmfmac mmc2:0001:1: firmware: direct-loading firmware brcm/brcmfmac4330-sdio.bin
+[   30.551145] Bluetooth: hci0: BCM: 'brcm/BCM4330B1.cubietech,cubietruck-plus.hcd'
+[   30.567241] Bluetooth: hci0: BCM: 'brcm/BCM4330B1.hcd'
+[   30.567259] Bluetooth: hci0: BCM: 'brcm/BCM.cubietech,cubietruck-plus.hcd'
+[   30.567265] Bluetooth: hci0: BCM: 'brcm/BCM.hcd'
+[  OK  ] Started systemd-rfkill.ser…- Load[   30.586900] brcmfmac mmc2:0001:1: firmware: direct-loading firmware brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.txt
+/Save RF Kill Switch Status.
+[   30.614648] brcmfmac mmc2:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.clm_blob (-2)
+[   30.625887] brcmfmac mmc2:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.cubietech,cubietruck-plus.clm_blob (-2)
+[   30.637065] brcmfmac mmc2:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.clm_blob (-2)
+[   30.645949] brcmfmac mmc2:0001:1: firmware: failed to load brcm/brcmfmac4330-sdio.clm_blob (-2)
+[   30.654693] brcmfmac mmc2:0001:1: Direct firmware load for brcm/brcmfmac4330-sdio.clm_blob failed with error -2
+[**    ] Job networking.service/start running (19s / 5min 7s)
+[***   ] Job networking.service/start running (19s / 5min 7s)
+[ ***  ] Job networking.service/start running (20s / 5min 7s)
+[  *** ] Job networking.service/start running (20s / 5min 7s)
+[   ***] Job networking.service/start running (21s / 5min 7s)
+[    **] Job networking.service/start running (21s / 5min 7s)
+[     *] Job networking.service/start running (22s / 5min 7s)
+[    **] Job networking.service/start running (22s / 5min 7s)
+[   ***] Job networking.service/start running (23s / 5min 7s)
+[  *** ] Job networking.service/start running (23s / 5min 7s)
+[ ***  ] Job networking.service/start running (24s / 5min 7s)
+[   37.853840] vdd-gpu: disabling
+[***   ] Job networking.service/start running (24s / 5min 7s)
+[**    ] Job networking.service/start running (25s / 5min 7s)
+[*     ] Job networking.service/start running (25s / 5min 7s)
+[**    ] Job networking.service/start running (26s / 5min 7s)
+[***   ] Job networking.service/start running (26s / 5min 7s)
+[ ***  ] Job networking.service/start running (27s / 5min 7s)
+[  *** ] Job networking.service/start running (27s / 5min 7s)
+[   ***] Job networking.service/start running (28s / 5min 7s)
+[    **] Job networking.service/start running (28s / 5min 7s)
+[     *] Job networking.service/start running (29s / 5min 7s)
+[    **] Job networking.service/start running (29s / 5min 7s)
+[   ***] Job networking.service/start running (30s / 5min 7s)
+[  *** ] Job networking.service/start running (30s / 5min 7s)
+[ ***  ] Job networking.service/start running (31s / 5min 7s)
+[***   ] Job networking.service/start running (31s / 5min 7s)
+[**    ] Job networking.service/start running (32s / 5min 7s)
+[*     ] Job networking.service/start running (32s / 5min 7s)
+[**    ] Job networking.service/start running (33s / 5min 7s)
+[***   ] Job networking.service/start running (33s / 5min 7s)
+[ ***  ] Job networking.service/start running (34s / 5min 7s)
+[  *** ] Job networking.service/start running (34s / 5min 7s)
+[   ***] Job networking.service/start running (35s / 5min 7s)
+[    **] Job networking.service/start running (35s / 5min 7s)
+[     *] Job networking.service/start running (36s / 5min 7s)
+[    **] Job networking.service/start running (36s / 5min 7s)
+[   ***] Job networking.service/start running (37s / 5min 7s)
+[  *** ] Job networking.service/start running (37s / 5min 7s)
+[ ***  ] Job networking.service/start running (38s / 5min 7s)
+[***   ] Job networking.service/start running (38s / 5min 7s)
+[**    ] Job networking.service/start running (39s / 5min 7s)
+[*     ] Job networking.service/start running (39s / 5min 7s)
+[**    ] Job networking.service/start running (40s / 5min 7s)
+[***   ] Job networking.service/start running (40s / 5min 7s)
+[ ***  ] Job networking.service/start running (41s / 5min 7s)
+[  *** ] Job networking.service/start running (41s / 5min 7s)
+[   ***] Job networking.service/start running (42s / 5min 7s)
+[    **] Job networking.service/start running (42s / 5min 7s)
+[     *] Job networking.service/start running (43s / 5min 7s)
+[    **] Job networking.service/start running (43s / 5min 7s)
+[   ***] Job networking.service/start running (44s / 5min 7s)
+[  *** ] Job networking.service/start running (44s / 5min 7s)
+[ ***  ] Job networking.service/start running (45s / 5min 7s)
+[***   ] Job networking.service/start running (45s / 5min 7s)
+[**    ] Job networking.service/start running (46s / 5min 7s)
+[*     ] Job networking.service/start running (46s / 5min 7s)
+[**    ] Job networking.service/start running (47s / 5min 7s)
+[***   ] Job networking.service/start running (47s / 5min 7s)
+[ ***  ] Job networking.service/start running (48s / 5min 7s)
+[  *** ] Job networking.service/start running (48s / 5min 7s)
+[   ***] Job networking.service/start running (49s / 5min 7s)
+[    **] Job networking.service/start running (49s / 5min 7s)
+[     *] Job networking.service/start running (50s / 5min 7s)
+[    **] Job networking.service/start running (50s / 5min 7s)
+[   ***] Job networking.service/start running (51s / 5min 7s)
+[  *** ] Job networking.service/start running (51s / 5min 7s)
+[ ***  ] Job networking.service/start running (52s / 5min 7s)
+[***   ] Job networking.service/start running (52s / 5min 7s)
+[**    ] Job networking.service/start running (53s / 5min 7s)
+[*     ] Job networking.service/start running (53s / 5min 7s)
+[**    ] Job networking.service/start running (54s / 5min 7s)
+[***   ] Job networking.service/start running (54s / 5min 7s)
+[ ***  ] Job networking.service/start running (55s / 5min 7s)
+[  *** ] Job networking.service/start running (55s / 5min 7s)
+[   ***] Job networking.service/start running (56s / 5min 7s)
+[    **] Job networking.service/start running (56s / 5min 7s)
+[     *] Job networking.service/start running (57s / 5min 7s)
+[    **] Job networking.service/start running (57s / 5min 7s)
+[   ***] Job networking.service/start running (58s / 5min 7s)
+[  *** ] Job networking.service/start running (58s / 5min 7s)
+[ ***  ] Job networking.service/start running (59s / 5min 7s)
+[***   ] Job networking.service/start running (59s / 5min 7s)
+[**    ] Job networking.service/start running (1min / 5min 7s)
+[*     ] Job networking.service/start running (1min / 5min 7s)
+[**    ] Job networking.service/start running (1min 1s / 5min 7s)
+[***   ] Job networking.service/start running (1min 1s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 2s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 2s / 5min 7s)
+[   ***] Job networking.service/start running (1min 3s / 5min 7s)
+[    **] Job networking.service/start running (1min 3s / 5min 7s)
+[     *] Job networking.service/start running (1min 4s / 5min 7s)
+[    **] Job networking.service/start running (1min 4s / 5min 7s)
+[   ***] Job networking.service/start running (1min 5s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 5s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 6s / 5min 7s)
+[***   ] Job networking.service/start running (1min 6s / 5min 7s)
+[**    ] Job networking.service/start running (1min 7s / 5min 7s)
+[*     ] Job networking.service/start running (1min 7s / 5min 7s)
+[**    ] Job networking.service/start running (1min 8s / 5min 7s)
+[***   ] Job networking.service/start running (1min 8s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 9s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 9s / 5min 7s)
+[   ***] Job networking.service/start running (1min 10s / 5min 7s)
+[    **] Job networking.service/start running (1min 10s / 5min 7s)
+[     *] Job networking.service/start running (1min 11s / 5min 7s)
+[    **] Job networking.service/start running (1min 11s / 5min 7s)
+[   ***] Job networking.service/start running (1min 12s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 12s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 13s / 5min 7s)
+[***   ] Job networking.service/start running (1min 13s / 5min 7s)
+[**    ] Job networking.service/start running (1min 14s / 5min 7s)
+[*     ] Job networking.service/start running (1min 14s / 5min 7s)
+[**    ] Job networking.service/start running (1min 15s / 5min 7s)
+[***   ] Job networking.service/start running (1min 15s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 16s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 16s / 5min 7s)
+[   ***] Job networking.service/start running (1min 17s / 5min 7s)
+[    **] Job networking.service/start running (1min 17s / 5min 7s)
+[     *] Job networking.service/start running (1min 18s / 5min 7s)
+[    **] Job networking.service/start running (1min 18s / 5min 7s)
+[   ***] Job networking.service/start running (1min 19s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 19s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 20s / 5min 7s)
+[***   ] Job networking.service/start running (1min 20s / 5min 7s)
+[**    ] Job networking.service/start running (1min 21s / 5min 7s)
+[*     ] Job networking.service/start running (1min 21s / 5min 7s)
+[**    ] Job networking.service/start running (1min 22s / 5min 7s)
+[***   ] Job networking.service/start running (1min 22s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 23s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 23s / 5min 7s)
+[   ***] Job networking.service/start running (1min 24s / 5min 7s)
+[    **] Job networking.service/start running (1min 24s / 5min 7s)
+[     *] Job networking.service/start running (1min 25s / 5min 7s)
+[    **] Job networking.service/start running (1min 25s / 5min 7s)
+[   ***] Job networking.service/start running (1min 26s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 26s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 27s / 5min 7s)
+[***   ] Job networking.service/start running (1min 27s / 5min 7s)
+[**    ] Job networking.service/start running (1min 28s / 5min 7s)
+[*     ] Job networking.service/start running (1min 28s / 5min 7s)
+[**    ] Job networking.service/start running (1min 29s / 5min 7s)
+[***   ] Job networking.service/start running (1min 29s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 30s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 30s / 5min 7s)
+[   ***] Job networking.service/start running (1min 31s / 5min 7s)
+[    **] Job networking.service/start running (1min 31s / 5min 7s)
+[     *] Job networking.service/start running (1min 32s / 5min 7s)
+[    **] Job networking.service/start running (1min 32s / 5min 7s)
+[   ***] Job networking.service/start running (1min 33s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 33s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 34s / 5min 7s)
+[***   ] Job networking.service/start running (1min 34s / 5min 7s)
+[**    ] Job networking.service/start running (1min 35s / 5min 7s)
+[*     ] Job networking.service/start running (1min 35s / 5min 7s)
+[**    ] Job networking.service/start running (1min 36s / 5min 7s)
+[***   ] Job networking.service/start running (1min 36s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 37s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 37s / 5min 7s)
+[   ***] Job networking.service/start running (1min 38s / 5min 7s)
+[    **] Job networking.service/start running (1min 38s / 5min 7s)
+[     *] Job networking.service/start running (1min 39s / 5min 7s)
+[    **] Job networking.service/start running (1min 39s / 5min 7s)
+[   ***] Job networking.service/start running (1min 40s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 40s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 41s / 5min 7s)
+[***   ] Job networking.service/start running (1min 41s / 5min 7s)
+[**    ] Job networking.service/start running (1min 42s / 5min 7s)
+[*     ] Job networking.service/start running (1min 42s / 5min 7s)
+[**    ] Job networking.service/start running (1min 43s / 5min 7s)
+[***   ] Job networking.service/start running (1min 43s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 44s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 44s / 5min 7s)
+[   ***] Job networking.service/start running (1min 45s / 5min 7s)
+[    **] Job networking.service/start running (1min 45s / 5min 7s)
+[     *] Job networking.service/start running (1min 46s / 5min 7s)
+[    **] Job networking.service/start running (1min 46s / 5min 7s)
+[   ***] Job networking.service/start running (1min 47s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 47s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 48s / 5min 7s)
+[***   ] Job networking.service/start running (1min 48s / 5min 7s)
+[**    ] Job networking.service/start running (1min 49s / 5min 7s)
+[*     ] Job networking.service/start running (1min 49s / 5min 7s)
+[**    ] Job networking.service/start running (1min 50s / 5min 7s)
+[***   ] Job networking.service/start running (1min 50s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 51s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 51s / 5min 7s)
+[   ***] Job networking.service/start running (1min 52s / 5min 7s)
+[    **] Job networking.service/start running (1min 52s / 5min 7s)
+[     *] Job networking.service/start running (1min 53s / 5min 7s)
+[    **] Job networking.service/start running (1min 53s / 5min 7s)
+[   ***] Job networking.service/start running (1min 54s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 54s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 55s / 5min 7s)
+[***   ] Job networking.service/start running (1min 55s / 5min 7s)
+[**    ] Job networking.service/start running (1min 56s / 5min 7s)
+[*     ] Job networking.service/start running (1min 56s / 5min 7s)
+[**    ] Job networking.service/start running (1min 57s / 5min 7s)
+[***   ] Job networking.service/start running (1min 57s / 5min 7s)
+[ ***  ] Job networking.service/start running (1min 58s / 5min 7s)
+[  *** ] Job networking.service/start running (1min 58s / 5min 7s)
+[   ***] Job networking.service/start running (1min 59s / 5min 7s)
+[    **] Job networking.service/start running (1min 59s / 5min 7s)
+[     *] Job networking.service/start running (2min / 5min 7s)
+[    **] Job networking.service/start running (2min / 5min 7s)
+[   ***] Job networking.service/start running (2min 1s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 1s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 2s / 5min 7s)
+[***   ] Job networking.service/start running (2min 2s / 5min 7s)
+[**    ] Job networking.service/start running (2min 3s / 5min 7s)
+[*     ] Job networking.service/start running (2min 3s / 5min 7s)
+[**    ] Job networking.service/start running (2min 4s / 5min 7s)
+[***   ] Job networking.service/start running (2min 4s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 5s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 5s / 5min 7s)
+[   ***] Job networking.service/start running (2min 6s / 5min 7s)
+[    **] Job networking.service/start running (2min 6s / 5min 7s)
+[     *] Job networking.service/start running (2min 7s / 5min 7s)
+[    **] Job networking.service/start running (2min 7s / 5min 7s)
+[   ***] Job networking.service/start running (2min 8s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 8s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 9s / 5min 7s)
+[***   ] Job networking.service/start running (2min 9s / 5min 7s)
+[**    ] Job networking.service/start running (2min 10s / 5min 7s)
+[*     ] Job networking.service/start running (2min 10s / 5min 7s)
+[**    ] Job networking.service/start running (2min 11s / 5min 7s)
+[***   ] Job networking.service/start running (2min 11s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 12s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 12s / 5min 7s)
+[   ***] Job networking.service/start running (2min 13s / 5min 7s)
+[    **] Job networking.service/start running (2min 13s / 5min 7s)
+[     *] Job networking.service/start running (2min 14s / 5min 7s)
+[    **] Job networking.service/start running (2min 14s / 5min 7s)
+[   ***] Job networking.service/start running (2min 15s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 15s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 16s / 5min 7s)
+[***   ] Job networking.service/start running (2min 16s / 5min 7s)
+[**    ] Job networking.service/start running (2min 17s / 5min 7s)
+[*     ] Job networking.service/start running (2min 17s / 5min 7s)
+[**    ] Job networking.service/start running (2min 18s / 5min 7s)
+[***   ] Job networking.service/start running (2min 18s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 19s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 19s / 5min 7s)
+[   ***] Job networking.service/start running (2min 20s / 5min 7s)
+[    **] Job networking.service/start running (2min 20s / 5min 7s)
+[     *] Job networking.service/start running (2min 21s / 5min 7s)
+[    **] Job networking.service/start running (2min 21s / 5min 7s)
+[   ***] Job networking.service/start running (2min 22s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 22s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 23s / 5min 7s)
+[***   ] Job networking.service/start running (2min 23s / 5min 7s)
+[**    ] Job networking.service/start running (2min 24s / 5min 7s)
+[*     ] Job networking.service/start running (2min 24s / 5min 7s)
+[**    ] Job networking.service/start running (2min 25s / 5min 7s)
+[***   ] Job networking.service/start running (2min 25s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 26s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 26s / 5min 7s)
+[   ***] Job networking.service/start running (2min 27s / 5min 7s)
+[    **] Job networking.service/start running (2min 27s / 5min 7s)
+[     *] Job networking.service/start running (2min 28s / 5min 7s)
+[    **] Job networking.service/start running (2min 28s / 5min 7s)
+[   ***] Job networking.service/start running (2min 29s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 29s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 30s / 5min 7s)
+[***   ] Job networking.service/start running (2min 30s / 5min 7s)
+[**    ] Job networking.service/start running (2min 31s / 5min 7s)
+[*     ] Job networking.service/start running (2min 31s / 5min 7s)
+[**    ] Job networking.service/start running (2min 32s / 5min 7s)
+[***   ] Job networking.service/start running (2min 32s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 33s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 33s / 5min 7s)
+[   ***] Job networking.service/start running (2min 34s / 5min 7s)
+[    **] Job networking.service/start running (2min 34s / 5min 7s)
+[     *] Job networking.service/start running (2min 35s / 5min 7s)
+[    **] Job networking.service/start running (2min 35s / 5min 7s)
+[   ***] Job networking.service/start running (2min 36s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 36s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 37s / 5min 7s)
+[***   ] Job networking.service/start running (2min 37s / 5min 7s)
+[**    ] Job networking.service/start running (2min 38s / 5min 7s)
+[*     ] Job networking.service/start running (2min 38s / 5min 7s)
+[**    ] Job networking.service/start running (2min 39s / 5min 7s)
+[***   ] Job networking.service/start running (2min 39s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 40s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 40s / 5min 7s)
+[   ***] Job networking.service/start running (2min 41s / 5min 7s)
+[    **] Job networking.service/start running (2min 41s / 5min 7s)
+[     *] Job networking.service/start running (2min 42s / 5min 7s)
+[    **] Job networking.service/start running (2min 42s / 5min 7s)
+[   ***] Job networking.service/start running (2min 43s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 43s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 44s / 5min 7s)
+[***   ] Job networking.service/start running (2min 44s / 5min 7s)
+[**    ] Job networking.service/start running (2min 45s / 5min 7s)
+[*     ] Job networking.service/start running (2min 45s / 5min 7s)
+[**    ] Job networking.service/start running (2min 46s / 5min 7s)
+[***   ] Job networking.service/start running (2min 46s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 47s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 47s / 5min 7s)
+[   ***] Job networking.service/start running (2min 48s / 5min 7s)
+[    **] Job networking.service/start running (2min 48s / 5min 7s)
+[     *] Job networking.service/start running (2min 49s / 5min 7s)
+[    **] Job networking.service/start running (2min 49s / 5min 7s)
+[   ***] Job networking.service/start running (2min 50s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 50s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 51s / 5min 7s)
+[***   ] Job networking.service/start running (2min 51s / 5min 7s)
+[**    ] Job networking.service/start running (2min 52s / 5min 7s)
+[*     ] Job networking.service/start running (2min 52s / 5min 7s)
+[**    ] Job networking.service/start running (2min 53s / 5min 7s)
+[***   ] Job networking.service/start running (2min 53s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 54s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 54s / 5min 7s)
+[   ***] Job networking.service/start running (2min 55s / 5min 7s)
+[    **] Job networking.service/start running (2min 55s / 5min 7s)
+[     *] Job networking.service/start running (2min 56s / 5min 7s)
+[    **] Job networking.service/start running (2min 56s / 5min 7s)
+[   ***] Job networking.service/start running (2min 57s / 5min 7s)
+[  *** ] Job networking.service/start running (2min 57s / 5min 7s)
+[ ***  ] Job networking.service/start running (2min 58s / 5min 7s)
+[***   ] Job networking.service/start running (2min 58s / 5min 7s)
+[**    ] Job networking.service/start running (2min 59s / 5min 7s)
+[*     ] Job networking.service/start running (2min 59s / 5min 7s)
+[**    ] Job networking.service/start running (3min / 5min 7s)
+[***   ] Job networking.service/start running (3min / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 1s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 1s / 5min 7s)
+[   ***] Job networking.service/start running (3min 2s / 5min 7s)
+[    **] Job networking.service/start running (3min 2s / 5min 7s)
+[     *] Job networking.service/start running (3min 3s / 5min 7s)
+[    **] Job networking.service/start running (3min 3s / 5min 7s)
+[   ***] Job networking.service/start running (3min 4s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 4s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 5s / 5min 7s)
+[***   ] Job networking.service/start running (3min 5s / 5min 7s)
+[**    ] Job networking.service/start running (3min 6s / 5min 7s)
+[*     ] Job networking.service/start running (3min 6s / 5min 7s)
+[**    ] Job networking.service/start running (3min 7s / 5min 7s)
+[***   ] Job networking.service/start running (3min 7s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 8s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 8s / 5min 7s)
+[   ***] Job networking.service/start running (3min 9s / 5min 7s)
+[    **] Job networking.service/start running (3min 9s / 5min 7s)
+[     *] Job networking.service/start running (3min 10s / 5min 7s)
+[    **] Job networking.service/start running (3min 10s / 5min 7s)
+[   ***] Job networking.service/start running (3min 11s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 11s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 12s / 5min 7s)
+[***   ] Job networking.service/start running (3min 12s / 5min 7s)
+[**    ] Job networking.service/start running (3min 13s / 5min 7s)
+[*     ] Job networking.service/start running (3min 13s / 5min 7s)
+[**    ] Job networking.service/start running (3min 14s / 5min 7s)
+[***   ] Job networking.service/start running (3min 14s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 15s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 15s / 5min 7s)
+[   ***] Job networking.service/start running (3min 16s / 5min 7s)
+[    **] Job networking.service/start running (3min 16s / 5min 7s)
+[     *] Job networking.service/start running (3min 17s / 5min 7s)
+[    **] Job networking.service/start running (3min 17s / 5min 7s)
+[   ***] Job networking.service/start running (3min 18s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 18s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 19s / 5min 7s)
+[***   ] Job networking.service/start running (3min 19s / 5min 7s)
+[**    ] Job networking.service/start running (3min 20s / 5min 7s)
+[*     ] Job networking.service/start running (3min 20s / 5min 7s)
+[**    ] Job networking.service/start running (3min 21s / 5min 7s)
+[***   ] Job networking.service/start running (3min 21s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 22s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 22s / 5min 7s)
+[   ***] Job networking.service/start running (3min 23s / 5min 7s)
+[    **] Job networking.service/start running (3min 23s / 5min 7s)
+[     *] Job networking.service/start running (3min 24s / 5min 7s)
+[    **] Job networking.service/start running (3min 24s / 5min 7s)
+[   ***] Job networking.service/start running (3min 25s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 25s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 26s / 5min 7s)
+[***   ] Job networking.service/start running (3min 26s / 5min 7s)
+[**    ] Job networking.service/start running (3min 27s / 5min 7s)
+[*     ] Job networking.service/start running (3min 27s / 5min 7s)
+[**    ] Job networking.service/start running (3min 28s / 5min 7s)
+[***   ] Job networking.service/start running (3min 28s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 29s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 29s / 5min 7s)
+[   ***] Job networking.service/start running (3min 30s / 5min 7s)
+[    **] Job networking.service/start running (3min 30s / 5min 7s)
+[     *] Job networking.service/start running (3min 31s / 5min 7s)
+[    **] Job networking.service/start running (3min 31s / 5min 7s)
+[   ***] Job networking.service/start running (3min 32s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 32s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 33s / 5min 7s)
+[***   ] Job networking.service/start running (3min 33s / 5min 7s)
+[**    ] Job networking.service/start running (3min 34s / 5min 7s)
+[*     ] Job networking.service/start running (3min 34s / 5min 7s)
+[**    ] Job networking.service/start running (3min 35s / 5min 7s)
+[***   ] Job networking.service/start running (3min 35s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 36s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 36s / 5min 7s)
+[   ***] Job networking.service/start running (3min 37s / 5min 7s)
+[    **] Job networking.service/start running (3min 37s / 5min 7s)
+[     *] Job networking.service/start running (3min 38s / 5min 7s)
+[    **] Job networking.service/start running (3min 38s / 5min 7s)
+[   ***] Job networking.service/start running (3min 39s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 39s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 40s / 5min 7s)
+[***   ] Job networking.service/start running (3min 40s / 5min 7s)
+[**    ] Job networking.service/start running (3min 41s / 5min 7s)
+[*     ] Job networking.service/start running (3min 41s / 5min 7s)
+[**    ] Job networking.service/start running (3min 42s / 5min 7s)
+[***   ] Job networking.service/start running (3min 42s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 43s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 43s / 5min 7s)
+[   ***] Job networking.service/start running (3min 44s / 5min 7s)
+[    **] Job networking.service/start running (3min 44s / 5min 7s)
+[     *] Job networking.service/start running (3min 45s / 5min 7s)
+[    **] Job networking.service/start running (3min 45s / 5min 7s)
+[   ***] Job networking.service/start running (3min 46s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 46s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 47s / 5min 7s)
+[***   ] Job networking.service/start running (3min 47s / 5min 7s)
+[**    ] Job networking.service/start running (3min 48s / 5min 7s)
+[*     ] Job networking.service/start running (3min 48s / 5min 7s)
+[**    ] Job networking.service/start running (3min 49s / 5min 7s)
+[  242.653787] INFO: task kworker/6:1:78 blocked for more than 120 seconds.
+[  242.660607]       Not tainted 6.1.0-10-armmp-lpae #1 Debian 6.1.38-2
+[  242.667036] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  242.674963] task:kworker/6:1     state:D stack:0     pid:78    ppid:2      flags:0x00000000
+[  242.683418] Workqueue: events request_firmware_work_func
+[  242.688896]  __schedule from schedule+0x54/0xe8
+[  242.693556]  schedule from schedule_timeout+0x128/0x154
+[  242.698914]  schedule_timeout from __wait_for_common+0x98/0x1e0
+[  242.704969]  __wait_for_common from mmc_wait_for_req_done+0x84/0xd4
+[  242.711351]  mmc_wait_for_req_done from mmc_io_rw_extended+0x234/0x340
+[  242.717972]  mmc_io_rw_extended from sdio_io_rw_ext_helper+0x108/0x204
+[  242.724597]  sdio_io_rw_ext_helper from sdio_memcpy_toio+0x2c/0x34
+[  242.730868]  sdio_memcpy_toio from brcmf_sdiod_ramrw+0xd0/0x214 [brcmfmac]
+[  242.738234]  brcmf_sdiod_ramrw [brcmfmac] from brcmf_sdio_firmware_callback+0x124/0x900 [brcmfmac]
+[  242.747643]  brcmf_sdio_firmware_callback [brcmfmac] from brcmf_fw_request_done+0x160/0x18c [brcmfmac]
+[  242.757393]  brcmf_fw_request_done [brcmfmac] from request_firmware_work_func+0x58/0x9c
+[  242.765711]  request_firmware_work_func from process_one_work+0x1f8/0x4b4
+[  242.772614]  process_one_work from worker_thread+0x54/0x50c
+[  242.778298]  worker_thread from kthread+0xd8/0xf4
+[  242.783113]  kthread from ret_from_fork+0x14/0x34
+[  242.787916] Exception stack(0xf0e81fb0 to 0xf0e81ff8)
+[  242.793043] 1fa0:                                     00000000 00000000 00000000 00000000
+[  242.801286] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  242.809540] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[***   ] Job networking.service/start running (3min 49s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 50s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 50s / 5min 7s)
+[   ***] Job networking.service/start running (3min 51s / 5min 7s)
+[    **] Job networking.service/start running (3min 51s / 5min 7s)
+[     *] Job networking.service/start running (3min 52s / 5min 7s)
+[    **] Job networking.service/start running (3min 52s / 5min 7s)
+[   ***] Job networking.service/start running (3min 53s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 53s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 54s / 5min 7s)
+[***   ] Job networking.service/start running (3min 54s / 5min 7s)
+[**    ] Job networking.service/start running (3min 55s / 5min 7s)
+[*     ] Job networking.service/start running (3min 55s / 5min 7s)
+[**    ] Job networking.service/start running (3min 56s / 5min 7s)
+[***   ] Job networking.service/start running (3min 56s / 5min 7s)
+[ ***  ] Job networking.service/start running (3min 57s / 5min 7s)
+[  *** ] Job networking.service/start running (3min 57s / 5min 7s)
+[   ***] Job networking.service/start running (3min 58s / 5min 7s)
+[    **] Job networking.service/start running (3min 58s / 5min 7s)
+[     *] Job networking.service/start running (3min 59s / 5min 7s)
+[    **] Job networking.service/start running (3min 59s / 5min 7s)
+[   ***] Job networking.service/start running (4min / 5min 7s)
+[  *** ] Job networking.service/start running (4min / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 1s / 5min 7s)
+[***   ] Job networking.service/start running (4min 1s / 5min 7s)
+[**    ] Job networking.service/start running (4min 2s / 5min 7s)
+[*     ] Job networking.service/start running (4min 2s / 5min 7s)
+[**    ] Job networking.service/start running (4min 3s / 5min 7s)
+[***   ] Job networking.service/start running (4min 3s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 4s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 4s / 5min 7s)
+[   ***] Job networking.service/start running (4min 5s / 5min 7s)
+[    **] Job networking.service/start running (4min 5s / 5min 7s)
+[     *] Job networking.service/start running (4min 6s / 5min 7s)
+[    **] Job networking.service/start running (4min 6s / 5min 7s)
+[   ***] Job networking.service/start running (4min 7s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 7s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 8s / 5min 7s)
+[***   ] Job networking.service/start running (4min 8s / 5min 7s)
+[**    ] Job networking.service/start running (4min 9s / 5min 7s)
+[*     ] Job networking.service/start running (4min 9s / 5min 7s)
+[**    ] Job networking.service/start running (4min 10s / 5min 7s)
+[***   ] Job networking.service/start running (4min 10s / 5min 7s)
+[  263.915201] ehci-platform 1c1b000.usb: port 1 reset error -110
+[ ***  ] Job networking.service/start running (4min 11s / 5min 7s)
+[  264.823089] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 11s / 5min 7s)
+[   ***] Job networking.service/start running (4min 12s / 5min 7s)
+[  265.659085] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 12s / 5min 7s)
+[     *] Job networking.service/start running (4min 13s / 5min 7s)
+[  266.495094] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 13s / 5min 7s)
+[  267.331084] ehci-platform 1c1b000.usb: port 1 reset error -110
+[   ***] Job networking.service/start running (4min 14s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 14s / 5min 7s)
+[  268.027089] ehci-platform 1c1b000.usb: port 1 reset error -110
+[ ***  ] Job networking.service/start running (4min 15s / 5min 7s)
+[***   ] Job networking.service/start running (4min 15s / 5min 7s)
+[  268.931097] ehci-platform 1c1b000.usb: port 1 reset error -110
+[**    ] Job networking.service/start running (4min 16s / 5min 7s)
+[  269.767090] ehci-platform 1c1b000.usb: port 1 reset error -110
+[*     ] Job networking.service/start running (4min 16s / 5min 7s)
+[**    ] Job networking.service/start running (4min 17s / 5min 7s)
+[  270.603096] ehci-platform 1c1b000.usb: port 1 reset error -110
+[***   ] Job networking.service/start running (4min 17s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 18s / 5min 7s)
+[  271.439119] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 18s / 5min 7s)
+[  272.135083] ehci-platform 1c1b000.usb: port 1 reset error -110
+[   ***] Job networking.service/start running (4min 19s / 5min 7s)
+[    **] Job networking.service/start running (4min 19s / 5min 7s)
+[  273.039123] ehci-platform 1c1b000.usb: port 1 reset error -110
+[     *] Job networking.service/start running (4min 20s / 5min 7s)
+[  273.875199] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 20s / 5min 7s)
+[   ***] Job networking.service/start running (4min 21s / 5min 7s)
+[  274.711087] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 21s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 22s / 5min 7s)
+[  275.547206] ehci-platform 1c1b000.usb: port 1 reset error -110
+[***   ] Job networking.service/start running (4min 22s / 5min 7s)
+[  276.243085] ehci-platform 1c1b000.usb: port 1 reset error -110
+[**    ] Job networking.service/start running (4min 23s / 5min 7s)
+[*     ] Job networking.service/start running (4min 23s / 5min 7s)
+[  277.147093] ehci-platform 1c1b000.usb: port 1 reset error -110
+[**    ] Job networking.service/start running (4min 24s / 5min 7s)
+[***   ] Job networking.service/start running (4min 24s / 5min 7s)
+[  277.983090] ehci-platform 1c1b000.usb: port 1 reset error -110
+[ ***  ] Job networking.service/start running (4min 25s / 5min 7s)
+[  278.819083] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 25s / 5min 7s)
+[   ***] Job networking.service/start running (4min 26s / 5min 7s)
+[  279.655167] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 26s / 5min 7s)
+[  280.282014] usb 3-1: USB disconnect, device number 2
+[     *] Job networking.service/start running (4min 27s / 5min 7s)
+[  280.459101] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 27s / 5min 7s)
+[  281.363093] ehci-platform 1c1b000.usb: port 1 reset error -110
+[   ***] Job networking.service/start running (4min 28s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 28s / 5min 7s)
+[  282.199087] ehci-platform 1c1b000.usb: port 1 reset error -110
+[ ***  ] Job networking.service/start running (4min 29s / 5min 7s)
+[***   ] Job networking.service/start running (4min 29s / 5min 7s)
+[  283.035097] ehci-platform 1c1b000.usb: port 1 reset error -110
+[**    ] Job networking.service/start running (4min 30s / 5min 7s)
+[  283.871192] ehci-platform 1c1b000.usb: port 1 reset error -110
+[*     ] Job networking.service/start running (4min 30s / 5min 7s)
+[**    ] Job networking.service/start running (4min 31s / 5min 7s)
+[  284.567086] ehci-platform 1c1b000.usb: port 1 reset error -110
+[***   ] Job networking.service/start running (4min 31s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 32s / 5min 7s)
+[  285.471135] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 32s / 5min 7s)
+[  286.307091] ehci-platform 1c1b000.usb: port 1 reset error -110
+[   ***] Job networking.service/start running (4min 33s / 5min 7s)
+[    **] Job networking.service/start running (4min 33s / 5min 7s)
+[  287.143086] ehci-platform 1c1b000.usb: port 1 reset error -110
+[     *] Job networking.service/start running (4min 34s / 5min 7s)
+[    **] Job networking.service/start running (4min 34s / 5min 7s)
+[  287.979095] ehci-platform 1c1b000.usb: port 1 reset error -110
+[   ***] Job networking.service/start running (4min 35s / 5min 7s)
+[  288.605856] usb usb3-port1: attempt power cycle
+[  288.755080] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 35s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 36s / 5min 7s)
+[  289.659088] ehci-platform 1c1b000.usb: port 1 reset error -110
+[***   ] Job networking.service/start running (4min 36s / 5min 7s)
+[**    ] Job networking.service/start running (4min 37s / 5min 7s)
+[  290.495094] ehci-platform 1c1b000.usb: port 1 reset error -110
+[*     ] Job networking.service/start running (4min 37s / 5min 7s)
+[  291.331085] ehci-platform 1c1b000.usb: port 1 reset error -110
+[**    ] Job networking.service/start running (4min 38s / 5min 7s)
+[***   ] Job networking.service/start running (4min 38s / 5min 7s)
+[  292.167097] ehci-platform 1c1b000.usb: port 1 reset error -110
+[ ***  ] Job networking.service/start running (4min 39s / 5min 7s)
+[  292.863203] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 39s / 5min 7s)
+[   ***] Job networking.service/start running (4min 40s / 5min 7s)
+[  293.767081] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 40s / 5min 7s)
+[     *] Job networking.service/start running (4min 41s / 5min 7s)
+[  294.603092] ehci-platform 1c1b000.usb: port 1 reset error -110
+[    **] Job networking.service/start running (4min 41s / 5min 7s)
+[   ***] Job networking.service/start running (4min 42s / 5min 7s)
+[  295.439113] ehci-platform 1c1b000.usb: port 1 reset error -110
+[  *** ] Job networking.service/start running (4min 42s / 5min 7s)
+[  296.275103] ehci-platform 1c1b000.usb: port 1 reset error -110
+[ ***  ] Job networking.service/start running (4min 43s / 5min 7s)
+[  296.901804] usb usb3-port1: unable to enumerate USB device
+[***   ] Job networking.service/start running (4min 43s / 5min 7s)
+[**    ] Job networking.service/start running (4min 44s / 5min 7s)
+[*     ] Job networking.service/start running (4min 44s / 5min 7s)
+[**    ] Job networking.service/start running (4min 45s / 5min 7s)
+[***   ] Job networking.service/start running (4min 45s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 46s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 46s / 5min 7s)
+[   ***] Job networking.service/start running (4min 47s / 5min 7s)
+[    **] Job networking.service/start running (4min 47s / 5min 7s)
+[     *] Job networking.service/start running (4min 48s / 5min 7s)
+[    **] Job networking.service/start running (4min 48s / 5min 7s)
+[   ***] Job networking.service/start running (4min 49s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 49s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 50s / 5min 7s)
+[***   ] Job networking.service/start running (4min 50s / 5min 7s)
+[**    ] Job networking.service/start running (4min 51s / 5min 7s)
+[*     ] Job networking.service/start running (4min 51s / 5min 7s)
+[**    ] Job networking.service/start running (4min 52s / 5min 7s)
+[***   ] Job networking.service/start running (4min 52s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 53s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 53s / 5min 7s)
+[   ***] Job networking.service/start running (4min 54s / 5min 7s)
+[    **] Job networking.service/start running (4min 54s / 5min 7s)
+[     *] Job networking.service/start running (4min 55s / 5min 7s)
+[    **] Job networking.service/start running (4min 55s / 5min 7s)
+[   ***] Job networking.service/start running (4min 56s / 5min 7s)
+[  *** ] Job networking.service/start running (4min 56s / 5min 7s)
+[ ***  ] Job networking.service/start running (4min 57s / 5min 7s)
+[***   ] Job networking.service/start running (4min 57s / 5min 7s)
+[**    ] Job networking.service/start running (4min 58s / 5min 7s)
+[*     ] Job networking.service/start running (4min 58s / 5min 7s)
+[**    ] Job networking.service/start running (4min 59s / 5min 7s)
+[***   ] Job networking.service/start running (4min 59s / 5min 7s)
+[ ***  ] Job networking.service/start running (5min / 5min 7s)
+[  *** ] Job networking.service/start running (5min / 5min 7s)
+[   ***] Job networking.service/start running (5min 1s / 5min 7s)
+[    **] Job networking.service/start running (5min 1s / 5min 7s)
+[     *] Job networking.service/start running (5min 2s / 5min 7s)
+[    **] Job networking.service/start running (5min 2s / 5min 7s)
+[   ***] Job networking.service/start running (5min 3s / 5min 7s)
+[  *** ] Job networking.service/start running (5min 3s / 5min 7s)
+[ ***  ] Job networking.service/start running (5min 4s / 5min 7s)
+[***   ] Job networking.service/start running (5min 4s / 5min 7s)
+[**    ] Job networking.service/start running (5min 5s / 5min 7s)
+[*     ] Job networking.service/start running (5min 5s / 5min 7s)
+[**    ] Job networking.service/start running (5min 6s / 5min 7s)
+[***   ] Job networking.service/start running (5min 6s / 5min 7s)
+[ ***  ] Job networking.service/start running (5min 7s / 5min 7s)
+[FAILED] Failed to start networking…ce - Raise network interfaces.
+See 'systemctl status networking.service' for details.
+[  OK  ] Reached target network.target - Network.
+         Starting ssh.service - OpenBSD Secure Shell server...
+         Starting systemd-user-sess…vice - Permit User Sessions...
+[  OK  ] Finished systemd-user-sess…ervice - Permit User Sessions.
+[  OK  ] Started getty@tty1.service - Getty on tty1.
+[  OK  ] Started serial-getty@ttyS0…rvice - Serial Getty on ttyS0.
+[  OK  ] Reached target getty.target - Login Prompts.
+[  OK  ] Started ssh.service - OpenBSD Secure Shell server.
+[  OK  ] Reached target multi-user.target - Multi-User System.
+[  OK  ] Reached target graphical.target - Graphical Interface.
+         Starting systemd-update-ut… Record Runlevel Change in UTMP...
+[  OK  ] Finished systemd-update-ut… - Record Runlevel Change in UTMP.
+
+Debian GNU/Linux 12 Cubietruck-Plus ttyS0
+
+Cubietruck-Plus login: [  363.485864] INFO: task kworker/6:1:78 blocked for more than 241 seconds.
+[  363.492673]       Not tainted 6.1.0-10-armmp-lpae #1 Debian 6.1.38-2
+[  363.499067] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  363.506943] task:kworker/6:1     state:D stack:0     pid:78    ppid:2      flags:0x00000000
+[  363.515349] Workqueue: events request_firmware_work_func
+[  363.520750]  __schedule from schedule+0x54/0xe8
+[  363.525351]  schedule from schedule_timeout+0x128/0x154
+[  363.530631]  schedule_timeout from __wait_for_common+0x98/0x1e0
+[  363.536586]  __wait_for_common from mmc_wait_for_req_done+0x84/0xd4
+[  363.542894]  mmc_wait_for_req_done from mmc_io_rw_extended+0x234/0x340
+[  363.549460]  mmc_io_rw_extended from sdio_io_rw_ext_helper+0x108/0x204
+[  363.556032]  sdio_io_rw_ext_helper from sdio_memcpy_toio+0x2c/0x34
+[  363.562262]  sdio_memcpy_toio from brcmf_sdiod_ramrw+0xd0/0x214 [brcmfmac]
+[  363.569407]  brcmf_sdiod_ramrw [brcmfmac] from brcmf_sdio_firmware_callback+0x124/0x900 [brcmfmac]
+[  363.578580]  brcmf_sdio_firmware_callback [brcmfmac] from brcmf_fw_request_done+0x160/0x18c [brcmfmac]
+[  363.588067]  brcmf_fw_request_done [brcmfmac] from request_firmware_work_func+0x58/0x9c
+[  363.596201]  request_firmware_work_func from process_one_work+0x1f8/0x4b4
+[  363.603040]  process_one_work from worker_thread+0x54/0x50c
+[  363.608658]  worker_thread from kthread+0xd8/0xf4
+[  363.613418]  kthread from ret_from_fork+0x14/0x34
+[  363.618177] Exception stack(0xf0e81fb0 to 0xf0e81ff8)
+[  363.623257] 1fa0:                                     00000000 00000000 00000000 00000000
+[  363.631454] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  363.639650] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[  484.317823] INFO: task kworker/6:1:78 blocked for more than 362 seconds.
+[  484.324614]       Not tainted 6.1.0-10-armmp-lpae #1 Debian 6.1.38-2
+[  484.330997] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  484.338871] task:kworker/6:1     state:D stack:0     pid:78    ppid:2      flags:0x00000000
+[  484.347274] Workqueue: events request_firmware_work_func
+[  484.352661]  __schedule from schedule+0x54/0xe8
+[  484.357248]  schedule from schedule_timeout+0x128/0x154
+[  484.362521]  schedule_timeout from __wait_for_common+0x98/0x1e0
+[  484.368470]  __wait_for_common from mmc_wait_for_req_done+0x84/0xd4
+[  484.374769]  mmc_wait_for_req_done from mmc_io_rw_extended+0x234/0x340
+[  484.381334]  mmc_io_rw_extended from sdio_io_rw_ext_helper+0x108/0x204
+[  484.387899]  sdio_io_rw_ext_helper from sdio_memcpy_toio+0x2c/0x34
+[  484.394114]  sdio_memcpy_toio from brcmf_sdiod_ramrw+0xd0/0x214 [brcmfmac]
+[  484.401214]  brcmf_sdiod_ramrw [brcmfmac] from brcmf_sdio_firmware_callback+0x124/0x900 [brcmfmac]
+[  484.410342]  brcmf_sdio_firmware_callback [brcmfmac] from brcmf_fw_request_done+0x160/0x18c [brcmfmac]
+[  484.419812]  brcmf_fw_request_done [brcmfmac] from request_firmware_work_func+0x58/0x9c
+[  484.427922]  request_firmware_work_func from process_one_work+0x1f8/0x4b4
+[  484.434754]  process_one_work from worker_thread+0x54/0x50c
+[  484.440360]  worker_thread from kthread+0xd8/0xf4
+[  484.445108]  kthread from ret_from_fork+0x14/0x34
+[  484.449852] Exception stack(0xf0e81fb0 to 0xf0e81ff8)
+[  484.454927] 1fa0:                                     00000000 00000000 00000000 00000000
+[  484.463121] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  484.471315] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[  605.149838] INFO: task kworker/6:1:78 blocked for more than 483 seconds.
+[  605.156631]       Not tainted 6.1.0-10-armmp-lpae #1 Debian 6.1.38-2
+[  605.163012] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  605.170875] task:kworker/6:1     state:D stack:0     pid:78    ppid:2      flags:0x00000000
+[  605.179272] Workqueue: events request_firmware_work_func
+[  605.184653]  __schedule from schedule+0x54/0xe8
+[  605.189240]  schedule from schedule_timeout+0x128/0x154
+[  605.194513]  schedule_timeout from __wait_for_common+0x98/0x1e0
+[  605.200465]  __wait_for_common from mmc_wait_for_req_done+0x84/0xd4
+[  605.206767]  mmc_wait_for_req_done from mmc_io_rw_extended+0x234/0x340
+[  605.213334]  mmc_io_rw_extended from sdio_io_rw_ext_helper+0x108/0x204
+[  605.219896]  sdio_io_rw_ext_helper from sdio_memcpy_toio+0x2c/0x34
+[  605.226113]  sdio_memcpy_toio from brcmf_sdiod_ramrw+0xd0/0x214 [brcmfmac]
+[  605.233204]  brcmf_sdiod_ramrw [brcmfmac] from brcmf_sdio_firmware_callback+0x124/0x900 [brcmfmac]
+[  605.242338]  brcmf_sdio_firmware_callback [brcmfmac] from brcmf_fw_request_done+0x160/0x18c [brcmfmac]
+[  605.251807]  brcmf_fw_request_done [brcmfmac] from request_firmware_work_func+0x58/0x9c
+[  605.259922]  request_firmware_work_func from process_one_work+0x1f8/0x4b4
+[  605.266756]  process_one_work from worker_thread+0x54/0x50c
+[  605.272365]  worker_thread from kthread+0xd8/0xf4
+[  605.277104]  kthread from ret_from_fork+0x14/0x34
+[  605.281850] Exception stack(0xf0e81fb0 to 0xf0e81ff8)
+[  605.286923] 1fa0:                                     00000000 00000000 00000000 00000000
+[  605.295117] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  605.303311] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+[  725.981836] INFO: task kworker/6:1:78 blocked for more than 604 seconds.
+[  725.988623]       Not tainted 6.1.0-10-armmp-lpae #1 Debian 6.1.38-2
+[  725.995008] "echo 0 > /proc/sys/kernel/hung_task_timeout_secs" disables this message.
+[  726.002874] task:kworker/6:1     state:D stack:0     pid:78    ppid:2      flags:0x00000000
+[  726.011284] Workqueue: events request_firmware_work_func
+[  726.016673]  __schedule from schedule+0x54/0xe8
+[  726.021258]  schedule from schedule_timeout+0x128/0x154
+[  726.026525]  schedule_timeout from __wait_for_common+0x98/0x1e0
+[  726.032477]  __wait_for_common from mmc_wait_for_req_done+0x84/0xd4
+[  726.038776]  mmc_wait_for_req_done from mmc_io_rw_extended+0x234/0x340
+[  726.045334]  mmc_io_rw_extended from sdio_io_rw_ext_helper+0x108/0x204
+[  726.051893]  sdio_io_rw_ext_helper from sdio_memcpy_toio+0x2c/0x34
+[  726.058102]  sdio_memcpy_toio from brcmf_sdiod_ramrw+0xd0/0x214 [brcmfmac]
+[  726.065190]  brcmf_sdiod_ramrw [brcmfmac] from brcmf_sdio_firmware_callback+0x124/0x900 [brcmfmac]
+[  726.074312]  brcmf_sdio_firmware_callback [brcmfmac] from brcmf_fw_request_done+0x160/0x18c [brcmfmac]
+[  726.083779]  brcmf_fw_request_done [brcmfmac] from request_firmware_work_func+0x58/0x9c
+[  726.091888]  request_firmware_work_func from process_one_work+0x1f8/0x4b4
+[  726.098714]  process_one_work from worker_thread+0x54/0x50c
+[  726.104324]  worker_thread from kthread+0xd8/0xf4
+[  726.109069]  kthread from ret_from_fork+0x14/0x34
+[  726.113805] Exception stack(0xf0e81fb0 to 0xf0e81ff8)
+[  726.118881] 1fa0:                                     00000000 00000000 00000000 00000000
+[  726.127079] 1fc0: 00000000 00000000 00000000 00000000 00000000 00000000 00000000 00000000
+[  726.135270] 1fe0: 00000000 00000000 00000000 00000000 00000013 00000000
+
+Cubietruck-Plus login: 
+Cubietruck-Plus login: 
+Cubietruck-Plus login: root
+Linux Cubietruck-Plus 6.1.0-10-armmp-lpae #1 SMP Debian 6.1.38-2 (2023-07-27) armv7l
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Sat Jan  3 07:34:15 UTC 1970 on ttyS0
+root@Cubietruck-Plus:~# 
+root@Cubietruck-Plus:~# blkid
+[  744.326612] sunxi-mmc 1c11000.mmc: data error, sending stop command
+[  744.333004] sunxi-mmc 1c11000.mmc: send stop command failed
+[  746.960501] sunxi-mmc 1c11000.mmc: data error, sending stop command
+[  746.966886] sunxi-mmc 1c11000.mmc: send stop command failed
+/dev/mmcblk1p1: UUID="86352087-8944-43dc-a06d-9520dc277376" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="23286070-01"
+/dev/sda38: PARTUUID="0e2db05c-26"
+/dev/sda28: UUID="8RdwDT-2A1B-3S7s-mrFe-688B-hnQV-qiwghr" TYPE="LVM2_member" PARTUUID="0e2db05c-1c"
+/dev/sda18: UUID="oqw36O-A3uM-Q1ao-olp7-ddLX-7Q5K-UMuvlT" TYPE="LVM2_member" PARTUUID="0e2db05c-12"
+/dev/sda36: UUID="CK00YL-MA5A-UBCf-zJdc-Mpne-YxzK-3g8PEc" TYPE="LVM2_member" PARTUUID="0e2db05c-24"
+/dev/sda26: UUID="AgAtXC-6kKz-3a5v-CWJs-dRG9-ezfJ-3i8KZS" TYPE="LVM2_member" PARTUUID="0e2db05c-1a"
+/dev/sda16: PARTUUID="0e2db05c-10"
+/dev/sda34: UUID="l2Qryo-Ylkc-EtAn-LNud-3su0-RmjL-NtBJJv" TYPE="LVM2_member" PARTUUID="0e2db05c-22"
+/dev/sda24: UUID="heBcIk-8wSk-Q8xN-vE25-lziz-18fX-Z68oI0" TYPE="LVM2_member" PARTUUID="0e2db05c-18"
+/dev/sda14: PARTUUID="0e2db05c-0e"
+/dev/sda32: PARTUUID="0e2db05c-20"
+/dev/sda9: UUID="IN0BlH-EpK5-SoMN-yyeh-vRdk-NEhC-VnBzLN" TYPE="LVM2_member" PARTUUID="0e2db05c-09"
+/dev/sda22: UUID="d39c1i-tbf8-Edve-Jcas-KmqP-tlwW-b4wAWu" TYPE="LVM2_member" PARTUUID="0e2db05c-16"
+/dev/sda12: UUID="TGFz2E-l8YH-5lVV-sqBL-OA93-MHg5-Frm0Cn" TYPE="LVM2_member" PARTUUID="0e2db05c-0c"
+/dev/sda30: PARTUUID="0e2db05c-1e"
+/dev/sda7: UUID="XOVyGt-JKfY-XWgR-0jeQ-LKQw-iEM2-IK5llG" TYPE="LVM2_member" PARTUUID="0e2db05c-07"
+/dev/sda20: UUID="1ISa0h-eiiW-BjIj-lvCt-3nhL-G2Kf-u1P8eU" TYPE="LVM2_member" PARTUUID="0e2db05c-14"
+/dev/sda10: UUID="0UMvQv-o7wJ-yBvD-mVfc-dl8p-Ktry-NPpmfQ" TYPE="LVM2_member" PARTUUID="0e2db05c-0a"
+/dev/sda39: UUID="0Nd62m-74af-P3oZ-qfS1-LbqR-Zoso-wsGerl" TYPE="LVM2_member" PARTUUID="0e2db05c-27"
+/dev/sda29: UUID="RNwUP5-T4SU-neQa-brhk-k5DA-4y5w-Lv4Qmh" TYPE="LVM2_member" PARTUUID="0e2db05c-1d"
+/dev/sda5: LABEL="fs_rootfs_rescue" UUID="bc1c40b4-4e09-409a-affc-0e0a9d42f603" BLOCK_SIZE="4096" TYPE="ext4" PARTUUID="0e2db05c-05"
+/dev/sda19: UUID="2Zc0po-XPSO-f8KZ-5pAL-1CQZ-b7ri-CALZjU" TYPE="LVM2_member" PARTUUID="0e2db05c-13"
+/dev/sda37: UUID="6iMeVG-ate2-v3Dy-dQFc-aK6t-15wg-0IYh6q" TYPE="LVM2_member" PARTUUID="0e2db05c-25"
+/dev/sda27: UUID="yHXYI9-h86m-Yu5f-N3vG-czDA-jnPj-Uc9aXk" TYPE="LVM2_member" PARTUUID="0e2db05c-1b"
+/dev/sda17: PARTUUID="0e2db05c-11"
+/dev/sda35: UUID="g3sl1E-dt53-Wa0V-1G9A-vX2O-Bukv-9Sg938" TYPE="LVM2_member" PARTUUID="0e2db05c-23"
+/dev/sda25: UUID="duPZxN-vcLr-YCRe-cgqu-Us48-VmX4-dbQOZ2" TYPE="LVM2_member" PARTUUID="0e2db05c-19"
+/dev/sda1: UUID="163C-5FA6" BLOCK_SIZE="512" TYPE="vfat" PARTUUID="0e2db05c-01"
+/dev/sda15: PARTUUID="0e2db05c-0f"
+/dev/sda33: PARTUUID="0e2db05c-21"
+/dev/sda23: UUID="12Qo23-DFcs-p2n6-Pm70-5cmQ-Dm3s-mYUlXw" TYPE="LVM2_member" PARTUUID="0e2db05c-17"
+/dev/sda13: UUID="WybWi1-wJu4-7dO4-LJT3-mPoQ-eDTS-4K45CF" TYPE="LVM2_member" PARTUUID="0e2db05c-0d"
+/dev/sda31: PARTUUID="0e2db05c-1f"
+/dev/sda8: UUID="p8vPta-fIwE-mZ6N-3WAJ-Gf5N-NEYE-MfdG9Z" TYPE="LVM2_member" PARTUUID="0e2db05c-08"
+/dev/sda21: UUID="qLZkaj-U2kc-ycsg-f062-XfDJ-KBcw-s0slV8" TYPE="LVM2_member" PARTUUID="0e2db05c-15"
+/dev/sda11: UUID="ieN4qS-RWLa-wgd4-50k8-NQB8-ez26-tUKMvc" TYPE="LVM2_member" PARTUUID="0e2db05c-0b"
+/dev/sda6: UUID="QxB01S-woMP-ipUV-XaN7-ELki-1caD-HO41bj" TYPE="LVM2_member" PARTUUID="0e2db05c-06"
+/dev/mmcblk0p12: SEC_TYPE="msdos" UUID="E00C-08B2" BLOCK_SIZE="512" TYPE="vfat"
+/dev/mmcblk0p2: SEC_TYPE="msdos" LABEL="Volumn" BLOCK_SIZE="512" TYPE="vfat"
+/dev/mmcblk0p7: UUID="57f8f4bc-abf4-655f-bf67-946fc0f9f25b" BLOCK_SIZE="4096" TYPE="ext4"
+/dev/mmcblk0p15: UUID="57f8f4bc-abf4-655f-bf67-946fc0f9f25b" BLOCK_SIZE="4096" TYPE="ext4"
+/dev/mmcblk0p11: LABEL_FATBOOT="PRIVATE" LABEL="PRIVATE" UUID="E0F4-08B2" BLOCK_SIZE="512" TYPE="vfat"
+/dev/mmcblk0p1: UUID="57f8f4bc-abf4-655f-bf67-946fc0f9f25b" BLOCK_SIZE="4096" TYPE="ext4"
+root@Cubietruck-Plus:~# 
