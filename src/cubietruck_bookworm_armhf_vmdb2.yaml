@@ -350,14 +350,13 @@ steps:
 
   # Install u-boot binaries on target
 
-  # Because on Debian 12.1 ...even if u-boot-tools installed ????
-
-  # 2023-08-05 09:13:49 DEBUG STDERR: /tmp/tmp9smmpmtz/usr/bin/u-boot-install-sunxi: mkimage: command not found. Please install u-boot-tools.
-
-  # and because 
   - root-fs: rootfs_partition_tag
     shell: |
-      TARGET="$ROOT/usr/lib/u-boot/cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
+     # Because on Debian 12.1 ...even if u-boot-tools installed ????
+     # 2023-08-05 09:13:49 DEBUG STDERR: /tmp/tmp9smmpmtz/usr/bin/u-boot-install-sunxi: mkimage: command not found. Please install u-boot-tools.
+     # and because 
+     #TARGET="$ROOT/usr/lib/u-boot/cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
+     dd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/Cubietruck/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
   # FIXME
 
