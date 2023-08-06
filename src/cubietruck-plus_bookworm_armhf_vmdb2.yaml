@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 cubietruck-plus_bookworm_armhf_vmdb2.yaml --output=../images/cubietruck-plus_bookworm_armhf.img --rootfs-tarball=../rootfs_cache/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_cubietruck-plus_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 cubietruck-plus_bookworm_armhf_vmdb2.yaml --output=../images/cubietruck-plus_bookworm_trixie_armhf.img --rootfs-tarball=../rootfs_cache/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_cubietruck-plus_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 
 # Please remember that full documentation is available here :
@@ -84,13 +84,52 @@ steps:
     contents: |+
         # file /etc/apt/sources.list
         # current Debian release (V12)
-        deb http://deb.debian.org/debian bookworm main contrib non-free non-free-firmware
+        deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
+        # next Debian release (V13)
+        deb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware
         # current Debian release (V12) security for bookworm release
         deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
         # current Debian release (V12) update, only for bookworm release
-        deb http://deb.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+        deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
         # current Debian release (V12) backports from next (Trixie) V13 release
-        deb http://deb.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+        deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+    unless: rootfs_unpacked
+
+  # Install preferences   on  the  target.   On  Debian  Bookworm with
+  # 6.1.0-10-armmp-lpae  kernel,  when   connecting  one   SATA   SSD,
+  # then "[ 4318.494156] sunxi-mmc 1c11000.mmc: data error, sending stop comman" kernel message on command lsblk. 
+
+  # Tr to use  recent kernel with  more correct native DTS/DTB.  As  a
+  # result, define one policy (for apt point of vue)
+
+  - create-file: /etc/apt/preferences.d/debian_preferences.pref
+    contents: |+
+       # file : /etc/apt/preferences.d/debian_preferences.pref
+       # 
+       # define behaviour on current release
+       Package: *
+       Pin: release o=Debian,l=Debian,n=bookworm
+       Pin-Priority: 500
+
+       # define behaviour on next release
+       Package: *
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 50
+
+       # define behaviour on kernel, so that new DTS is supported
+       Package: linux-image-rt-armmp
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 980
+
+       # use this package for most recent u-boot
+       Package: u-boot-tools
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 980
+
+       # use this package for most recent u-boot
+       Package: u-boot-sunxi
+       Pin: release o=Debian,l=Debian,n=trixie
+       Pin-Priority: 980
     unless: rootfs_unpacked
 
   # Install  flash-kernel &  initramfs-tools packages,  which needs to
