@@ -82,6 +82,7 @@ steps:
   - create-file: /etc/apt/sources.list
     contents: |+
         # file /etc/apt/sources.list
+        
         # current Debian release (V12)
         deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
         # current Debian release (V12) security for bookworm release
@@ -90,7 +91,9 @@ steps:
         deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
         # current Debian release (V12) backports from next (Trixie) V13 release
         deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
-        #
+        # current Debian release (V13)
+        deb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware
+
     unless: rootfs_unpacked
 
   # Install  flash-kernel &  initramfs-tools packages,  which needs to
@@ -109,7 +112,6 @@ steps:
   # LANG=C is  no more sufficient.   It is now  mandatory to  use UTF8
   # locale, otherwise, following error...install Debian package then
   # into the rootfs cache
-
 
   # DEBUG STDERR: ERROR: Ansible requires the locale encoding to be UTF-8; Detected None.
 
@@ -135,6 +137,11 @@ steps:
     contents: |+
        # file : /etc/apt/preferences.d/debian_preferences.pref
        
+       # Install  preferences on the target.  This is Debian policy to
+       # manage  each package and/or pining. On  many SBC target, only
+       # recent kernel has  a  correct native  DTS/DTB.   As a result,
+       # define one policy (for apt point of vue)
+
        # define behaviour on current release
        Package: *
        Pin: release o=Debian,l=Debian,n=bookworm
@@ -144,6 +151,13 @@ steps:
        Package: *
        Pin: release o=Debian,l=Debian,n=bookworm-backports
        Pin-Priority: 500
+       
+       # define  behaviour  on more   recent kernel  than  the current
+       # release, for example on Next Debian release (Trixie)
+       
+       #Package: linux-image-6.4.0-1-armmp
+       #Pin: release o=Debian,l=Debian,n=trixie
+       #Pin-Priority: 980
 
     unless: rootfs_unpacked
 
@@ -160,7 +174,7 @@ steps:
       # Upgrade packages
       
       apt-get --assume-yes upgrade
-
+      
       # When installing kernel, "flash-kernel" & "initramfs" tools are
       # automatically called. Because the target is not yet configured
       # (/etc/fstab),  we backup  and remove  post installation script
@@ -177,6 +191,16 @@ steps:
       # correctly installed on rootfs.
       
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
+      
+      # Install firmware Debian package to support Wifi network interface
+      
+      apt-get --assume-yes install firmware-brcm80211
+      
+      # Because...
+      # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1041436,
+      # then create the link ...
+      
+      ln -s /lib/firmware/brcm/brcmfmac43430-sdio.AP6212.txt /lib/firmware/brcm/brcmfmac43430-sdio.txt
 
   # SECTION 3/5: Make initramfs & flashkernel configuration
   # --------------------------------------------------------
@@ -193,18 +217,42 @@ steps:
 
   - create-file: /etc/modprobe.d/blacklist-driver-video.conf
     contents: |+
-
-     # blacklist Linux hdmi/vga driver, because not available on this
-     # SBC
-
+     # file /etc/modprobe.d/blacklist-driver-video.conf
+         
+     # Blacklist Linux video drivers, because not available on this SBC
+     
+     blacklist lima
      blacklist videodev 
      blacklist v4l2_mem2mem
      blacklist sunxi_cedrus
      blacklist videobuf2_dma_contig 
      blacklist videobuf2_memops 
 
-  - fstab: rootfs_partition_tag
+  - create-file: /etc/modprobe.d/blacklist-driver-bluetooth.conf
+    contents: |+
+     # file /etc/modprobe.d/blacklist-driver-bluetooth.conf
+     
+     # Blacklist bluetooh Linux  driver, because not available on this
+     # SBC
+     
+     blacklist btintel
 
+  - create-file: /etc/modprobe.d/blacklist-driver-sound.conf
+    contents: |+
+     # file /etc/modprobe.d/blacklist-driver-sound.conf
+     
+     # Blacklist  sound & Alsa Linux  driver, because not available on
+     # this SBC
+     
+     blacklist sun8i_codec_analog
+     blacklist snd_soc_core
+     blacklist snd_pcm_dmaengine
+     blacklist snd_pcm
+     blacklist snd_timer
+     blacklist snd
+     blacklist soundcore
+
+  - fstab: rootfs_partition_tag
 
   # Set default  hostname    of target.  Please   note  there  are  no
   # requirements for this value, it is  user defined. Good practice is
@@ -222,13 +270,9 @@ steps:
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
-  # /usr/share/flash-kernel/db/all.db)  support rock64  board.   As  a
-  # result,     it    is then   not    mandatory    to install  either
-  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file,  so
-  # skip  this step....But  if not  defined  the  machine (to  overlap
-  # default config), there is one 'inteligent system' who search the
-  # UUID, and ... fails. As a result  defined machine target, so that
-  # no error (FIXME)
+  # /usr/share/flash-kernel/db/all.db)   does not  support   nanopi-r1
+  # board.    As  a      result,    it    is  then   mandatory      to
+  # install /etc/flashkernel/db and/etc/flash-kernel/machine files.
 
   - create-file: /etc/flash-kernel/db
     contents: |+
@@ -240,7 +284,7 @@ steps:
       Required-Packages: u-boot-tools
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
-  # because  nanopi-r1  is not  yet supported,  then  skip the machine
+  # because nanopi-r1  is  not yet supported,   then force the machine
   # auto-detection from /proc/cpuinfo and force a specific Machine
 
   - create-file: /etc/flash-kernel/machine
@@ -296,12 +340,13 @@ steps:
   - create-file: /etc/network/interfaces.d/lo
     contents: |+
       # file /etc/network/interfaces.d/lo
+      
       # loopback interface 
       allow-auto lo
       iface      lo inet loopback   
 
-  # On this   SBC, two  interfaces  are available   (eth0 & eth1, then
-  # create  this.   Please remember that    interface policy naming is
+  # On this SBC,  3 interfaces are available (eth0   & eth1 &  wlan0),
+  # then create this.  Please remember that interface policy naming is
   # controled by kernel  parameter boot option :  "net.ifnames=0" (see
   # above). Furthermore, because we dont  know  how user connect  this
   # interfaces on network, we consider   here that all interfaces  are
@@ -311,23 +356,76 @@ steps:
 
   - create-file: /etc/network/interfaces.d/eth0
     contents: |+
-      # file /etc/network/interfaces.d/eth0 (Wan interface FIXME)
-      # Ethernet  10/100/1000 full duplex interface. Because interface
-      # is set in dhcp mode, then dhcp request configuration file is
-      # set into /etc/dhcp/dhclient.conf 
+      # file /etc/network/interfaces.d/eth0 
+
+      # (WAN   interface)    Ethernet      10/100/1000   full   duplex
+      # interface. Because interface is   set in dhcp mode,  then dhcp
+      # request configuration file is set into /etc/dhcp/dhclient.conf
+      # file
       
       allow-auto eth0
       iface      eth0 inet dhcp
 
   - create-file: /etc/network/interfaces.d/eth1
     contents: |+
-      # file /etc/network/interfaces.d/eth1 (Lan interface FIXME)
-      # Ethernet  10/100/1000 full duplex interface. Because interface
-      # is set in dhcp mode, then dhcp request configuration file is
-      # set into /etc/dhcp/dhclient.conf 
+      # file /etc/network/interfaces.d/eth1
+
+      # (LAN interface) Ethernet 10/100 full duplex interface. Because
+      # interface is set in dhcp mode, then dhcp request configuration
+      # file is set into /etc/dhcp/dhclient.conf file
       
       allow-auto eth1
       iface      eth1 inet dhcp
+
+  - create-file: /etc/network/interfaces.d/usb0
+    contents: |+
+      # file  /etc/network/interfaces.d/usb0
+
+      # (Ethernet on  USB via USB  OTG).  Because interface is  set in
+      # dhcp mode, then  dhcp request configuration  file  is set into
+      # /etc/dhcp/dhclient.conf. Please be sure to look at your USB/OTG
+      # interface  and network   configuration.  For example,  if  you
+      # connect  nanopi-R1 on one  Debian standard X86  USB port ( for
+      # power delivery and  usb communicaitons)  with one DHCP  server
+      # correctly configured  on   the host,  you can   see into  host
+      # "dmesg"  log messages such as  ... Please  note of course that
+      # Manufacturer is the  Debian kernel  release installed here  on
+      # the nanopi-r1
+
+      # [ 5346.757059] usb 1-6.4.3: Manufacturer: Linux 6.1.0-11-armmp with musb-hdrc
+      # [ 5346.763658] cdc_ether 1-6.4.3:1.0 usb0: register 'cdc_ether' at usb-0000:00:14.0-6.4.3, CDC Ethernet Device, ee:f9:eb:6e:97:37
+
+      # It is then possible to connect your nanopi-R1 directly on your
+      # host without wireless, without WAN and LAN interfaces
+      
+      allow-auto usb0
+      iface      usb0 inet dhcp
+
+  - create-file: /etc/network/interfaces.d/wlan0
+    contents: |+
+      # file /etc/network/interfaces.d/wlan0 (Wlan WIFI interface)
+      
+      allow-auto wlan0
+      iface      wlan0 inet dhcp
+        
+        # Please update "wpa-psk" and "wpa-ssid" fields according your
+        # network configuration
+
+        wpa-conf           managed
+        wpa-group          CCMP TKIP
+        wpa-pairwise       CCMP TKIP
+        wpa-proto          WPA RSN
+        wpa-key-mgmt       WPA-PSK
+        wpa-auth-alg       OPEN
+        wpa-debug-level    3   # either 1,2 or 3
+        wpa-driver         wext,nl80211
+        wpa-iface          wlan0
+        wpa-ap-scan        1
+        wpa-scan-ssid      1
+        wpa-logfile        /var/log/wpa_supplicant.log
+        wpa-psk            "wifi-psk-change-it"
+        wpa-ssid           "wifi-ssid-change-it"
+        wpa-ctrl_interface /var/run/wpa_supplicant
 
   # Set local DNS resolver if no DNS available (for example if no DHCP
   # server available)
@@ -335,12 +433,12 @@ steps:
   - create-file: /etc/hosts
     contents: |+
         # file /etc/hosts
+        
         # IPV4 loopback address on localhost (RFC 5735 compliant)
         127.0.0.1  localhost
         
         # IPV4 loopback address on localhost (RFC 5735 compliant)
         127.0.0.2  NanoPi-R1
-
 
   # Launch one shell into chroot and make following actions...
 
@@ -351,7 +449,8 @@ steps:
       # Furthermore,  python3-apt   must be also  installed, otherwise
       # followin error :
 
-      # Updating  cache    and  auto-installing  missing   dependency: python3-apt
+      # Updating  cache   and  auto-installing  missing    dependency:
+      # python3-apt
       
       apt-get --assume-yes install python3 python3-apt
       
@@ -365,6 +464,10 @@ steps:
       # /etc/dhcp/dhclient.conf
       
       apt-get --assume-yes install isc-dhcp-client
+      
+      # Install network Debian packages to support Wifi in STA mode only
+      
+      apt-get --assume-yes install wireless-regdb firmware-brcm80211 wpasupplicant iw
 
   # When target will  boot later,  we must  be sure  to have  one  ssh
   # access on  root  account because at  this time,  only Unix root is
@@ -382,33 +485,65 @@ steps:
     shell: |
 
       # Be sure to enable ssh root access on target 
-
+      
       sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config
-
+      
       # Enable ssh public key 
-
+      
       sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
-
+      
       # And finally enable ssh   root access without password  for  the
       # first connection.
-
+      
       sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
 
   # Create mandatory kernel modules (/etc/modules) loaded on startup
 
   - create-file: /etc/modules
-    contents: |+     
+    contents: |+
       # file /etc/modules
       
-      # WiFi: based on AP6212 Module, not very clear where is standard
-      # module and Linu firmware. FIXME
-
+      # Following modules ares used   in order to install   IPV4 stack
+      # over USB (USB mpde OTG).  Please respect order...
+      # https://wiki.t-firefly.com/en/Firefly-Linux-Guide/demo_usb_ethernet.html
+      
+      # 1/7 Ethernet on USB (OTG): install module libcomposite
+      libcomposite
+      
+      # 2/7 Ethernet on USB (OTG): install module u_ether
+      u_ether
+      
+      # 3/7 Ethernet on USB (OTG): install module usb_f_ecm_subset
+      usb_f_ecm_subset
+      
+      # 4/7 Ethernet on USB (OTG): install module usb_f_rndis
+      usb_f_rndis
+      
+      # 5/7 Ethernet on USB (OTG): install module usb_f_ecm
+      usb_f_ecm
+      
+      # 6/7 Ethernet on USB (OTG): install module usb_f_eem
+      usb_f_eem
+      
+      # 7/7 Ethernet on USB (OTG):  g_ether module, in order to create
+      # one    USB  device on  Power usb   cable   (micro USB physical
+      # interface near SD card)
+      
+      g_ether
+      
+      # WiFi:   based  on AP6212  Chip   and  Linux "brcmfmac"  kernel
+      # module. Because firmwareis partially available (!)
+      # ( https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1041436  )
+      # is installed  above, then force   loading of kernel module  to
+      # create network interface
+      
+      brcmfmac debug=1
 
   # Create one empty file for DNS local  resolver. Remember that it is
   # sysadmin responsability  to   answer to strategic   DHCP option  :
   # "request domain-name, domain-search" defined into file :
   # /etc/dhcp/dhclient.conf.     When   DHCP-REQUEST+DHCP-OFFER is ok,
-  # following  file is  automaticaly   modified by ifup/ifdown  Debian
+  # following file  is  automatically modified by  ifup/ifdown  Debian
   # infrastructure.
 
   - create-file: /etc/resolv.conf
@@ -456,9 +591,8 @@ steps:
 
   # Install utf8   package.  On Debian  Bookworm,  when using Ansible,
   # LANG=C is  no more sufficient.   It is now  mandatory to  use UTF8
-  # locale, otherwise, following error...install Debian package then
-  # into the rootfs cache
-
+  # locale, otherwise, following error.... As a result, install Debian
+  # package. FIXME. It seems not sufficient (!), look at ansible task
 
   # DEBUG STDERR: ERROR: Ansible requires the locale encoding to be UTF-8; Detected None.
   #- ansible: rootfs_partition_tag
@@ -474,6 +608,7 @@ steps:
       chmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck
       
       umount $ROOT/proc
+      # FIXME why ?
       rm $ROOT/etc/flash-kernel/machine
       
       diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
