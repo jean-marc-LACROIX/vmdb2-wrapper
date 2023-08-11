@@ -627,7 +627,7 @@ steps:
 
       mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
       chmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck
-      
+
       # Bacause Ansible has finish running, it is possible to unmount /proc
 
       umount $ROOT/proc
