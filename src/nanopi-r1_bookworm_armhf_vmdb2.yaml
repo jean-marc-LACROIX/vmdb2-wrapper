@@ -31,12 +31,12 @@ steps:
 
   - mkpart: primary
     device: "{{ output }}"
-    
+
     # We  have  to   start   higher    than 12M  because    of     the
     # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
     # order to be  compliant on  all SBC, we  use  16 Mb as  a default
     # configuration
-    
+
     start: 16M
     end:   100%
     tag:   rootfs_partition_tag
@@ -81,18 +81,18 @@ steps:
 
   - create-file: /etc/apt/sources.list
     contents: |+
-        # file /etc/apt/sources.list
-        
-        # current Debian release (V12)
-        deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
-        # current Debian release (V12) security for bookworm release
-        deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
-        # current Debian release (V12) update, only for bookworm release
-        deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
-        # current Debian release (V12) backports from next (Trixie) V13 release
-        deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
-        # current Debian release (V13)
-        deb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware
+      # file /etc/apt/sources.list
+      
+      # current Debian release (V12)
+      deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
+      # current Debian release (V12) security for bookworm release
+      deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
+      # current Debian release (V12) update, only for bookworm release
+      deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+      # current Debian release (V12) backports from next (Trixie) V13 release
+      deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+      # current Debian release (V13)
+      deb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware
 
     unless: rootfs_unpacked
 
@@ -121,13 +121,6 @@ steps:
     tag: rootfs_partition_tag
     unless: rootfs_unpacked
 
-  # Create a tarball of  the image root filesystem.  File name of this
-  # file     is     defined   by   previous    command   line   option
-  # "--rootfs-tarball".    Please note that    step is  linked  to the
-  # previous "unpack_rootfs".
-
-  - cache-rootfs: rootfs_partition_tag
-
   # Install preferences on the target. This is Debian policy to manage
   # each package and/or pining. On many SBC target, only recent kernel
   # has a correct native DTS/DTB.  As a result, define one policy (for
@@ -135,31 +128,57 @@ steps:
 
   - create-file: /etc/apt/preferences.d/debian_preferences.pref
     contents: |+
-       # file : /etc/apt/preferences.d/debian_preferences.pref
-       
-       # Install  preferences on the target.  This is Debian policy to
-       # manage  each package and/or pining. On  many SBC target, only
-       # recent kernel has  a  correct native  DTS/DTB.   As a result,
-       # define one policy (for apt point of vue)
-
-       # define behaviour on current release
-       Package: *
-       Pin: release o=Debian,l=Debian,n=bookworm
-       Pin-Priority: 500
-       
-       # define behaviour on backports for the current release
-       Package: *
-       Pin: release o=Debian,l=Debian,n=bookworm-backports
-       Pin-Priority: 500
-       
-       # define  behaviour  on more   recent kernel  than  the current
-       # release, for example on Next Debian release (Trixie)
-       
-       #Package: linux-image-6.4.0-1-armmp
-       #Pin: release o=Debian,l=Debian,n=trixie
-       #Pin-Priority: 980
+      # file : /etc/apt/preferences.d/debian_preferences.pref
+      
+      # Install  preferences on the target.  This is Debian policy to
+      # manage  each package and/or pining. On  many SBC target, only
+      # recent kernel has  a  correct native  DTS/DTB.   As a result,
+      # define one policy (for apt point of vue)
+      
+      # Define behaviour on current release
+      Package: *
+      Pin: release o=Debian,l=Debian,n=bookworm
+      Pin-Priority: 500
+      
+      # Define behaviour on backports for the current release
+      Package: *
+      Pin: release o=Debian,l=Debian,n=bookworm-backports
+      Pin-Priority: 500
+      
+      # Define  behaviour  on more   recent kernel  than  the current
+      # release, for example on Next Debian release (Trixie)
+      
+      #Package: linux-image-6.4.0-1-armmp
+      #Pin: release o=Debian,l=Debian,n=trixie
+      #Pin-Priority: 980
+      
+      # Define behaviour on systemd. Because  too many issues such as
+      # timeout on network interfaces, then blacklist systemd daemon
+      # and install sysvinit   historical  system (!),  so  that  no
+      # issues...
+      
+      # please look at : http://without-systemd.org/wiki/index.php/Debian_Stretch
+      # please look at : https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=938952
+      
+      #Package: systemd
+      #Pin: release *
+      #Pin-Priority: -1
 
     unless: rootfs_unpacked
+
+  #- apt: install
+  #  packages:
+  #    - sysvinit-core
+  #    - sysvinit-utils
+  #  tag: rootfs_partition_tag
+  #  unless: rootfs_unpacked
+
+  # Create a tarball of  the image root filesystem.  File name of this
+  # file     is     defined   by   previous    command   line   option
+  # "--rootfs-tarball".    Please note that    step is  linked  to the
+  # previous "unpack_rootfs".
+
+  - cache-rootfs: rootfs_partition_tag
 
   # Launch one shell into chroot and make following actions...
 
@@ -168,38 +187,38 @@ steps:
 
       # Update  internal Debian apt data base.  In case we use one old
       # cache tarball, it is necessary to look for new update
-      
+
       apt-get update
-      
+
       # Upgrade packages
-      
+
       apt-get --assume-yes upgrade
-      
+
       # When installing kernel, "flash-kernel" & "initramfs" tools are
       # automatically called. Because the target is not yet configured
       # (/etc/fstab),  we backup  and remove  post installation script
       # during kernel   installation,   so that there  are   no action
       # on rootfs.
-      
+
       mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
-      
+
       # Install the current generic linux kernel for this architecture
-      
+
       apt-get --assume-yes install linux-image-armmp
-      
+
       # Restore  previous   post-hook script,   because now  kernel  is
       # correctly installed on rootfs.
-      
+
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
-      
+
       # Install firmware Debian package to support Wifi network interface
-      
+
       apt-get --assume-yes install firmware-brcm80211
-      
+
       # Because...
       # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1041436,
       # then create the link ...
-      
+
       ln -s /lib/firmware/brcm/brcmfmac43430-sdio.AP6212.txt /lib/firmware/brcm/brcmfmac43430-sdio.txt
 
   # SECTION 3/5: Make initramfs & flashkernel configuration
@@ -217,40 +236,40 @@ steps:
 
   - create-file: /etc/modprobe.d/blacklist-driver-video.conf
     contents: |+
-     # file /etc/modprobe.d/blacklist-driver-video.conf
-         
-     # Blacklist Linux video drivers, because not available on this SBC
+      # file /etc/modprobe.d/blacklist-driver-video.conf
+        
+      # Blacklist Linux video drivers, because not available on this SBC
      
-     blacklist lima
-     blacklist videodev 
-     blacklist v4l2_mem2mem
-     blacklist sunxi_cedrus
-     blacklist videobuf2_dma_contig 
-     blacklist videobuf2_memops 
+      blacklist lima
+      blacklist videodev
+      blacklist v4l2_mem2mem
+      blacklist sunxi_cedrus
+      blacklist videobuf2_dma_contig
+      blacklist videobuf2_memops
 
   - create-file: /etc/modprobe.d/blacklist-driver-bluetooth.conf
     contents: |+
-     # file /etc/modprobe.d/blacklist-driver-bluetooth.conf
-     
-     # Blacklist bluetooh Linux  driver, because not available on this
-     # SBC
-     
-     blacklist btintel
+      # file /etc/modprobe.d/blacklist-driver-bluetooth.conf
+       
+      # Blacklist bluetooh Linux  driver, because not available on this
+      # SBC
+      
+      blacklist btintel
 
   - create-file: /etc/modprobe.d/blacklist-driver-sound.conf
     contents: |+
-     # file /etc/modprobe.d/blacklist-driver-sound.conf
-     
-     # Blacklist  sound & Alsa Linux  driver, because not available on
-     # this SBC
-     
-     blacklist sun8i_codec_analog
-     blacklist snd_soc_core
-     blacklist snd_pcm_dmaengine
-     blacklist snd_pcm
-     blacklist snd_timer
-     blacklist snd
-     blacklist soundcore
+      # file /etc/modprobe.d/blacklist-driver-sound.conf
+      
+      # Blacklist  sound & Alsa Linux  driver, because not available on
+      # this SBC
+       
+      blacklist sun8i_codec_analog
+      blacklist snd_soc_core
+      blacklist snd_pcm_dmaengine
+      blacklist snd_pcm
+      blacklist snd_timer
+      blacklist snd
+      blacklist soundcore
 
   - fstab: rootfs_partition_tag
 
@@ -285,65 +304,67 @@ steps:
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # because nanopi-r1  is  not yet supported,   then force the machine
-  # auto-detection from /proc/cpuinfo and force a specific Machine
+  # auto-detection   from     /proc/cpuinfo  and   force    a specific
+  # Machine.  Because we      are offline, we    must  force   machine
+  # description.
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
       FriendlyElec NanoPi-R1
 
-  # launch one shell into rootfs 
+  # launch one shell into rootfs
 
   - chroot: rootfs_partition_tag
     shell: |
-      
+
       # Because too many issues on SDCARD  on SBC (due to bad hardware
       # !), be  sure  to add   "noatime,nodiratime" option on   rootfs
       # mount, so that we increase flash SDcard lifetime
-      
+
       sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
-      
+
       # Be sure to force fsck on rootfs  so that every time, target is
       # ok.  Furthermore,  force interface  name  with  "prefix kernel
       # name" and suffix name based  on current index. Force also fsck
       # on rootfs
-      
+
       sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
 
       # "initramfs" & "flash-kernel" tools needs uuid rootfs in
       # order to make the job. Back-up fsck hook now
-      
+
       mv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak
       chmod -x /usr/share/initramfs-tools/hooks/fsck.bak
-      
+
       # Fix fsck to read root fstype in fstab
-      
+
       sed "s@\[.*\"\/\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck
       chmod +x /usr/share/initramfs-tools/hooks/fsck
-      
+
       update-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
-      
+
       # Remove root  password, so that  first login on default  tty is
       # "root" without   any password.  It  is user  responsability to
       # make   changes    according his   security   policy  (!),  not
       # vmdb2-wrapper project (!)
-      
+
       sed -i "s@root:\*:@root::@g" /etc/shadow
 
-  # SECTION 4/5: Prepare network configuration 
+  # SECTION 4/5: Prepare network configuration
   # ------------------------------------------
 
   # Create loopback mandatory "lo"  interface.  It is a best  practice
   # to use proposal  Debian  directory /etc/network/interface.d.  This
   # directory  is  parsed in  lexical name   order  by Debian tools to
-  # create interfaces (FIXME: verify it in man !)
+  # create interfaces (Please, verify it in man !)
 
   - create-file: /etc/network/interfaces.d/lo
     contents: |+
       # file /etc/network/interfaces.d/lo
       
-      # loopback interface 
+      # loopback interface
       allow-auto lo
-      iface      lo inet loopback   
+      iface      lo inet loopback
 
   # On this SBC,  3 interfaces are available (eth0   & eth1 &  wlan0),
   # then create this.  Please remember that interface policy naming is
@@ -356,8 +377,8 @@ steps:
 
   - create-file: /etc/network/interfaces.d/eth0
     contents: |+
-      # file /etc/network/interfaces.d/eth0 
-
+      # file /etc/network/interfaces.d/eth0
+      
       # (WAN   interface)    Ethernet      10/100/1000   full   duplex
       # interface. Because interface is   set in dhcp mode,  then dhcp
       # request configuration file is set into /etc/dhcp/dhclient.conf
@@ -396,21 +417,25 @@ steps:
       # [ 5346.763658] cdc_ether 1-6.4.3:1.0 usb0: register 'cdc_ether' at usb-0000:00:14.0-6.4.3, CDC Ethernet Device, ee:f9:eb:6e:97:37
 
       # It is then possible to connect your nanopi-R1 directly on your
-      # host without wireless, without WAN and LAN interfaces
+      # host  without wireless, without WAN and  LAN interfaces.  This
+      # interface may not be connected on boot. As a result, set it to
+      # "allow-hotplug" in order to never block (on timeout) the boot
+      # process
       
-      allow-auto usb0
-      iface      usb0 inet dhcp
+      allow-hotplug usb0
+      iface         usb0 inet dhcp
 
   - create-file: /etc/network/interfaces.d/wlan0
     contents: |+
       # file /etc/network/interfaces.d/wlan0 (Wlan WIFI interface)
       
-      allow-auto wlan0
-      iface      wlan0 inet dhcp
-        
-        # Please update "wpa-psk" and "wpa-ssid" fields according your
-        # network configuration
+      allow-hotplug wlan0
+      iface         wlan0 inet manual
 
+        # Please update "wpa-psk" and "wpa-ssid" fields according your
+        # network  configuration. In    order to  set  this interface,
+        # please launch : ifup -v wlan0
+        
         wpa-conf           managed
         wpa-group          CCMP TKIP
         wpa-pairwise       CCMP TKIP
@@ -432,41 +457,40 @@ steps:
 
   - create-file: /etc/hosts
     contents: |+
-        # file /etc/hosts
-        
-        # IPV4 loopback address on localhost (RFC 5735 compliant)
-        127.0.0.1  localhost
-        
-        # IPV4 loopback address on localhost (RFC 5735 compliant)
-        127.0.0.2  NanoPi-R1
+      # file /etc/hosts
+      
+      # IPV4 loopback address on localhost (RFC 5735 compliant)
+      127.0.0.1  localhost
+      
+      # IPV4 loopback address on localhost (RFC 5735 compliant)
+      127.0.0.2  nanopi-r1
 
   # Launch one shell into chroot and make following actions...
 
   - chroot: rootfs_partition_tag
     shell: |
-      
       # python3 is      needed  to  launch   "Ansible"   tools  later.
       # Furthermore,  python3-apt   must be also  installed, otherwise
       # followin error :
 
       # Updating  cache   and  auto-installing  missing    dependency:
       # python3-apt
-      
+
       apt-get --assume-yes install python3 python3-apt
-      
+
       # openssh-server is needed to connect to target on Ethernet port
       # (and also from external Ansible script)
-      
+
       apt-get --assume-yes install openssh-server openssh-sftp-server
-      
+
       # Because this target boot first time in DHCP mode, then install
       # Debian   ISC   client.      Please   verify   default   Debian
       # /etc/dhcp/dhclient.conf
-      
+
       apt-get --assume-yes install isc-dhcp-client
-      
+
       # Install network Debian packages to support Wifi in STA mode only
-      
+
       apt-get --assume-yes install wireless-regdb firmware-brcm80211 wpasupplicant iw
 
   # When target will  boot later,  we must  be sure  to have  one  ssh
@@ -484,17 +508,17 @@ steps:
   - chroot: rootfs_partition_tag
     shell: |
 
-      # Be sure to enable ssh root access on target 
-      
+      # Be sure to enable ssh root access on target
+
       sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config
-      
-      # Enable ssh public key 
-      
+
+      # Enable ssh public key
+
       sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
-      
+
       # And finally enable ssh   root access without password  for  the
       # first connection.
-      
+
       sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
 
   # Create mandatory kernel modules (/etc/modules) loaded on startup
@@ -507,25 +531,16 @@ steps:
       # over USB (USB mpde OTG).  Please respect order...
       # https://wiki.t-firefly.com/en/Firefly-Linux-Guide/demo_usb_ethernet.html
       
-      # 1/7 Ethernet on USB (OTG): install module libcomposite
-      libcomposite
-      
-      # 2/7 Ethernet on USB (OTG): install module u_ether
-      u_ether
-      
-      # 3/7 Ethernet on USB (OTG): install module usb_f_ecm_subset
+      # 1/4 Ethernet on USB (OTG): install module usb_f_ecm_subset
       usb_f_ecm_subset
       
-      # 4/7 Ethernet on USB (OTG): install module usb_f_rndis
-      usb_f_rndis
-      
-      # 5/7 Ethernet on USB (OTG): install module usb_f_ecm
+      # 2/4 Ethernet on USB (OTG): install module usb_f_ecm
       usb_f_ecm
       
-      # 6/7 Ethernet on USB (OTG): install module usb_f_eem
+      # 3/4 Ethernet on USB (OTG): install module usb_f_eem
       usb_f_eem
       
-      # 7/7 Ethernet on USB (OTG):  g_ether module, in order to create
+      # 4/4 Ethernet on USB (OTG):  g_ether module, in order to create
       # one    USB  device on  Power usb   cable   (micro USB physical
       # interface near SD card)
       
@@ -564,7 +579,7 @@ steps:
 
   - root-fs: rootfs_partition_tag
     shell: |
-      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopi-r1-current/linux-u-boot-current-nanopi-r1_21.05.1_armhf.deb
+      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopi-r1-current/linux-u-boot-current-nanopi-r1_23.02.2_armhf.deb
 
   # Install Armbian u-boot package in rootfs
 
@@ -580,13 +595,19 @@ steps:
 
   - root-fs: rootfs_partition_tag
     shell: |
-      dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_21.05.1_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
+      dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_23.02.2_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
-  # FIXME
+  # On vmdb2-wrapper project, it is  possible for user to deploy  oits
+  # own private  Ansible playbook. If this  file is  not present, then
+  # use the example playbook as a default playbook. Otherwise, the
+  # user plabook will be used
 
   - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
+
+      # FIXME: be sure to mount /proc for ansible playbook ?
+
       mount -t proc proc $ROOT/proc
 
   # Install utf8   package.  On Debian  Bookworm,  when using Ansible,
@@ -599,17 +620,25 @@ steps:
   #  playbook: vmdb2-ansible.yaml
 
   # Launch final user application
-  # FIXME
 
   - root-fs: rootfs_partition_tag
     shell: |
-      # Restore fsck
+      # Restore original fsck tool hook now
+
       mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
       chmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck
       
+      # Bacause Ansible has finish running, it is possible to unmount /proc
+
       umount $ROOT/proc
-      # FIXME why ?
+
+      # Remove the forced machine description used for off line build,
+      # when the board  is  power on, the flash-kernel   autodetection
+      # will find the correct name using /proc/cpuinfo
+
       rm $ROOT/etc/flash-kernel/machine
-      
+
+      # Be sure to remove tempory link used for Ansible run
+
       diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
 
