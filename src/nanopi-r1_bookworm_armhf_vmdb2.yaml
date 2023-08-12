@@ -145,6 +145,11 @@ steps:
       Pin: release o=Debian,l=Debian,n=bookworm-backports
       Pin-Priority: 500
       
+      # Define behaviour on futur release
+      Package: *
+      Pin: release o=Debian,l=Debian,n=trixie
+      Pin-Priority: 90
+      
       # Define  behaviour  on more   recent kernel  than  the current
       # release, for example on Next Debian release (Trixie)
       
