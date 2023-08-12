@@ -597,9 +597,9 @@ steps:
     shell: |
       dd conv=fsync,notrunc if=$ROOT/usr/lib/linux-u-boot-current-nanopi-r1_21.08.1_armhf/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
-  # On vmdb2-wrapper project, it is  possible for user to deploy  oits
-  # own private  Ansible playbook. If this  file is  not present, then
-  # use the example playbook as a default playbook. Otherwise, the
+  # On  vmdb2-wrapper project, it is possible  for user  to deploy its
+  # own private  Ansible playbook. If  this file is  not present, then
+  # use the example   playbook as a  default playbook.  Otherwise, the
   # user plabook will be used
 
   - root-fs: rootfs_partition_tag
