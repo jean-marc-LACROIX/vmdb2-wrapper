@@ -148,7 +148,7 @@ steps:
       # Define  behaviour  on more   recent kernel  than  the current
       # release, for example on Next Debian release (Trixie)
       
-      #Package: linux-image-6.4.0-1-armmp
+      #Package: linux-image-6.4.0-1-armmp-lpae
       #Pin: release o=Debian,l=Debian,n=trixie
       #Pin-Priority: 980
       
@@ -204,7 +204,7 @@ steps:
 
       # Install the current generic linux kernel for this architecture
 
-      apt-get --assume-yes install linux-image-armmp
+      apt-get --assume-yes install linux-image-armmp-lpae
 
       # Restore  previous   post-hook script,   because now  kernel  is
       # correctly installed on rootfs.
