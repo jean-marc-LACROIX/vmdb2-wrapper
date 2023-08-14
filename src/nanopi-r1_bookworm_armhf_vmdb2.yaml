@@ -516,7 +516,7 @@ steps:
       g_ether
       
       # WiFi:   based  on AP6212  Chip   and  Linux "brcmfmac"  kernel
-      # module. Because firmwareis partially available (!)
+      # module. Because firmware is partially available (!)
       # ( https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1041436  )
       # is installed  above, then force   loading of kernel module  to
       # create network interface
