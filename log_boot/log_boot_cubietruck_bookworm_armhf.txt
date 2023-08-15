@@ -1,0 +1,714 @@
+
+U-Boot SPL 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000)
+DRAM: 2048 MiB
+CPU: 912000000Hz, AXI/AHB/APB: 3/2/2
+Trying to boot from MMC1
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) Allwinner Technology
+
+CPU:   Allwinner A20 (SUN7I)
+Model: Cubietech Cubietruck
+DRAM:  2 GiB
+Core:  65 devices, 24 uclasses, devicetree: separate
+WDT:   Not starting watchdog@1c20c90
+MMC:   mmc@1c0f000: 0, mmc@1c12000: 1
+Loading Environment from FAT... Unable to use mmc 0:1...
+Setting up a 1024x768 vga console (overscan 0x0)
+In:    serial
+Out:   vidconsole
+Err:   vidconsole
+Allwinner mUSB OTG (Peripheral)
+Net:   eth0: ethernet@1c50000, eth1: usb_ether
+starting USB...
+Bus usb@1c14000: USB EHCI 1.00
+Bus usb@1c14400: USB OHCI 1.0
+Bus usb@1c1c000: USB EHCI 1.00
+Bus usb@1c1c400: USB OHCI 1.0
+scanning bus usb@1c14000 for devices... 1 USB Device(s) found
+scanning bus usb@1c14400 for devices... 1 USB Device(s) found
+scanning bus usb@1c1c000 for devices... 1 USB Device(s) found
+scanning bus usb@1c1c400 for devices... 1 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+Hit any key to stop autoboot:  2  1  0 
+switch to partitions #0, OK
+mmc0 is current device
+Scanning mmc 0:1...
+Found U-Boot script /boot/boot.scr
+2715 bytes read in 4 ms (662.1 KiB/s)
+## Executing script at 43100000
+Mainline u-boot / new-style environment detected.
+5403136 bytes read in 230 ms (22.4 MiB/s)
+27514 bytes read in 8 ms (3.3 MiB/s)
+23445719 bytes read in 983 ms (22.7 MiB/s)
+Booting Debian 6.1.0-11-armmp-lpae from mmc 0:1...
+Kernel image @ 0x42000000 [ 0x000000 - 0x527200 ]
+## Flattened Device Tree blob at 43000000
+   Booting using the fdt blob at 0x43000000
+Working FDT set to 43000000
+EHCI failed to shut down host controller.
+   Loading Ramdisk to 489a3000, end 49fff0d7 ... OK
+   Loading Device Tree to 48999000, end 489a2b79 ... OK
+Working FDT set to 48999000
+
+Starting kernel ...
+
+[    0.000000] Booting Linux on physical CPU 0x0
+[    0.000000] Linux version 6.1.0-11-armmp-lpae (debian-kernel@lists.debian.org) (gcc-12 (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40) #1 SMP Debian 6.1.38-4 (2023-08-08)
+[    0.000000] CPU: ARMv7 Processor [410fc074] revision 4 (ARMv7), cr=30c5387d
+[    0.000000] CPU: div instructions available: patching division code
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] OF: fdt: Machine model: Cubietech Cubietruck
+[    0.000000] Memory policy: Data cache writealloc
+[    0.000000] efi: UEFI not found.
+[    0.000000] Reserved memory: created CMA memory pool at 0x000000004a000000, size 96 MiB
+[    0.000000] OF: reserved mem: initialized node default-pool, compatible id shared-dma-pool
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000040000000-0x000000006fffffff]
+[    0.000000]   Normal   empty
+[    0.000000]   HighMem  [mem 0x0000000070000000-0x00000000bdffffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000040000000-0x00000000bdffffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000040000000-0x00000000bdffffff]
+[    0.000000] psci: probing for conduit method from DT.
+[    0.000000] psci: Using PSCI v0.1 Function IDs from DT
+[    0.000000] percpu: Embedded 18 pages/cpu s41684 r8192 d23852 u73728
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 514368
+[    0.000000] Kernel command line: console=ttyS0,115200 root=UUID=1e2ffd17-c5e6-474f-87b4-a6d3c00d655c net.ifnames=0 fsck.mode=force fsck.repair=yes
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.000000] mem auto-init: stack:all(zero), heap alloc:on, heap free:off
+[    0.000000] Memory: 1903240K/2064384K available (12288K kernel code, 1710K rwdata, 3588K rodata, 2048K init, 384K bss, 62840K reserved, 98304K cma-reserved, 1277952K highmem)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=2, Nodes=1
+[    0.000000] ftrace: allocating 39699 entries in 117 pages
+[    0.000000] ftrace: allocated 117 pages with 5 groups
+[    0.000000] trace event string verifier disabled
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] rcu: 	RCU restricting CPUs from NR_CPUS=8 to nr_cpu_ids=2.
+[    0.000000] 	Rude variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] rcu: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+[    0.000000] GIC: Using split EOI/Deactivate mode
+[    0.000000] rcu: srcu_init: Setting srcu_struct sizes based on contention.
+[    0.000000] arch_timer: cp15 timer(s) running at 24.00MHz (phys).
+[    0.000000] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+[    0.000002] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+[    0.000018] Switching to timer-based delay loop, resolution 41ns
+[    0.001642] clocksource: timer: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 79635851949 ns
+[    0.002736] Can't get timer clock
+[    0.003676] Console: colour dummy device 80x30
+[    0.003772] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=96000)
+[    0.003795] CPU: Testing write buffer coherency: ok
+[    0.003957] pid_max: default: 32768 minimum: 301
+[    0.004465] LSM: Security Framework initializing
+[    0.004577] landlock: Up and running.
+[    0.004582] Yama: disabled by default; enable with sysctl kernel.yama.*
+[    0.004882] AppArmor: AppArmor initialized
+[    0.004899] TOMOYO Linux initialized
+[    0.004943] LSM support for eBPF active
+[    0.005299] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.005325] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.008046] /cpus/cpu@0 missing clock-frequency property
+[    0.008102] /cpus/cpu@1 missing clock-frequency property
+[    0.008117] CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+[    0.009637] cblist_init_generic: Setting adjustable number of callback queues.
+[    0.009659] cblist_init_generic: Setting shift to 1 and lim to 1.
+[    0.009870] cblist_init_generic: Setting shift to 1 and lim to 1.
+[    0.010148] Setting up static identity map for 0x40400000 - 0x404000ac
+[    0.011506] rcu: Hierarchical SRCU implementation.
+[    0.011521] rcu: 	Max phase no-delay instances is 1000.
+[    0.014228] EFI services will not be available.
+[    0.015153] smp: Bringing up secondary CPUs ...
+[    0.026725] CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+[    0.026977] smp: Brought up 1 node, 2 CPUs
+[    0.026997] SMP: Total of 2 processors activated (96.00 BogoMIPS).
+[    0.027007] CPU: All CPU(s) started in HYP mode.
+[    0.027010] CPU: Virtualization extensions available.
+[    0.029183] devtmpfs: initialized
+[    0.038990] VFP support v0.3: implementor 41 architecture 2 part 30 variant 7 rev 4
+[    0.039417] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.039473] futex hash table entries: 512 (order: 3, 32768 bytes, linear)
+[    0.045207] pinctrl core: initialized pinctrl subsystem
+[    0.046611] DMI not present or invalid.
+[    0.047868] NET: Registered PF_NETLINK/PF_ROUTE protocol family
+[    0.050170] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.051614] audit: initializing netlink subsys (disabled)
+[    0.052184] audit: type=2000 audit(0.044:1): state=initialized audit_enabled=0 res=1
+[    0.053958] thermal_sys: Registered thermal governor 'fair_share'
+[    0.053975] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.053980] thermal_sys: Registered thermal governor 'step_wise'
+[    0.053985] thermal_sys: Registered thermal governor 'user_space'
+[    0.053989] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.054258] No ATAGs?
+[    0.054443] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+[    0.054460] hw-breakpoint: maximum watchpoint size is 8 bytes.
+[    0.056123] Serial: AMBA PL011 UART driver
+[    0.064685] platform 1c0c000.lcd-controller: Fixed dependency cycle(s) with /soc/hdmi@1c16000
+[    0.064745] platform 1c0c000.lcd-controller: Fixed dependency cycle(s) with /soc/display-backend@1e40000
+[    0.064787] platform 1c0c000.lcd-controller: Fixed dependency cycle(s) with /soc/display-backend@1e60000
+[    0.084394] platform 1c16000.hdmi: Fixed dependency cycle(s) with /hdmi-connector
+[    0.093666] kprobes: kprobe jump-optimization is enabled. All kprobes are optimized if possible.
+[    0.096764] HugeTLB: registered 2.00 MiB page size, pre-allocated 0 pages
+[    0.096787] HugeTLB: 0 KiB vmemmap can be freed for a 2.00 MiB page
+[    0.106130] iommu: Default domain type: Translated 
+[    0.106152] iommu: DMA domain TLB invalidation policy: strict mode 
+[    0.110359] NetLabel: Initializing
+[    0.110379] NetLabel:  domain hash size = 128
+[    0.110387] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    0.110500] NetLabel:  unlabeled traffic allowed by default
+[    0.110972] vgaarb: loaded
+[    0.123373] clocksource: Switched to clocksource arch_sys_counter
+[    0.124717] VFS: Disk quotas dquot_6.6.0
+[    0.124911] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    0.126176] AppArmor: AppArmor Filesystem Enabled
+[    0.146699] NET: Registered PF_INET protocol family
+[    0.147711] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    0.151297] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 4096 bytes, linear)
+[    0.151579] Table-perturb hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.152003] TCP established hash table entries: 8192 (order: 3, 32768 bytes, linear)
+[    0.152177] TCP bind hash table entries: 8192 (order: 5, 131072 bytes, linear)
+[    0.152561] TCP: Hash tables configured (established 8192 bind 8192)
+[    0.153214] MPTCP token hash table entries: 1024 (order: 2, 16384 bytes, linear)
+[    0.153455] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.153544] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    0.154061] NET: Registered PF_UNIX/PF_LOCAL protocol family
+[    0.154147] NET: Registered PF_XDP protocol family
+[    0.154174] PCI: CLS 0 bytes, default 64
+[    0.155690] armv7-pmu pmu: hw perfevents: no interrupt-affinity property, guessing.
+[    0.156269] hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
+[    0.168094] Trying to unpack rootfs image as initramfs...
+[    0.222639] Initialise system trusted keyrings
+[    0.222772] Key type blacklist registered
+[    0.223432] workingset: timestamp_bits=14 max_order=19 bucket_order=5
+[    0.244087] zbud: loaded
+[    0.245965] integrity: Platform Keyring initialized
+[    0.246034] integrity: Machine keyring initialized
+[    0.246048] Key type asymmetric registered
+[    0.246060] Asymmetric key parser 'x509' registered
+[    3.211713] Freeing initrd memory: 22900K
+[    3.259470] alg: self-tests for CTR-KDF (hmac(sha256)) passed
+[    3.260038] bounce: pool size: 64 pages
+[    3.260365] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
+[    3.260814] io scheduler mq-deadline registered
+[    3.301323] Serial: 8250/16550 driver, 5 ports, IRQ sharing enabled
+[    3.305873] Serial: AMBA driver
+[    3.307955] STM32 USART driver initialized
+[    3.312483] mousedev: PS/2 mouse device common for all mice
+[    3.316077] sunxi-rtc 1c20d00.rtc: registered as rtc0
+[    3.316133] sunxi-rtc 1c20d00.rtc: setting system clock to 1970-01-01T16:47:03 UTC (60423)
+[    3.320197] ledtrig-cpu: registered to indicate activity on CPUs
+[    3.324437] NET: Registered PF_INET6 protocol family
+[    3.370413] Segment Routing with IPv6
+[    3.370552] In-situ OAM (IOAM) with IPv6
+[    3.370695] mip6: Mobile IPv6
+[    3.370735] NET: Registered PF_PACKET protocol family
+[    3.371088] mpls_gso: MPLS GSO support
+[    3.371246] ThumbEE CPU extension supported.
+[    3.371266] Registering SWP/SWPB emulation handler
+[    3.372138] registered taskstats version 1
+[    3.372200] Loading compiled-in X.509 certificates
+[    4.306974] Loaded X.509 cert 'Debian Secure Boot CA: 6ccece7e4c6c0d1f6149f3dd27dfcc5cbb419ea1'
+[    4.307149] Loaded X.509 cert 'Debian Secure Boot Signer 2022 - linux: 14011249c2675ea8e5148542202005810584b25f'
+[    4.308981] zswap: loaded using pool lzo/zbud
+[    4.310356] Key type .fscrypt registered
+[    4.310377] Key type fscrypt-provisioning registered
+[    4.353743] Key type encrypted registered
+[    4.353781] AppArmor: AppArmor sha1 policy hashing enabled
+[    4.353867] ima: No TPM chip found, activating TPM-bypass!
+[    4.353930] ima: Allocated hash algorithm: sha256
+[    4.354010] ima: No architecture policies found
+[    4.354105] evm: Initialising EVM extended attributes:
+[    4.354111] evm: security.selinux
+[    4.354117] evm: security.SMACK64 (disabled)
+[    4.354121] evm: security.SMACK64EXEC (disabled)
+[    4.354126] evm: security.SMACK64TRANSMUTE (disabled)
+[    4.354130] evm: security.SMACK64MMAP (disabled)
+[    4.354134] evm: security.apparmor
+[    4.354138] evm: security.ima
+[    4.354142] evm: security.capability
+[    4.354146] evm: HMAC attrs: 0x1
+[    5.538023] sun4i-pinctrl 1c20800.pinctrl: supply vcc-pi not found, using dummy regulator
+[    5.541170] sun4i-pinctrl 1c20800.pinctrl: initialized sunXi PIO driver
+[    5.542277] sun4i-pinctrl 1c20800.pinctrl: supply vcc-pb not found, using dummy regulator
+[    5.543466] printk: console [ttyS0] disabled
+[    5.563794] 1c28000.serial: ttyS0 at MMIO 0x1c28000 (irq = 69, base_baud = 1500000) is a U6_16550A
+[    6.624200] printk: console [ttyS0] enabled
+[    6.651234] 1c28800.serial: ttyS1 at MMIO 0x1c28800 (irq = 70, base_baud = 1500000) is a U6_16550A
+[    6.660538] serial serial0: tty port ttyS1 registered
+[    6.667008] sun4i-pinctrl 1c20800.pinctrl: supply vcc-ph not found, using dummy regulator
+[    6.691905] Freeing unused kernel image (initmem) memory: 2048K
+[    6.709705] Checked W+X mappings: passed, no W+X pages found
+[    6.715509] Run /init as init process
+Loading, please wait...
+Starting systemd-udevd version 252.12-1~deb12u1
+[    8.165617] sun4i-pinctrl 1c20800.pinctrl: supply vcc-pf not found, using dummy regulator
+[    8.245320] sunxi-mmc 1c0f000.mmc: Got CD GPIO
+[    8.257054] sunxi-mmc 1c12000.mmc: allocated mmc-pwrseq
+[    8.273851] usbcore: registered new interface driver usbfs
+[    8.295513] sunxi-mmc 1c12000.mmc: initialized, max. request size: 16384 KB
+[    8.306265] sunxi-mmc 1c0f000.mmc: initialized, max. request size: 16384 KB
+[    8.324998] usbcore: registered new interface driver hub
+[    8.359793] usbcore: registered new device driver usb
+[    8.365050] mmc0: host does not support reading read-only switch, assuming write-enable
+[    8.386980] mmc0: new high speed SDHC card at address 0007
+[    8.398040] mmc1: new high speed SDIO card at address 0001
+[    8.409963] SCSI subsystem initialized
+[    8.414069] pps_core: LinuxPPS API ver. 1 registered
+[    8.419125] pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+[    8.428786] axp20x-i2c 0-0034: AXP20x variant AXP209 found
+[    8.455258] axp20x-i2c 0-0034: mask_invert=true is deprecated; please switch to unmask_base
+[    8.506781] mmcblk0: mmc0:0007 SL16G 14.5 GiB 
+[    8.516026] PTP clock support registered
+[    8.560030]  mmcblk0: p1
+[    8.637124] ahci-sunxi 1c18000.sata: supply ahci not found, using dummy regulator
+[    8.650045] ahci-sunxi 1c18000.sata: supply phy not found, using dummy regulator
+[    8.660425] axp20x-i2c 0-0034: AXP20X driver loaded
+[    8.719690] ahci-sunxi 1c18000.sata: controller can't do PMP, turning off CAP_PMP
+[    8.727425] ahci-sunxi 1c18000.sata: forcing PORTS_IMPL to 0x1
+[    8.734824] sun4i-pinctrl 1c20800.pinctrl: supply vcc-pa not found, using dummy regulator
+[    8.736157] ahci-sunxi 1c18000.sata: AHCI 0001.0100 32 slots 1 ports 3 Gbps 0x1 impl platform mode
+[    8.752190] ahci-sunxi 1c18000.sata: flags: ncq sntf pm led clo only pio slum part ccc 
+[    8.777797] scsi host0: ahci-sunxi
+[    8.786473] ata1: SATA max UDMA/133 mmio [mem 0x01c18000-0x01c18fff] port 0x100 irq 116
+[    8.802056] sun7i-dwmac 1c50000.ethernet: IRQ eth_wake_irq not found
+[    8.808590] sun7i-dwmac 1c50000.ethernet: IRQ eth_lpi not found
+[    8.854327] sun7i-dwmac 1c50000.ethernet: PTP uses main clock
+[    8.863646] sun7i-dwmac 1c50000.ethernet: no regulator found
+[    8.875999] sun7i-dwmac 1c50000.ethernet: Version ID not available
+[    8.884247] sun7i-dwmac 1c50000.ethernet: 	DWMAC1000
+[    8.889424] sun7i-dwmac 1c50000.ethernet: No HW DMA feature register supported
+[    8.896788] sun7i-dwmac 1c50000.ethernet: TX Checksum insertion supported
+[    8.903660] sun7i-dwmac 1c50000.ethernet: Normal descriptors
+[    8.909403] sun7i-dwmac 1c50000.ethernet: Ring mode enabled
+[    8.977118] axp20x-gpio axp20x-gpio: DMA mask not set
+[    8.989730] axp20x-gpio axp20x-gpio: AXP209 pinctrl and GPIO driver loaded
+[    9.127610] ata1: SATA link up 3.0 Gbps (SStatus 123 SControl 300)
+[    9.134128] ata1.00: ATA-9: CJ325120JC, 1.094.12, max UDMA/100
+[    9.140131] ata1.00: 234441648 sectors, multi 1: LBA48 NCQ (depth 32)
+[    9.146920] ata1.00: configured for UDMA/100
+[    9.152444] scsi 0:0:0:0: Direct-Access     ATA      CJ325120JC       4.12 PQ: 0 ANSI: 5
+[    9.167017] axp20x-usb-power-supply axp20x-usb-power-supply: DMA mask not set
+[    9.346556] sd 0:0:0:0: [sda] 234441648 512-byte logical blocks: (120 GB/112 GiB)
+[    9.354506] sd 0:0:0:0: [sda] Write Protect is off
+[    9.363720] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    9.373084] sd 0:0:0:0: [sda] Preferred minimum I/O size 512 bytes
+[    9.391897]  sda: sda1 sda2 < sda5 sda6 sda7 sda8 sda9 sda10 sda11 sda12 sda13 sda14 sda15 sda16 sda17 sda18 sda19 sda20 sda21 sda22 sda23 >
+[    9.416163] sd 0:0:0:0: [sda] Attached SCSI disk
+Begin: Loading essential drivers ... done.
+Begin: Running /scripts/init-premount ... done.
+Begin: Mounting root file system ... Begin: Running /scripts/local-top ... done.
+Begin: Running /scripts/local-premount ... done.
+Begin: Will now check root file system ... fsck from util-linux 2.38.1
+[/sbin/fsck.ext4 (1) -- /dev/mmcblk0p1] fsck.ext4 -f -y -C0 /dev/mmcblk0p1 
+e2fsck 1.47.0 (5-Feb-2023)
+/dev/mmcblk0p1: recovering journal
+[   19.443016] platform 1c13000.usb: deferred probe pending
+[   19.448455] platform 1c13400.phy: deferred probe pending
+[   19.453806] platform 1c1c400.usb: deferred probe pending
+[   19.459132] platform axp20x-usb-power-supply: deferred probe pending
+[   19.465497] platform 1c14400.usb: deferred probe pending
+[   19.470821] platform 1c1c000.usb: deferred probe pending
+Pass 1: Checking inodes, blocks, and sizes
+/dev/mmcblk0p1: |=                                               |  2.9%   /dev/mmcblk0p1: |===                                             /  5.8%   /dev/mmcblk0p1: |====                                            -  8.8%                                                                                  Pass 2: Checking directory structure
+/dev/mmcblk0p1: |==================================              \ 70.1%   /dev/mmcblk0p1: |==================================              | 70.7%   /dev/mmcblk0p1: |=====================================           / 77.1%   /dev/mmcblk0p1: |========================================        - 82.5%   /dev/mmcblk0p1: |=========================================       \ 84.9%   /dev/mmcblk0p1: |===========================================     | 89.1%                                                                                  Pass 3: Checking directory connectivity
+Pass 4: Checking reference counts
+/dev/mmcblk0p1: |=============================================   / 93.1%                                                                                  Pass 5: Checking group summary information
+Free blocks count wrong (571560, counted=569445).
+Fix? yes
+
+/dev/mmcblk0p1: |================================================| 100.0%                                                                                  Free inodes count wrong (172406, counted=172376).
+Fix? yes
+
+
+/dev/mmcblk0p1: ***** FILE SYSTEM WAS MODIFIED *****
+/dev/mmcblk0p1: 23464/195840 files (0.4% non-contiguous), 213147/782592 blocks
+fsck exited with status code 1
+done.
+[   22.258843] EXT4-fs (mmcblk0p1): mounted filesystem with ordered data mode. Quota mode: none.
+done.
+Begin: Running /scripts/local-bottom ... done.
+Begin: Running /scripts/init-bottom ... done.
+[   22.615979] Not activating Mandatory Access Control as /sbin/tomoyo-init does not exist.
+[   23.170982] systemd[1]: System time before build time, advancing clock.
+[   23.248346] systemd[1]: Inserted module 'autofs4'
+[   23.363225] systemd[1]: systemd 252.12-1~deb12u1 running in system mode (+PAM +AUDIT +SELINUX +APPARMOR +IMA +SMACK +SECCOMP +GCRYPT -GNUTLS +OPENSSL +ACL +BLKID +CURL +ELFUTILS +FIDO2 +IDN2 -IDN +IPTC +KMOD +LIBCRYPTSETUP +LIBFDISK +PCRE2 -PWQUALITY +P11KIT +QRENCODE +TPM2 +BZIP2 +LZ4 +XZ +ZLIB +ZSTD -BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=unified)
+[   23.396002] systemd[1]: Detected architecture arm.
+
+Welcome to Debian GNU/Linux 12 (bookworm)!
+
+[   23.425498] systemd[1]: Hostname set to <Cubietruck>.
+[   24.809972] systemd[1]: Queued start job for default target graphical.target.
+[   24.849561] systemd[1]: Created slice system-getty.slice - Slice /system/getty.
+[  OK  ] Created slice system-getty.slice - Slice /system/getty.
+[   24.879995] systemd[1]: Created slice system-modprobe.slice - Slice /system/modprobe.
+[  OK  ] Created slice system-modpr…lice - Slice /system/modprobe.
+[   24.908002] systemd[1]: Created slice system-serial\x2dgetty.slice - Slice /system/serial-getty.
+[  OK  ] Created slice system-seria… - Slice /system/serial-getty.
+[   24.934743] systemd[1]: Created slice user.slice - User and Session Slice.
+[  OK  ] Created slice user.slice - User and Session Slice.
+[   24.960572] systemd[1]: Started systemd-ask-password-console.path - Dispatch Password Requests to Console Directory Watch.
+[  OK  ] Started systemd-ask-passwo…quests to Console Directory Watch.
+[   24.988404] systemd[1]: Started systemd-ask-password-wall.path - Forward Password Requests to Wall Directory Watch.
+[  OK  ] Started systemd-ask-passwo… Requests to Wall Directory Watch.
+[   25.017576] systemd[1]: Set up automount proc-sys-fs-binfmt_misc.automount - Arbitrary Executable File Formats File System Automount Point.
+[  OK  ] Set up automount proc-sys-…rmats File System Automount Point.
+[   25.048191] systemd[1]: Reached target cryptsetup.target - Local Encrypted Volumes.
+[  OK  ] Reached target cryptsetup.…get - Local Encrypted Volumes.
+[   25.072044] systemd[1]: Reached target integritysetup.target - Local Integrity Protected Volumes.
+[  OK  ] Reached target integrityse…Local Integrity Protected Volumes.
+[   25.096049] systemd[1]: Reached target paths.target - Path Units.
+[  OK  ] Reached target paths.target - Path Units.
+[   25.119998] systemd[1]: Reached target remote-fs.target - Remote File Systems.
+[  OK  ] Reached target remote-fs.target - Remote File Systems.
+[   25.143847] systemd[1]: Reached target slices.target - Slice Units.
+[  OK  ] Reached target slices.target - Slice Units.
+[   25.167935] systemd[1]: Reached target swap.target - Swaps.
+[  OK  ] Reached target swap.target - Swaps.
+[   25.191964] systemd[1]: Reached target veritysetup.target - Local Verity Protected Volumes.
+[  OK  ] Reached target veritysetup… - Local Verity Protected Volumes.
+[   25.217443] systemd[1]: Listening on systemd-fsckd.socket - fsck to fsckd communication Socket.
+[  OK  ] Listening on systemd-fsckd…sck to fsckd communication Socket.
+[   25.244635] systemd[1]: Listening on systemd-initctl.socket - initctl Compatibility Named Pipe.
+[  OK  ] Listening on systemd-initc… initctl Compatibility Named Pipe.
+[   25.274327] systemd[1]: Listening on systemd-journald-audit.socket - Journal Audit Socket.
+[  OK  ] Listening on systemd-journ…socket - Journal Audit Socket.
+[   25.301392] systemd[1]: Listening on systemd-journald-dev-log.socket - Journal Socket (/dev/log).
+[  OK  ] Listening on systemd-journ…t - Journal Socket (/dev/log).
+[   25.329531] systemd[1]: Listening on systemd-journald.socket - Journal Socket.
+[  OK  ] Listening on systemd-journald.socket - Journal Socket.
+[   25.353800] systemd[1]: Listening on systemd-udevd-control.socket - udev Control Socket.
+[  OK  ] Listening on systemd-udevd….socket - udev Control Socket.
+[   25.381072] systemd[1]: Listening on systemd-udevd-kernel.socket - udev Kernel Socket.
+[  OK  ] Listening on systemd-udevd…l.socket - udev Kernel Socket.
+[   25.432203] systemd[1]: Mounting dev-hugepages.mount - Huge Pages File System...
+         Mounting dev-hugepages.mount - Huge Pages File System...
+[   25.466062] systemd[1]: Mounting dev-mqueue.mount - POSIX Message Queue File System...
+         Mounting dev-mqueue.mount��POSIX Message Queue File System...
+[   25.516306] systemd[1]: Mounting sys-kernel-debug.mount - Kernel Debug File System...
+         Mounting sys-kernel-debug.… - Kernel Debug File System...
+[   25.549038] systemd[1]: Mounting sys-kernel-tracing.mount - Kernel Trace File System...
+         Mounting sys-kernel-tracin… - Kernel Trace File System...
+[   25.600839] systemd[1]: Starting kmod-static-nodes.service - Create List of Static Device Nodes...
+         Starting kmod-static-nodes…ate List of Static Device Nodes...
+[   25.638323] systemd[1]: Starting modprobe@configfs.service - Load Kernel Module configfs...
+         Starting modprobe@configfs…m - Load Kernel Module configfs...
+[   25.689251] systemd[1]: Starting modprobe@dm_mod.service - Load Kernel Module dm_mod...
+         Starting modprobe@dm_mod.s…[0m - Load Kernel Module dm_mod...
+[   25.740906] systemd[1]: Starting modprobe@drm.service - Load Kernel Module drm...
+         Starting modprobe@drm.service - Load Kernel Module drm...
+[   25.759209] device-mapper: core: CONFIG_IMA_DISABLE_HTABLE is disabled. Duplicate IMA measurements will not be recorded in the IMA log.
+[   25.771827] device-mapper: uevent: version 1.0.3
+[   25.777512] device-mapper: ioctl: 4.47.0-ioctl (2022-07-28) initialised: dm-devel@redhat.com
+[   25.787313] systemd[1]: Starting modprobe@efi_pstore.service - Load Kernel Module efi_pstore...
+         Starting modprobe@efi_psto…- Load Kernel Module efi_pstore...
+[   25.844820] systemd[1]: Starting modprobe@fuse.service - Load Kernel Module fuse...
+         Starting modprobe@fuse.ser…e - Load Kernel Module fuse...
+[   25.879747] systemd[1]: Starting modprobe@loop.service - Load Kernel Module loop...
+         Starting modprobe@loop.ser…e - Load Kern[   25.888782] fuse: init (API version 7.37)
+el Module loop...
+[   25.908779] systemd[1]: systemd-fsck-root.service - File System Check on Root Device was skipped because of an unmet condition check (ConditionPathExists=!/run/initramfs/fsck-root).
+[   25.948765] loop: module loaded
+[   25.969691] systemd[1]: Starting systemd-journald.service - Journal Service...
+         Starting systemd-journald.service - Journal Service...
+[   26.029213] systemd[1]: Starting systemd-modules-load.service - Load Kernel Modules...
+         Starting systemd-modules-l…rvice - Load Kernel Modules...
+[   26.096925] systemd[1]: Starting systemd-remount-fs.service - Remount Root and Kernel File Systems...
+         Starting systemd-remount-f…nt Root and Kernel File Systems...
+[   26.162051] systemd[1]: Starting systemd-udev-trigger.service - Coldplug All udev Devices...
+         Starting systemd-udev-trig…[0m - Coldplug All udev Devices...
+[   26.268075] UDC core: g_ether: couldn't find an available UDC
+[   26.281335] systemd[1]: Mounted dev-hugepages.mount - Huge Pages File System.
+[   26.297969] EXT4-fs (mmcblk0p1): re-mounted. Quota mode: none.
+[  OK  ] Mounted dev-hugepages.mount - Huge Pages File System.
+[   26.333074] systemd[1]: Mounted dev-mqueue.mount - POSIX Message Queue File System.
+[  OK  ] Mounted dev-mqueue.mount��- POSIX Message Queue File System.
+[   26.365443] systemd[1]: Mounted sys-kernel-debug.mount - Kernel Debug File System.
+[  OK  ] Mounted sys-kernel-debug.m…nt - Kernel Debug File System.
+[   26.401402] systemd[1]: Mounted sys-kernel-tracing.mount - Kernel Trace File System.
+[  OK  ] Mounted sys-kernel-tracing…nt - Kernel Trace File System.
+[   26.438596] systemd[1]: Finished kmod-static-nodes.service - Create List of Static Device Nodes.
+[  OK  ] Finished kmod-static-nodes…reate List of Static Device Nodes.
+[   26.473720] systemd[1]: Started systemd-journald.service - Journal Service.
+[  OK  ] Started systemd-journald.service - Journal Service.
+[  OK  ] Finished modprobe@configfs…[0m - Load Kernel Module configfs.
+[  OK  ] Finished modprobe@dm_mod.s…e - Load Kernel Module dm_mod.
+[  OK  ] Finished modprobe@drm.service - Load Kernel Module drm.
+[  OK  ] Finished modprobe@efi_psto…m - Load Kernel Module efi_pstore.
+[  OK  ] Finished modprobe@fuse.service - Load Kernel Module fuse.
+[  OK  ] Finished modprobe@loop.service - Load Kernel Module loop.
+[  OK  ] Finished systemd-modules-l…service - Load Kernel Modules.
+[  OK  ] Finished systemd-remount-f…ount Root and Kernel File Systems.
+         Mounting sys-fs-fuse-conne… - FUSE Control File System...
+         Mounting sys-kernel-config…ernel Configuration File System...
+         Starting systemd-journal-f…h Journal to Persistent Storage...
+         Starting systemd-random-se…ice - Load/Save Random Seed...
+         Starting systemd-sysctl.se…ce - Apply Kernel Variables...
+         Starting systemd-sysusers.…rvice - Create System Users...
+[  OK  ] Mounted sys-fs-fuse-connec…nt - FUSE Control File System.
+[  OK  ] Mounted sys-kernel-config.… Kerne[   27.046417] systemd-journald[214]: Received client request to flush runtime journal.
+l Configuration File System.
+[   27.084459] systemd-journald[214]: File /var/log/journal/28f1f879f3734dfbac3cdf604ee6e828/system.journal corrupted or uncleanly shut down, renaming and replacing.
+[  OK  ] Finished systemd-sysctl.service - Apply Kernel Variables.
+[  OK  ] Finished systemd-sysusers.service - Create System Users.
+         Starting systemd-tmpfiles-…ate Static Device Nodes in /dev...
+[  OK  ] Finished systemd-journal-f…ush Journal to Persistent Storage.
+[  OK  ] Finished systemd-tmpfiles-…reate Static Device Nodes in /dev.
+[  OK  ] Reached target local-fs-pr…reparation for Local File Systems.
+[  OK  ] Reached target local-fs.target - Local File Systems.
+         Starting apparmor.service - Load AppArmor profiles...
+         Starting systemd-binfmt.se…et Up Additional Binary Formats...
+         Starting systemd-tmpfiles-… Volatile Files and Directories...
+         Starting systemd-udevd.ser…ger for Device Events and Files...
+         Mounting proc-sys-fs-binfm…utable File Formats File System...
+[  OK  ] Mounted proc-sys-fs-binfmt…ecutable File Formats File System.
+[  OK  ] Finished systemd-binfmt.se… Set Up Additional Binary Formats.
+[   28.101274] audit: type=1400 audit(1689025479.928:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="lsb_release" pid=243 comm="apparmor_parser"
+[  OK  ] Finished systemd-tmpfiles-…te Volatile Files and Directories.
+[   28.165366] audit: type=1400 audit(1689025479.992:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe" pid=244 comm="apparmor_parser"
+         Starting systemd-update-ut…rd System Boot/Shutdown in UTMP...
+[   28.233299] audit: type=1400 audit(1689025479.992:4): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe//kmod" pid=244 comm="apparmor_parser"
+[   28.279497] random: crng init done
+[   28.287842] audit: type=1400 audit(1689025480.112:5): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-client.action" pid=245 comm="apparmor_parser"
+[   28.306185] audit: type=1400 audit(1689025480.112:6): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/NetworkManager/nm-dhcp-helper" pid=245 comm="apparmor_parser"
+[  OK  ] Finished systemd-udev-trig…e - Coldplug All udev Devices.
+[   28.336046] audit: type=1400 audit(1689025480.112:7): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/usr/lib/connman/scripts/dhclient-script" pid=245 comm="apparmor_parser"
+[   28.354314] audit: type=1400 audit(1689025480.112:8): apparmor="STATUS" operation="profile_load" profile="unconfined" name="/{,usr/}sbin/dhclient" pid=245 comm="apparmor_parser"
+[  OK  ] Finished apparmor.service - Load AppArmor profiles.
+[  OK  ] Finished systemd-random-se…rvice - Load/Save Random Seed.
+         Starting ifupdown-pre.serv…ynchronize boot up for ifupdown...
+[  OK  ] Finished systemd-update-ut…cord System Boot/Shutdown in UTMP.
+[  OK  ] Started systemd-udevd.serv…nager for Device Events and Files.
+[  OK  ] Reached target sysinit.target - System Initialization.
+[  OK  ] Started apt-daily.timer - Daily apt download activities.
+[  OK  ] Started apt-daily-upgrade.… apt upgrade and clean activities.
+[  OK  ] Started dpkg-db-backup.tim… Daily dpkg database backup timer.
+[  OK  ] Started e2scrub_all.timer��etadata Check for All Filesystems.
+[  OK  ] Started fstrim.timer - Discard unused blocks once a week.
+[  OK  ] Started logrotate.timer - Daily rotation of log files.
+[  OK  ] Started systemd-tmpfiles-c… Cleanup of Temporary Directories.
+[  OK  ] Reached target timers.target - Timer Units.
+[  OK  ] Listening on dbus.socket��- D-Bus System Message Bus Socket.
+[  OK  ] Reached target sockets.target - Socket Units.
+[  OK  ] Reached target basic.target - Basic System.
+[  OK  ] Started cron.service -…kground program processing daemon.
+         Starting dbus.service - D-Bus System Message Bus...
+         Starting e2scrub_reap.serv…e ext4 Metadata Check Snapshots...
+[   29.107798] sd 0:0:0:0: Attached scsi generic sg0 type 0
+         Starting systemd-logind.se…ice - User Login Management...
+[  OK  ] Started dbus.service - D-Bus System Message Bus.
+[  OK  ] Found device dev-ttyS0.device - /dev/ttyS0.
+[   31.133591] mc: Linux media interface: v0.10
+[   31.189409] sun4i-ss 1c15000.crypto-engine: no reset control found
+[   31.250183] sunxi-wdt 1c20c90.watchdog: Watchdog enabled (timeout=16 sec, nowayout=0)
+[   31.280768] sun4i-ss 1c15000.crypto-engine: Die ID 0
+[   31.317470] Registered IR keymap rc-empty
+[   31.343780] rc rc0: sunxi-ir as /devices/platform/soc/1c21800.ir/rc/rc0
+[   31.399726] videodev: Linux video capture interface: v2.00
+[   31.453929] rc rc0: lirc_dev: driver sunxi-ir registered at minor = 0, raw IR receiver, no transmitter
+[   31.454306] input: sunxi-ir as /devices/platform/soc/1c21800.ir/rc/rc0/input0
+[   31.482082] sunxi-ir 1c21800.ir: initialized sunXi IR driver
+[   31.678088] sunxi_cedrus: module is from the staging directory, the quality is unknown, you have been warned.
+[   31.815269] sun4i-drm display-engine: bound 1e00000.display-frontend (ops sun4i_frontend_driver_exit [sun4i_frontend])
+[   31.828250] cedrus 1c0e000.video-codec: Device registered as /dev/video0
+[   31.845190] cfg80211: Loading compiled-in X.509 certificates for regulatory database
+[   31.847326] cfg80211: Loaded X.509 cert 'benh@debian.org: 577e021cb980e0e820821ba7b54b4961b8b4fadf'
+[   31.853338] axp20x-ac-power-supply axp20x-ac-power-supply: DMA mask not set
+[   31.869155] axp20x-adc axp20x-adc: DMA mask not set
+[   31.920910] cfg80211: Loaded X.509 cert 'romain.perier@gmail.com: 3abbc6ec146e09d1b6016ab9d6cf71dd233f0328'
+[   31.956844] sun4i-drm display-engine: bound 1e20000.display-frontend (ops sun4i_frontend_driver_exit [sun4i_frontend])
+[   31.957514] sun4i-drm display-engine: bound 1e60000.display-backend (ops sun4i_backend_ops [sun4i_backend])
+[   31.958141] sun4i-drm display-engine: bound 1e40000.display-backend (ops sun4i_backend_ops [sun4i_backend])
+[   31.971251] cfg80211: Loaded X.509 cert 'sforshee: 00b28ddf47aef9cea7'
+[   31.976238] sun4i-drm display-engine: No panel or bridge found... RGB output disabled
+[   31.976280] sun4i-drm display-engine: bound 1c0c000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
+[   31.977494] sun4i-drm display-engine: No panel or bridge found... RGB output disabled
+[   31.977532] sun4i-drm display-engine: bound 1c0d000.lcd-controller (ops sun4i_tcon_platform_driver_exit [sun4i_tcon])
+[   31.995959] platform regulatory.0: firmware: direct-loading firmware regulatory.db
+[   32.007057] axp20x-battery-power-supply axp20x-battery-power-supply: DMA mask not set
+[   32.012122] platform regulatory.0: firmware: direct-loading firmware regulatory.db.p7s
+[   32.019525] Registered IR keymap rc-cec
+[   32.138965] usb_phy_generic usb_phy_generic.0.auto: supply vcc not found, using dummy regulator
+[   32.142757] ehci-platform 1c1c000.usb: EHCI Host Controller
+[   32.156343] ohci-platform 1c1c400.usb: Generic Platform OHCI controller
+[   32.157096] ehci-platform 1c1c000.usb: new USB bus registered, assigned bus number 1
+[   32.165259] ohci-platform 1c14400.usb: Generic Platform OHCI controller
+[   32.206601] ehci-platform 1c14000.usb: EHCI Host Controller
+[   32.217538] ehci-platform 1c14000.usb: new USB bus registered, assigned bus number 2
+[   32.218129] input: axp20x-pek as /devices/platform/soc/1c2ac00.i2c/i2c-0/0-0034/axp20x-pek/input/input1
+[   32.251631] ohci-platform 1c1c400.usb: new USB bus registered, assigned bus number 3
+[   32.291552] ohci-platform 1c14400.usb: new USB bus registered, assigned bus number 4
+[   32.327562] rc rc1: sun4i as /devices/platform/soc/1c16000.hdmi/rc/rc1
+[   32.338155] input: sun4i as /devices/platform/soc/1c16000.hdmi/rc/rc1/input2
+[   32.346018] usb_phy_generic usb_phy_generic.0.auto: dummy supplies not allowed for exclusive requests
+[   32.355891] brcmfmac: brcmf_fw_alloc_request: using brcm/brcmfmac43362-sdio for chip BCM43362/1
+[   32.381485] usbcore: registered new interface driver brcmfmac
+[   32.400272] sun4i-drm display-engine: bound 1c16000.hdmi (ops sun4i_hdmi_driver_exit [sun4i_drm_hdmi])
+[   32.404994] musb-hdrc musb-hdrc.1.auto: MUSB HDRC host driver
+[   32.423545] musb-hdrc musb-hdrc.1.auto: new USB bus registered, assigned bus number 5
+[   32.446542] brcmfmac mmc1:0001:1: firmware: failed to load brcm/brcmfmac43362-sdio.cubietech,cubietruck.bin (-2)
+[   32.456988] firmware_class: See https://wiki.debian.org/Firmware for information about missing firmware
+[   32.481951] usb usb5: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
+[   32.490404] usb usb5: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[   32.497787] usb usb5: Product: MUSB HDRC host driver
+[   32.502807] usb usb5: Manufacturer: Linux 6.1.0-11-armmp-lpae musb-hcd
+[   32.509358] usb usb5: SerialNumber: musb-hdrc.1.auto
+[   32.530163] cryptd: max_cpu_qlen set to 1000
+[   32.543685] brcmfmac mmc1:0001:1: firmware: failed to load brcm/brcmfmac43362-sdio.cubietech,cubietruck.bin (-2)
+[   32.554099] brcmfmac mmc1:0001:1: Direct firmware load for brcm/brcmfmac43362-sdio.cubietech,cubietruck.bin failed with error -2
+[   32.580664] ohci-platform 1c1c400.usb: irq 124, io mem 0x01c1c400
+[   32.587879] brcmfmac mmc1:0001:1: firmware: direct-loading firmware brcm/brcmfmac43362-sdio.bin
+[   32.598931] [drm] Initialized sun4i-drm 1.0.0 20150629 for display-engine on minor 0
+[   32.602619] hub 5-0:1.0: USB hub found
+[   32.607066] brcmfmac mmc1:0001:1: firmware: direct-loading firmware brcm/brcmfmac43362-sdio.cubietech,cubietruck.txt
+[   32.621896] brcmfmac mmc1:0001:1: firmware: failed to load brcm/brcmfmac43362-sdio.cubietech,cubietruck.clm_blob (-2)
+[   32.630011] sun4i-drm display-engine: [drm] Cannot find any crtc or sizes
+[   32.632909] brcmfmac mmc1:0001:1: firmware: failed to load brcm/brcmfmac43362-sdio.cubietech,cubietruck.clm_blob (-2)
+[   32.654689] lima 1c40000.gpu: gp - mali400 version major 1 minor 1
+[   32.661251] brcmfmac mmc1:0001:1: firmware: failed to load brcm/brcmfmac43362-sdio.clm_blob (-2)
+[   32.664983] hub 5-0:1.0: 1 port detected
+[   32.670577] lima 1c40000.gpu: pp0 - mali400 version major 1 minor 1
+[   32.687864] brcmfmac mmc1:0001:1: firmware: failed to load brcm/brcmfmac43362-sdio.clm_blob (-2)
+[   32.697006] brcmfmac mmc1:0001:1: Direct firmware load for brcm/brcmfmac43362-sdio.clm_blob failed with error -2
+[   32.714032] lima 1c40000.gpu: pp1 - mali400 version major 1 minor 1
+[   32.729840] lima 1c40000.gpu: l2 cache 64K, 4-way, 64byte cache line, 64bit external bus
+[   32.740118] ohci-platform 1c14400.usb: irq 125, io mem 0x01c14400
+[   32.757322] ehci-platform 1c1c000.usb: irq 123, io mem 0x01c1c000
+[   32.757320] usb usb3: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 6.01
+[   32.757352] usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[   32.776388] using random self ethernet address
+[   32.779241] usb usb3: Product: Generic Platform OHCI controller
+[   32.783648] using random host ethernet address
+[   32.789574] usb usb3: Manufacturer: Linux 6.1.0-11-armmp-lpae ohci_hcd
+[   32.800617] usb usb3: SerialNumber: 1c1c400.usb
+[   32.805692] ehci-platform 1c14000.usb: irq 126, io mem 0x01c14000
+[   32.818919] lima 1c40000.gpu: bus rate = 300000000
+[   32.823875] lima 1c40000.gpu: mod rate = 384000000
+[   32.831565] ehci-platform 1c1c000.usb: USB 2.0 started, EHCI 1.00
+[   32.847502] ehci-platform 1c14000.usb: USB 2.0 started, EHCI 1.00
+[   32.854743] [drm] Initialized lima 1.1.0 20191231 for 1c40000.gpu on minor 1
+[   32.870982] usb0: HOST MAC 5e:cb:49:8e:79:4e
+[   32.875452] usb0: MAC a2:03:4c:a4:ed:e1
+[   32.903701] using random self ethernet address
+[   32.908349] using random host ethernet address
+[   32.931880] g_ether gadget.0: Ethernet Gadget, version: Memorial Day 2008
+[   32.938902] g_ether gadget.0: g_ether ready
+[*     ] (1 of 3) Job ifupdown-pre.service/start running (8s / 3min 3s)
+[   33.011900] hub 3-0:1.0: USB hub found
+[   33.018861] hub 3-0:1.0: 1 port detected
+[   33.046363] usb usb4: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 6.01
+[   33.054850] usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[   33.062269] usb usb4: Product: Generic Platform OHCI controller
+[   33.068314] usb usb4: Manufacturer: Linux 6.1.0-11-armmp-lpae ohci_hcd
+[   33.074985] usb usb4: SerialNumber: 1c14400.usb
+[   33.112927] brcmfmac: brcmf_c_process_clm_blob: no clm_blob available (err=-2), device may have limited channels available
+[   33.164793] brcmfmac: brcmf_c_preinit_dcmds: Firmware: BCM43362/1 wl0: Dec  5 2019 07:26:04 version 5.90.254 FWID 01-0
+[   33.169931] hub 4-0:1.0: USB hub found
+[   33.194201] hub 4-0:1.0: 1 port detected
+[   33.211627] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
+[   33.220040] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[   33.227393] usb usb1: Product: EHCI Host Controller
+[   33.232396] usb usb1: Manufacturer: Linux 6.1.0-11-armmp-lpae ehci_hcd
+[   33.238961] usb usb1: SerialNumber: 1c1c000.usb
+[   33.326330] hub 1-0:1.0: USB hub found
+[   33.336434] hub 1-0:1.0: 1 port detected
+[   33.353130] usb usb2: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 6.01
+[   33.361591] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[   33.368942] usb usb2: Product: EHCI Host Controller
+[   33.373913] usb usb2: Manufacturer: Linux 6.1.0-11-armmp-lpae ehci_hcd
+[   33.380541] usb usb2: SerialNumber: 1c14000.usb
+[   33.399301] hub 2-0:1.0: USB hub found
+[   33.403472] hub 2-0:1.0: 1 port detected
+[**    ] (1 of 3) Job ifupdown-pre.service/start running (9s / 3min 3s)
+[***   ] (1 of 3) Job ifupdown-pre.service/start running (9s / 3min 3s)
+[  OK  ] Finished e2scrub_reap.serv…ine ext4 Metadata Check Snapshots.
+[   35.173538] Bluetooth: Core ver 2.22
+[   35.177574] NET: Registered PF_BLUETOOTH protocol family
+[   35.183081] Bluetooth: HCI device and connection manager initialized
+[   35.196876] Bluetooth: HCI socket layer initialized
+[   35.201952] Bluetooth: L2CAP socket layer initialized
+[   35.208434] Bluetooth: SCO socket layer initialized
+[   35.276065] Bluetooth: HCI UART driver ver 2.3
+[   35.280653] Bluetooth: HCI UART protocol H4 registered
+[   35.287586] Bluetooth: HCI UART protocol LL registered
+[   35.292844] Bluetooth: HCI UART protocol ATH3K registered
+[   35.300077] Bluetooth: HCI UART protocol Three-wire (H5) registered
+[   35.307002] Bluetooth: HCI UART protocol Intel registered
+[   35.314475] Bluetooth: HCI UART protocol Broadcom registered
+[   35.319939] hci_uart_bcm serial0-0: supply vbat not found, using dummy regulator
+[   35.323793] Bluetooth: HCI UART protocol QCA registered
+[   35.333075] Bluetooth: HCI UART protocol AG6XX registered
+[   35.335874] hci_uart_bcm serial0-0: supply vddio not found, using dummy regulator
+[   35.343076] Bluetooth: HCI UART protocol Marvell registered
+[  OK  ] Finished ifupdown-pre.serv… synchronize boot up for ifupdown.
+[  OK  ] Started systemd-logind.service - User Login Management.
+[  OK  ] Reached target bluetooth.target - Bluetooth Support.
+[  OK  ] Reached target sound.target - Sound Card.
+[  OK  ] Reached target usb-gadget.…m - Hardware activated USB gadget.
+[  OK  ] Listening on systemd-rfkil…l Switch Status /dev/rfkill Watch.
+[  OK  ] Started ifup@usb0.service - ifup for usb0.
+[  OK  ] Started ifup@wlan0.service - ifup for wlan0.
+         Starting networking.service - Raise network interfaces...
+         Starting wpa_supplicant.service - WPA supplicant...
+         Starting systemd-rfkill.se…Load/Save RF Kill Switch Status...
+[  OK  ] Started systemd-rfkill.ser…- Load/Save RF Kill Switch Status.
+[  OK  ] Started wpa_supplicant.service - WPA supplicant.
+[   36.750830] sun7i-dwmac 1c50000.ethernet eth0: Register MEM_TYPE_PAGE_POOL RxQ-0
+[   36.763958] sun7i-dwmac 1c50000.ethernet eth0: PHY [stmmac-0:01] driver [RTL8211E Gigabit Ethernet] (irq=POLL)
+[   36.775279] sun7i-dwmac 1c50000.ethernet eth0: No Safety Features support found
+[   36.782748] sun7i-dwmac 1c50000.ethernet eth0: RX IPC Checksum Offload disabled
+[   36.790182] sun7i-dwmac 1c50000.ethernet eth0: No MAC Management Counters available
+[   36.797962] sun7i-dwmac 1c50000.ethernet eth0: PTP not supported by HW
+[   36.818610] sun7i-dwmac 1c50000.ethernet eth0: configuring for phy/rgmii-id link mode
+[   37.611472] Bluetooth: hci0: command 0xfc18 tx timeout
+[ ***  ] Job networking.service/start running (13s / 5min 11s)
+[  *** ] Job networking.service/start running (14s / 5min 11s)
+[   ***] Job networking.service/start running (14s / 5min 11s)
+[   39.905077] sun7i-dwmac 1c50000.ethernet eth0: Link is Up - 1Gbps/Full - flow control rx/tx
+[   39.914319] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[    **] Job networking.service/start running (15s / 5min 11s)
+[     *] Job networking.service/start running (15s / 5min 11s)
+[    **] Job networking.service/start running (16s / 5min 11s)
+[   ***] Job networking.service/start running (16s / 5min 11s)
+[  *** ] Job networking.service/start running (17s / 5min 11s)
+[ ***  ] Job networking.service/start running (17s / 5min 11s)
+[***   ] Job networking.service/start running (18s / 5min 11s)
+[**    ] Job networking.service/start running (18s / 5min 11s)
+[*     ] Job networking.service/start running (19s / 5min 11s)
+[**    ] Job networking.service/start running (19s / 5min 11s)
+[  OK  ] Finished networking.service - Raise network interfaces.
+[  OK  ] Reached target network.target - Network.
+         Starting ssh.service - OpenBSD Secure Shell server...
+         Starting systemd-user-sess…vice - Permit User Sessions...
+[  OK  ] Finished systemd-user-sess…ervice - Permit User Sessions.
+[  OK  ] Started getty@tty1.service - Getty on tty1.
+[  OK  ] Started serial-getty@ttyS0…rvice - Serial Getty on ttyS0.
+[  OK  ] Reached target getty.target - Login Prompts.
+[  OK  ] Started ssh.service - OpenBSD Secure Shell server.
+[  OK  ] Reached target multi-user.target - Multi-User System.
+[  OK  ] Reached target graphical.target - Graphical Interface.
+         Starting systemd-update-ut… Record Runlevel Change in UTMP...
+[  OK  ] Finished systemd-update-ut… - Record Runlevel Change in UTMP.
+[   45.803648] Bluetooth: hci0: BCM: failed to write update baudrate (-110)
+[   45.810897] Bluetooth: hci0: Failed to set baudrate
+
+Debian GNU/Linux 12 Cubietruck ttyS0
+
+Cubietruck login: [   47.819624] Bluetooth: hci0: command 0x0c03 tx timeout
+root
+Linux Cubietruck 6.1.0-11-armmp-lpae #1 SMP Debian 6.1.38-4 (2023-08-08) armv7l
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+Last login: Mon Jul 10 21:45:19 UTC 2023 on ttyS0
+root@Cubietruck:~# [   56.043625] Bluetooth: hci0: BCM: Reset failed (-110)
+
+root@Cubietruck:~# uname -a
+Linux Cubietruck 6.1.0-11-armmp-lpae #1 SMP Debian 6.1.38-4 (2023-08-08) armv7l GNU/Linux
+root@Cubietruck:~# 
