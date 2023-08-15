@@ -32,12 +32,12 @@ steps:
 
   - mkpart: primary
     device: "{{ output }}"
-    
+
     # We  have  to   start   higher    than 12M  because    of     the
     # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
     # order to be  compliant on  all SBC, we  use  16 Mb as  a default
     # configuration
-    
+
     start: 16M
     end:   100%
     tag:   rootfs_partition_tag
@@ -468,7 +468,8 @@ steps:
   # Install Debian  u-boot package for this target.  It seems there is
   # no  dependancy on u-boot-tools for  package  u-boot-sunxi. In fact
   # this is a mandatory package, because u-boot-install-sunxi tool is
-  # defined into u-boot-tools packages. Please report to Debian
+  # defined into u-boot-tools packages. 
+  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1049398
 
   - apt: install
     packages:
@@ -480,11 +481,8 @@ steps:
 
   - root-fs: rootfs_partition_tag
     shell: |
-     # Because on Debian 12.1 ...even if u-boot-tools installed ????
-     # 2023-08-05 09:13:49 DEBUG STDERR: /tmp/tmp9smmpmtz/usr/bin/u-boot-install-sunxi: mkimage: command not found. Please install u-boot-tools.
-     # and because 
-     #TARGET="$ROOT/usr/lib/u-boot/Cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
-     dd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/Cubietruck/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
+
+     TARGET="$ROOT/usr/lib/u-boot/Cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
 
   # On  vmdb2-wrapper project, it is possible  for user  to deploy its
   # own private  Ansible playbook. If  this file is  not present, then
@@ -493,6 +491,7 @@ steps:
 
   - root-fs: rootfs_partition_tag
     shell: |
+
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
 
       mount -t proc proc $ROOT/proc
