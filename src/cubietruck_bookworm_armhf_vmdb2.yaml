@@ -180,9 +180,7 @@ steps:
 
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
-      # Install firmware   Debian  package  to support  Wifi   network
-      # interface. Remember, wifi interfaces is  based on Ampak AP6210
-      # Wifi/BT NVRAM. (brcm/brcmfmac43362)
+      # Install firmware Debian package to support Wifi network interface
 
       apt-get --assume-yes install firmware-brcm80211
 
@@ -208,13 +206,17 @@ steps:
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
-  # /usr/share/flash-kernel/db/all.db)  support cubietruck  board.   As  a
-  # result,     it    is then   not    mandatory    to install  either
-  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file,  so
-  # skip  this step....But  if not  defined  the  machine (to  overlap
-  # default config), there is one 'inteligent system' who search the
-  # UUID, and ... fails. As a result  defined machine target, so that
-  # no error (FIXME)
+  # /usr/share/flash-kernel/db/all.db)  support cubietruck board.   It
+  # seems     therefore   not    mandatory     to    install    either
+  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file, so
+  # skip this step...  But if not defining the  machine ID (to overlap
+  # default config), there is  one 'smart system'  who search the  CPU
+  # and  SBC ID.... and at  this time, this fails (because emulation).
+  # As   a   result,  define now  machine    target  to  force  u-boot
+  # installation.  This  is due to the fact  that /proc is not mounted
+  # now, then  not possible to find  the correct SBC.  Of course, when
+  # booting  later the real board, this  file can be removed.  This is
+  # why it is removed at end of this process.
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
@@ -298,12 +300,11 @@ steps:
       # dhcp mode, then  dhcp request configuration  file  is set into
       # /etc/dhcp/dhclient.conf. Please be sure to look at your USB/OTG
       # interface  and network   configuration.  For example,  if  you
-      # connect  nanopi-R1 on one  Debian standard X86  USB port ( for
-      # power delivery and  usb communicaitons)  with one DHCP  server
-      # correctly configured  on   the host,  you can   see into  host
-      # "dmesg"  log messages such as  ... Please  note of course that
-      # Manufacturer is the  Debian kernel  release installed here  on
-      # the nanopi-r1
+      # connect your SBC on one Debian  standard X86 USB port with one
+      # DHCP server correctly configured on the host, you can see into
+      # host  "dmesg" log messages such  as  ... Please note of course
+      # that Manufacturer is the Debian kernel release installed here
+      # on  the nanopi-r1
 
       # [ 5346.757059] usb 1-6.4.3: Manufacturer: Linux 6.1.0-11-armmp with musb-hdrc
       # [ 5346.763658] cdc_ether 1-6.4.3:1.0 usb0: register 'cdc_ether' at usb-0000:00:14.0-6.4.3, CDC Ethernet Device, ee:f9:eb:6e:97:37
@@ -439,8 +440,9 @@ steps:
       
       g_ether
       
-      # WiFi:   based  on AP6212  Chip   and  Linux "brcmfmac"  kernel
-      # module. Because firmware is partially available (!)
+      # WiFi: based   on AP6210  (brcm/brcmfmac43362)  Chip and  Linux
+      # "brcmfmac" kernel   module.  Because  firmware   is  partially
+      # available (!)
       # ( https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1041436  )
       # is installed  above, then force   loading of kernel module  to
       # create network interface
@@ -482,7 +484,12 @@ steps:
   - root-fs: rootfs_partition_tag
     shell: |
 
-     TARGET="$ROOT/usr/lib/u-boot/Cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
+     # For some unknown reason, the following command does not run. He
+     # seems either mkimage access not found or PATH not set FIXME?
+
+     # TARGET="$ROOT/usr/lib/u-boot/Cubietruck" $ROOT/usr/bin/u-boot-install-sunxi {{ output }}
+
+     dd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/Cubietruck/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8
 
   # On  vmdb2-wrapper project, it is possible  for user  to deploy its
   # own private  Ansible playbook. If  this file is  not present, then
