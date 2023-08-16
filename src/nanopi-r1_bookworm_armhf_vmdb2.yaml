@@ -369,26 +369,26 @@ steps:
   - create-file: /etc/network/interfaces.d/usb0
     contents: |+
       # file  /etc/network/interfaces.d/usb0
-
+      
       # (Ethernet on  USB via USB  OTG).  Because interface is  set in
       # dhcp mode, then  dhcp request configuration  file  is set into
-      # /etc/dhcp/dhclient.conf. Please be sure to look at your USB/OTG
-      # interface  and network   configuration.  For example,  if  you
-      # connect  nanopi-R1 on one  Debian standard X86  USB port ( for
-      # power delivery and  usb communicaitons)  with one DHCP  server
-      # correctly configured  on   the host,  you can   see into  host
-      # "dmesg"  log messages such as  ... Please  note of course that
-      # Manufacturer is the  Debian kernel  release installed here  on
-      # the nanopi-r1
-
+      # /etc/dhcp/dhclient.conf. Please be    sure  to look  at   your
+      # USB/OTG interface and  network configuration.  For example, if
+      # you connect your SBC on one Debian standard  X86 USB port with
+      # one DHCP server correctly configured  on the host, you can see
+      # into   host    "dmesg" log   messages...     Please  note also
+      # that  USB Manufacturer (on  host   side) is the Debian  kernel
+      # release installed here on the SBC.
+      
       # [ 5346.757059] usb 1-6.4.3: Manufacturer: Linux 6.1.0-11-armmp with musb-hdrc
       # [ 5346.763658] cdc_ether 1-6.4.3:1.0 usb0: register 'cdc_ether' at usb-0000:00:14.0-6.4.3, CDC Ethernet Device, ee:f9:eb:6e:97:37
-
-      # It is then possible to connect your nanopi-R1 directly on your
-      # host  without wireless, without WAN and  LAN interfaces.  This
+      
+      # It is then possible to connect your  SBC directly on your host
+      # without wireless,   without  Ethernet interfaces.   This (USB)
       # interface may not be connected on boot. As a result, set it to
-      # "allow-hotplug" in order to never block (on timeout) the boot
-      # process
+      # "allow-hotplug" in order to  never block (on timeout) the boot
+      # process. We  assume here that sysadmin install one dhcp server
+      # on host, so that of course (!), SBC can connect to.
       
       allow-hotplug usb0
       iface         usb0 inet dhcp
