@@ -1,0 +1,62 @@
+
+U-Boot SPL 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000)
+DRAM: 2048 MiB
+Trying to boot from MMC1
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) Allwinner Technology
+
+CPU:   Allwinner A80 (SUN9I)
+Model: Cubietech Cubieboard4
+DRAM:  2 GiB
+Core:  59 devices, 17 uclasses, devicetree: separate
+WDT:   Not starting watchdog@6000ca0
+WDT:   Not starting watchdog@8001000
+MMC:   sunxi_set_reset: (RST#0) unhandled
+sunxi_set_reset: (RST#2) unhandled
+sunxi_set_reset: (RST#1) unhandled
+mmc@1c0f000: 0, mmc@1c10000: 2, mmc@1c11000: 1
+Loading Environment from FAT... Unable to use mmc 0:1...
+In:    serial@7000000
+Out:   serial@7000000
+Err:   serial@7000000
+Net:   No ethernet found.
+Hit any key to stop autoboot:  2  1  0 
+switch to partitions #0, OK
+mmc0 is current device
+Scanning mmc 0:1...
+Card did not respond to voltage select! : -110
+No EFI system partition
+BootOrder not defined
+EFI boot manager: Cannot load any image
+Card did not respond to voltage select! : -110
+No ethernet found.
+missing environment variable: pxeuuid
+Retrieving file: pxelinux.cfg/00000000
+No ethernet found.
+Retrieving file: pxelinux.cfg/0000000
+No ethernet found.
+Retrieving file: pxelinux.cfg/000000
+No ethernet found.
+Retrieving file: pxelinux.cfg/00000
+No ethernet found.
+Retrieving file: pxelinux.cfg/0000
+No ethernet found.
+Retrieving file: pxelinux.cfg/000
+No ethernet found.
+Retrieving file: pxelinux.cfg/00
+No ethernet found.
+Retrieving file: pxelinux.cfg/0
+No ethernet found.
+Retrieving file: pxelinux.cfg/default-arm-sunxi-sunxi
+No ethernet found.
+Retrieving file: pxelinux.cfg/default-arm-sunxi
+No ethernet found.
+Retrieving file: pxelinux.cfg/default-arm
+No ethernet found.
+Retrieving file: pxelinux.cfg/default
+No ethernet found.
+Config file not found
+No ethernet found.
+No ethernet found.
+=> 
