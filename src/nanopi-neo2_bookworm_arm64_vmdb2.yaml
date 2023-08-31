@@ -434,6 +434,13 @@ steps:
 
      dd if=$ROOT/usr/lib/linux-u-boot-current-nanopineo2_23.02.2_arm64/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8 conv=fsync,notrunc
 
+     # Because it is a strange situation with at the same time Armbian
+     # u-boot package  and Debian kernel  package are  installed, then
+     # apply one patch so that it is possible to boot.
+
+     cd $ROOT/boot/dtbs/6.1.0-11-arm64/allwinner
+     ln -s sun50i-h5-nanopi-neo2.dtb sun50i-h5-nanopi-neo2-v1.1.dtb
+
   - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
