@@ -1,0 +1,338 @@
+
+U-Boot SPL 2021.04-armbian (May 06 2021 - 17:52:39 +0000)
+DRAM: 512 MiB
+Trying to boot from MMC1
+NOTICE:  BL31: v2.4(debug):08532d7-dirty
+NOTICE:  BL31: Built : 17:52:31, May  6 2021
+NOTICE:  BL31: Detected Allwinner H5 SoC (1718)
+NOTICE:  BL31: Found U-Boot DTB at 0x4092768, model: FriendlyARM NanoPi NEO 2
+INFO:    ARM GICv2 driver initialized
+INFO:    Configuring SPC Controller
+NOTICE:  PMIC: Assuming H5 reference regulator design
+INFO:    BL31: Platform setup done
+INFO:    BL31: Initializing runtime services
+INFO:    BL31: cortex_a53: CPU workaround for 855873 was applied
+INFO:    BL31: cortex_a53: CPU workaround for 1530924 was applied
+INFO:    PSCI: Suspend is unavailable
+INFO:    BL31: Preparing for EL3 exit to normal world
+INFO:    Entry point address = 0x4a000000
+INFO:    SPSR = 0x3c9
+
+
+U-Boot 2021.04-armbian (May 06 2021 - 17:52:39 +0000) Allwinner Technology
+
+CPU:   Allwinner H5 (SUN50I)
+Model: FriendlyARM NanoPi NEO 2
+DRAM:  512 MiB
+MMC:   mmc@1c0f000: 0
+Loading Environment from FAT... In:    serial
+Out:   serial
+Err:   serial
+NanoPi NEO2 v1.1 detected
+Net:   phy interface7
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+
+starting USB...
+Bus usb@1c1a000: USB EHCI 1.00
+Bus usb@1c1a400: USB OHCI 1.0
+Bus usb@1c1d000: USB EHCI 1.00
+Bus usb@1c1d400: USB OHCI 1.0
+scanning bus usb@1c1a000 for devices... 1 USB Device(s) found
+scanning bus usb@1c1a400 for devices... 1 USB Device(s) found
+scanning bus usb@1c1d000 for devices... 1 USB Device(s) found
+scanning bus usb@1c1d400 for devices... 1 USB Device(s) found
+       scanning usb for storage devices... 0 Storage Device(s) found
+Autoboot in 1 seconds, press <Space> to stop
+switch to partitions #0, OK
+mmc0 is current device
+Scanning mmc 0:1...
+Found U-Boot script /boot/boot.scr
+2992 bytes read in 2 ms (1.4 MiB/s)
+## Executing script at 4fc00000
+32354240 bytes read in 1540 ms (20 MiB/s)
+Failed to load '/boot/dtbs/6.1.0-11-arm64/allwinner/sun50i-h5-nanopi-neo2-v1.1.dtb'
+SCRIPT FAILED: continuing...
+libfdt fdt_check_header(): FDT_ERR_BADMAGIC
+Scanning disk mmc@1c0f000.blk...
+Found 2 disks
+No EFI system partition
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+BootOrder not defined
+EFI boot manager: Cannot load any image
+MMC Device 1 not found
+no mmc device at slot 1
+
+Device 0: unknown device
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: pxeuuid
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/00000000
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/0000000
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/000000
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/00000
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/0000
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/000
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/00
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/0
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default-arm-sunxi-sunxi
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default-arm-sunxi
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default-arm
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/default
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+Config file not found
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+No ethernet found.
+phy interface7
+mdio_register: non unique device name 'ethernet@1c30000'
+Could not get PHY for ethernet@1c30000: addr 7
+=> 
