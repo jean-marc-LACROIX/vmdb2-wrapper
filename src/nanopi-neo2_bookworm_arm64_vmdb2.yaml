@@ -395,11 +395,26 @@ steps:
 
   # Install Debian u-boot package for this target
 
-  - apt: install
-    packages:
-      - u-boot-tools
-      - u-boot-sunxi
-    tag: rootfs_partition_tag
+  #- apt: install
+  #  packages:
+  #    - u-boot-tools
+  #    - u-boot-sunxi
+  #  tag: rootfs_partition_tag
+
+  # At this time,  not  possible  to  understand why  Debian  bookworm
+  # u-boot does   not boot ?.  As a   result, install previous Armbian
+  # u-boot binaries to overlap (?) Debian installation..
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopineo2-current/linux-u-boot-current-nanopineo2_21.05.1_arm64.deb
+
+  # Install Armbian package
+
+  - chroot: rootfs_partition_tag
+    shell: |
+      dpkg -i $ROOT/u-boot.deb
+      rm $ROOT/u-boot.deb
 
   # Install u-boot binaries on target
 
@@ -413,7 +428,11 @@ steps:
 
      # with following command, target does not boot , FIXME
 
-     dd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/nanopi_neo2/u-boot.bin of={{ output }} bs=1024 seek=8
+     #dd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/nanopi_neo2/u-boot.bin of={{ output }} bs=1024 seek=8
+
+     # Install Armbian package
+
+     dd if=$ROOT/usr/lib/linux-u-boot-current-nanopineo2_21.05.1_arm64/u-boot-sunxi-with-spl.bin of={{ output }} bs=1024 seek=8 conv=fsync,notrunc
 
   - root-fs: rootfs_partition_tag
     shell: |
