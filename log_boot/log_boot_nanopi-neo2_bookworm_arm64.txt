@@ -1,11 +1,11 @@
 
-U-Boot SPL 2021.04-armbian (May 06 2021 - 17:52:39 +0000)
+U-Boot SPL 2022.07-armbian (Feb 17 2023 - 22:31:23 +0000)
 DRAM: 512 MiB
 Trying to boot from MMC1
-NOTICE:  BL31: v2.4(debug):08532d7-dirty
-NOTICE:  BL31: Built : 17:52:31, May  6 2021
+NOTICE:  BL31: v2.6(debug):af220ebb-dirty
+NOTICE:  BL31: Built : 22:31:19, Feb 17 2023
 NOTICE:  BL31: Detected Allwinner H5 SoC (1718)
-NOTICE:  BL31: Found U-Boot DTB at 0x4092768, model: FriendlyARM NanoPi NEO 2
+NOTICE:  BL31: Found U-Boot DTB at 0x209b178, model: FriendlyARM NanoPi NEO 2
 INFO:    ARM GICv2 driver initialized
 INFO:    Configuring SPC Controller
 NOTICE:  PMIC: Assuming H5 reference regulator design
@@ -19,20 +19,21 @@ INFO:    Entry point address = 0x4a000000
 INFO:    SPSR = 0x3c9
 
 
-U-Boot 2021.04-armbian (May 06 2021 - 17:52:39 +0000) Allwinner Technology
+U-Boot 2022.07-armbian (Feb 17 2023 - 22:31:23 +0000) Allwinner Technology
 
 CPU:   Allwinner H5 (SUN50I)
 Model: FriendlyARM NanoPi NEO 2
 DRAM:  512 MiB
+Core:  63 devices, 20 uclasses, devicetree: separate
+WDT:   Not starting watchdog@1c20ca0
 MMC:   mmc@1c0f000: 0
-Loading Environment from FAT... In:    serial
+Loading Environment from FAT... Unable to use mmc 0:1...
+In:    serial
 Out:   serial
 Err:   serial
 NanoPi NEO2 v1.1 detected
-Net:   phy interface7
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-
+Net:   phy interface9
+eth0: ethernet@1c30000
 starting USB...
 Bus usb@1c1a000: USB EHCI 1.00
 Bus usb@1c1a400: USB OHCI 1.0
@@ -48,291 +49,104 @@ switch to partitions #0, OK
 mmc0 is current device
 Scanning mmc 0:1...
 Found U-Boot script /boot/boot.scr
-2992 bytes read in 2 ms (1.4 MiB/s)
+2992 bytes read in 3 ms (973.6 KiB/s)
 ## Executing script at 4fc00000
-32354240 bytes read in 1540 ms (20 MiB/s)
+32354240 bytes read in 1338 ms (23.1 MiB/s)
 Failed to load '/boot/dtbs/6.1.0-11-arm64/allwinner/sun50i-h5-nanopi-neo2-v1.1.dtb'
 SCRIPT FAILED: continuing...
-libfdt fdt_check_header(): FDT_ERR_BADMAGIC
-Scanning disk mmc@1c0f000.blk...
-Found 2 disks
 No EFI system partition
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
 BootOrder not defined
 EFI boot manager: Cannot load any image
 MMC Device 1 not found
 no mmc device at slot 1
 
 Device 0: unknown device
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
+ethernet@1c30000 Waiting for PHY auto negotiation to complete....... done
+BOOTP broadcast 1
+BOOTP broadcast 2
+BOOTP broadcast 3
+BOOTP broadcast 4
+BOOTP broadcast 5
+BOOTP broadcast 6
+BOOTP broadcast 7
+BOOTP broadcast 8
+BOOTP broadcast 9
+BOOTP broadcast 10
+BOOTP broadcast 11
+BOOTP broadcast 12
+BOOTP broadcast 13
+BOOTP broadcast 14
+BOOTP broadcast 15
+BOOTP broadcast 16
+BOOTP broadcast 17
+
+Retry time exceeded; starting again
 missing environment variable: pxeuuid
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+Retrieving file: pxelinux.cfg/01-02-01-9d-70-92-2b
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/00000000
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/0000000
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/000000
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/00000
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/0000
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/000
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/00
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/0
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/default-arm-sunxi-sunxi
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/default-arm-sunxi
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/default-arm
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-missing environment variable: bootfile
+*** ERROR: `serverip' not set
 Retrieving file: pxelinux.cfg/default
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
+*** ERROR: `serverip' not set
 Config file not found
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
-No ethernet found.
-phy interface7
-mdio_register: non unique device name 'ethernet@1c30000'
-Could not get PHY for ethernet@1c30000: addr 7
+BOOTP broadcast 1
+BOOTP broadcast 2
+BOOTP broadcast 3
+BOOTP broadcast 4
+BOOTP broadcast 5
+BOOTP broadcast 6
+BOOTP broadcast 7
+BOOTP broadcast 8
+BOOTP broadcast 9
+BOOTP broadcast 10
+BOOTP broadcast 11
+BOOTP broadcast 12
+BOOTP broadcast 13
+BOOTP broadcast 14
+BOOTP broadcast 15
+BOOTP broadcast 16
+BOOTP broadcast 17
+
+Retry time exceeded; starting again
+BOOTP broadcast 1
+BOOTP broadcast 2
+BOOTP broadcast 3
+BOOTP broadcast 4
+BOOTP broadcast 5
+BOOTP broadcast 6
+BOOTP broadcast 7
+BOOTP broadcast 8
+BOOTP broadcast 9
+BOOTP broadcast 10
+BOOTP broadcast 11
+BOOTP broadcast 12
+BOOTP broadcast 13
+BOOTP broadcast 14
+BOOTP broadcast 15
+BOOTP broadcast 16
+BOOTP broadcast 17
+
+Retry time exceeded; starting again
+=> 
+=> 
 => 
