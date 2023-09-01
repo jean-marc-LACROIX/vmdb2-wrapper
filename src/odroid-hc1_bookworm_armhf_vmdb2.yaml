@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 odroid-hc1_bookworm_armhf_vmdb2.yaml --output=../images/odroid-hc1_bookworm_armhf.img --rootfs-tarball=../rootfs/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_odroid-hc1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 odroid-hc1_bookworm_armhf_vmdb2.yaml --output=../images/odroid-hc1_bookworm_armhf.img --rootfs-tarball=../rootfs_cache/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_odroid-hc1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 # Please remember that full documentation is available here :
 # https://vmdb2-manual.liw.fi/
@@ -179,10 +179,6 @@ steps:
 
       mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
 
-      # Install firmware Debian package to support Wifi network interface
-
-      apt-get --assume-yes install firmware-brcm80211
-
   # SECTION 3/5: Make initramfs & flashkernel configuration
   # --------------------------------------------------------
 
@@ -219,7 +215,7 @@ steps:
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      Hardkernel odroid-hc1
+      Hardkernel Odroid HC1
 
   # launch one shell into rootfs
 
