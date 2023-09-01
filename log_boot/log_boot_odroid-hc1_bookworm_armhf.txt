@@ -1,0 +1,258 @@
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
+Core:  73 devices, 12 uclasses, devicetree: separate
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... *** Warning - bad CRC, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Model: Odroid XU3/XU4/HC1/HC2 based on Exynos5422
+Type:  hc1
+cros-ec communications failure -96
+
+Please reset with Power+Refresh
+
+Cannot init cros-ec device
+resetting ...
+
+
+U-Boot 2023.01+dfsg-2 (Jan 18 2023 - 01:57:16 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+DRAM:  2 GiB
