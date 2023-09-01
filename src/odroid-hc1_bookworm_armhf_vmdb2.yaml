@@ -83,6 +83,8 @@ steps:
     contents: |+
       # file /etc/apt/sources.list
       
+      # current Debian release (V11)
+      deb http://ftp.de.debian.org/debian bullseye main contrib non-free non-free-firmware
       # current Debian release (V12)
       deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
       # current Debian release (V12) security for bookworm release
@@ -135,8 +137,15 @@ steps:
       # Define behaviour on futur release
       Package: *
       Pin: release o=Debian,l=Debian,n=trixie
-      Pin-Priority: 90
+      Pin-Priority: 90     
       
+      # Because  Debian  u-boot-exynos package seems  not  working  on
+      # Bookworm, then install package from previous Debian (Bullseye)
+
+      Package: u-boot-exynos
+      Pin: release o=Debian,l=Debian,n=bullseye
+      Pin-Priority: 990
+
     unless: rootfs_unpacked
 
   # Create a tarball of  the image root filesystem.  File name of this
@@ -378,7 +387,7 @@ steps:
   # SECTION 5/5: Install u-boot and launch Ansible user script
   # ----------------------------------------------------------
 
-  # install github u-boot
+  # install github u-boot from original Hardkernel
 
   - root-fs: rootfs_partition_tag
     shell: |
