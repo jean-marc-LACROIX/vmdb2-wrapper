@@ -403,7 +403,6 @@ steps:
 
   - apt: install
     packages:
-      - u-boot-tools
       - u-boot-exynos 
     tag: rootfs_partition_tag
 
