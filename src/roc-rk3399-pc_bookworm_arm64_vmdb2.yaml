@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 roc-pc-rk3399_bookworm_arm64_vmdb2.yaml --output=../images/roc-pc-rk3399_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_roc-pc-rk3399_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 roc-rk3399-pc_bookworm_arm64_vmdb2.yaml --output=../images/roc-rk3399-pc_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_roc-rk3399-pc_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 # Please remember that full documentation is available here :
 # https://vmdb2-manual.liw.fi/
@@ -195,7 +195,7 @@ steps:
 
   - create-file: /etc/hostname
     contents: |+
-      Roc-Pc-Rk3399
+      Roc-Rk3399-Pc
 
   # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
   # generate a  line  with correct UUID.  Remenber  that this  UUID is
@@ -205,13 +205,13 @@ steps:
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
-  # /usr/share/flash-kernel/db/all.db) does not support Roc-Pc-Rk3399
+  # /usr/share/flash-kernel/db/all.db) does not support Roc-Rk3399-Pc
   # board.    As  a      result,    it    is  then   mandatory      to
   # install /etc/flashkernel/db and/etc/flash-kernel/machine files.
 
   - create-file: /etc/flash-kernel/db
     contents: |+
-      Machine: Roc-Pc-Rk3399
+      Machine: Roc Rk3399 Pc
       Kernel-Flavors: arm64
       Boot-Script-Path: /boot/boot.scr
       DTB-Id: rockchip/rk3399-roc-pc.dtb
@@ -219,14 +219,14 @@ steps:
       Required-Packages: u-boot-tools
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
-  # because Roc-Pc-Rk3399 is not yet supported, then force the machine
+  # because Roc-Rk3399-Pc is not yet supported, then force the machine
   # auto-detection   from     /proc/cpuinfo  and   force    a specific
   # Machine.  Because we      are offline, we    must  force   machine
   # description.
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      Roc-Pc-Rk3399
+      Roc-Rk3399-Pc
 
   # launch one shell into rootfs
 
@@ -310,7 +310,7 @@ steps:
       127.0.0.1  localhost
       
       # IPV4 loopback address on localhost (RFC 5735 compliant)
-      127.0.0.2  Roc-Pc-Rk3399
+      127.0.0.2  Roc-Rk3399-Pc
 
   # Launch one shell into chroot and make following actions...
 
