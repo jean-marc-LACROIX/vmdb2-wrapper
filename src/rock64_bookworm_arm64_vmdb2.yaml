@@ -322,11 +322,10 @@ steps:
       # Furthermore,  python3-apt   must be also  installed, otherwise
       # followin error :
 
-      # Updating  cache   and  auto-installing    missing  dependency:
-      # python3-apt
-
+      # Updating  cache    and  auto-installing  missing   dependency: python3-apt
+      
       apt-get --assume-yes install python3 python3-apt
-
+      
       # openssh-server is needed to connect to target on Ethernet port
       # (and also from external Ansible script)
 
