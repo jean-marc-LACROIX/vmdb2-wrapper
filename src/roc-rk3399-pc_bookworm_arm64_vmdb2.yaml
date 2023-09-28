@@ -211,7 +211,7 @@ steps:
 
   - create-file: /etc/flash-kernel/db
     contents: |+
-      Machine: Roc Rk3399 Pc
+      Machine: rk3399-firefly
       Kernel-Flavors: arm64
       Boot-Script-Path: /boot/boot.scr
       DTB-Id: rockchip/rk3399-roc-pc.dtb
@@ -226,7 +226,7 @@ steps:
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      Roc-Rk3399-Pc
+      rk3399-firefly
 
   # launch one shell into rootfs
 
