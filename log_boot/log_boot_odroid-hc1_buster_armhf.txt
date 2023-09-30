@@ -1,0 +1,533 @@
+
+
+U-Boot 2019.01+dfsg-7 (May 14 2019 - 02:07:44 +0000) for ODROID-XU3/XU4/HC1/HC2
+
+CPU:   Exynos5422 @ 800 MHz
+Model: Odroid XU3 based on EXYNOS5422
+Board: Odroid XU3 based on EXYNOS5422
+Type:  hc1
+DRAM:  2 GiB
+MMC:   EXYNOS DWMMC: 0, EXYNOS DWMMC: 2
+Loading Environment from MMC... Card did not respond to voltage select!
+*** Warning - No block device, using default environment
+
+In:    serial
+Out:   serial
+Err:   serial
+Net:   No ethernet found.
+Hit any key to stop autoboot:  2  1  0 
+MMC Device 1 not found
+no mmc device at slot 1
+Card did not respond to voltage select!
+switch to partitions #0, OK
+mmc2 is current device
+Scanning mmc 2:1...
+Found U-Boot script /boot/boot.scr
+2973 bytes read in 9 ms (322.3 KiB/s)
+## Executing script at 50000000
+5071360 bytes read in 380 ms (12.7 MiB/s)
+60376 bytes read in 17 ms (3.4 MiB/s)
+21654959 bytes read in 1592 ms (13 MiB/s)
+Booting Debian 5.10.0-0.deb10.16-armmp-lpae from mmc 2:1...
+Kernel image @ 0x42000000 [ 0x000000 - 0x4d6200 ]
+## Flattened Device Tree blob at 43000000
+   Booting using the fdt blob at 0x43000000
+   Loading Ramdisk to 4eb59000, end 4ffffdaf ... OK
+   Loading Device Tree to 4eb47000, end 4eb58bd7 ... OK
+
+Starting kernel ...
+
+[    0.000000] Booting Linux on physical CPU 0x100
+[    0.000000] Linux version 5.10.0-0.deb10.16-armmp-lpae (debian-kernel@lists.debian.org) (gcc-8 (Debian 8.3.0-6) 8.3.0, GNU ld (GNU Binutils for Debian) 2.31.1) #1 SMP Debian 5.10.127-2~bpo10+1 (2022-07-28)
+[    0.000000] CPU: ARMv7 Processor [410fc073] revision 3 (ARMv7), cr=30c5387d
+[    0.000000] CPU: div instructions available: patching division code
+[    0.000000] CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+[    0.000000] OF: fdt: Machine model: Hardkernel Odroid HC1
+[    0.000000] Memory policy: Data cache writealloc
+[    0.000000] efi: UEFI not found.
+[    0.000000] cma: Reserved 16 MiB at 0x00000000bd800000
+[    0.000000] Samsung CPU ID: 0xe5422001
+[    0.000000] Zone ranges:
+[    0.000000]   DMA      [mem 0x0000000040000000-0x000000006fffffff]
+[    0.000000]   Normal   empty
+[    0.000000]   HighMem  [mem 0x0000000070000000-0x00000000be9fffff]
+[    0.000000] Movable zone start for each node
+[    0.000000] Early memory node ranges
+[    0.000000]   node   0: [mem 0x0000000040000000-0x00000000be9fffff]
+[    0.000000] Initmem setup node 0 [mem 0x0000000040000000-0x00000000be9fffff]
+[    0.000000] Running under secure firmware.
+[    0.000000] percpu: Embedded 21 pages/cpu s54796 r8192 d23028 u86016
+[    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 516928
+[    0.000000] Kernel command line:   console=ttySAC2,115200n8 root=UUID=83384c04-06ad-4860-b1cd-aae5ccdecd39 net.ifnames=0
+[    0.000000] Dentry cache hash table entries: 131072 (order: 7, 524288 bytes, linear)
+[    0.000000] Inode-cache hash table entries: 65536 (order: 6, 262144 bytes, linear)
+[    0.000000] mem auto-init: stack:off, heap alloc:on, heap free:off
+[    0.000000] Memory: 1996624K/2074624K available (12288K kernel code, 1673K rwdata, 3232K rodata, 2048K init, 341K bss, 61616K reserved, 16384K cma-reserved, 1271808K highmem)
+[    0.000000] SLUB: HWalign=64, Order=0-3, MinObjects=0, CPUs=8, Nodes=1
+[    0.000000] ftrace: allocating 38879 entries in 115 pages
+[    0.000000] ftrace: allocated 114 pages with 4 groups
+[    0.000000] rcu: Hierarchical RCU implementation.
+[    0.000000] 	Rude variant of Tasks RCU enabled.
+[    0.000000] 	Tracing variant of Tasks RCU enabled.
+[    0.000000] rcu: RCU calculated value of scheduler-enlistment delay is 25 jiffies.
+[    0.000000] NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+[    0.000000] GIC: Using split EOI/Deactivate mode
+[    0.000000] Switching to timer-based delay loop, resolution 41ns
+[    0.000000] clocksource: mct-frc: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 79635851949 ns
+[    0.000009] sched_clock: 32 bits at 24MHz, resolution 41ns, wraps every 89478484971ns
+[    0.000038] genirq: irq_chip COMBINER did not update eff. affinity mask of irq 57
+[    0.006760] arch_timer: cp15 timer(s) running at 24.00MHz (phys).
+[    0.006786] clocksource: arch_sys_counter: mask: 0xffffffffffffff max_cycles: 0x588fe9dc0, max_idle_ns: 440795202592 ns
+[    0.006811] sched_clock: 56 bits at 24MHz, resolution 41ns, wraps every 4398046511097ns
+[    0.006828] Ignoring duplicate/late registration of read_current_timer delay
+[    0.009843] Console: colour dummy device 80x30
+[    0.009927] Calibrating delay loop (skipped), value calculated using timer frequency.. 48.00 BogoMIPS (lpj=96000)
+[    0.009953] pid_max: default: 32768 minimum: 301
+[    0.011020] LSM: Security Framework initializing
+[    0.011161] Yama: disabled by default; enable with sysctl kernel.yama.*
+[    0.011445] AppArmor: AppArmor initialized
+[    0.011467] TOMOYO Linux initialized
+[    0.011774] Mount-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.011803] Mountpoint-cache hash table entries: 2048 (order: 1, 8192 bytes, linear)
+[    0.014149] CPU: Testing write buffer coherency: ok
+[    0.015075] CPU0: thread -1, cpu 0, socket 1, mpidr 80000100
+[    0.016764] Setting up static identity map for 0x40400000 - 0x404000ac
+[    0.017137] ARM CCI driver probed
+[    0.017741] Exynos MCPM support installed
+[    0.020496] rcu: Hierarchical SRCU implementation.
+[    0.022588] soc soc0: Exynos: CPU[EXYNOS5800] PRO_ID[0xe5422001] REV[0x1] Detected
+[    0.025029] EFI services will not be available.
+[    0.026248] smp: Bringing up secondary CPUs ...
+[    0.027703] CPU1: thread -1, cpu 1, socket 1, mpidr 80000101
+[    0.029287] CPU2: thread -1, cpu 2, socket 1, mpidr 80000102
+[    0.030858] CPU3: thread -1, cpu 3, socket 1, mpidr 80000103
+[    0.032522] CPU4: thread -1, cpu 0, socket 0, mpidr 80000000
+[    0.032535] CPU4: Spectre v2: using ICIALLU workaround
+[    0.032575] CPU4: Spectre BHB: using loop workaround
+[    0.034238] CPU5: thread -1, cpu 1, socket 0, mpidr 80000001
+[    0.034248] CPU5: Spectre v2: using ICIALLU workaround
+[    0.034271] CPU5: Spectre BHB: using loop workaround
+[    0.036095] CPU6: thread -1, cpu 2, socket 0, mpidr 80000002
+[    0.036106] CPU6: Spectre v2: using ICIALLU workaround
+[    0.036128] CPU6: Spectre BHB: using loop workaround
+[    0.037744] CPU7: thread -1, cpu 3, socket 0, mpidr 80000003
+[    0.037755] CPU7: Spectre v2: using ICIALLU workaround
+[    0.037777] CPU7: Spectre BHB: using loop workaround
+[    0.038044] smp: Brought up 1 node, 8 CPUs
+[    0.038072] SMP: Total of 8 processors activated (384.00 BogoMIPS).
+[    0.038084] CPU: All CPU(s) started in HYP mode.
+[    0.038095] CPU: Virtualization extensions available.
+[    0.041671] devtmpfs: initialized
+[    0.067229] VFP support v0.3: implementor 41 architecture 4 part 30 variant f rev 0
+[    0.067623] clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 7645041785100000 ns
+[    0.067692] futex hash table entries: 2048 (order: 5, 131072 bytes, linear)
+[    0.068644] pinctrl core: initialized pinctrl subsystem
+[    0.071036] DMI not present or invalid.
+[    0.071944] NET: Registered protocol family 16
+[    0.075343] DMA: preallocated 256 KiB pool for atomic coherent allocations
+[    0.078128] audit: initializing netlink subsys (disabled)
+[    0.078782] audit: type=2000 audit(0.072:1): state=initialized audit_enabled=0 res=1
+[    0.080776] thermal_sys: Registered thermal governor 'fair_share'
+[    0.080789] thermal_sys: Registered thermal governor 'bang_bang'
+[    0.080807] thermal_sys: Registered thermal governor 'step_wise'
+[    0.080822] thermal_sys: Registered thermal governor 'user_space'
+[    0.080838] thermal_sys: Registered thermal governor 'power_allocator'
+[    0.083478] No ATAGs?
+[    0.083880] hw-breakpoint: found 5 (+1 reserved) breakpoint and 4 watchpoint registers.
+[    0.083898] hw-breakpoint: maximum watchpoint size is 8 bytes.
+[    0.085868] Serial: AMBA PL011 UART driver
+[    0.280656] EXYNOS5420 PMU initialized
+[    0.298625] Kprobes globally optimized
+[    0.299513] HugeTLB registered 2.00 MiB page size, pre-allocated 0 pages
+[    1.455279] iommu: Default domain type: Translated 
+[    1.457557] vgaarb: loaded
+[    1.459750] mc: Linux media interface: v0.10
+[    1.459859] videodev: Linux video capture interface: v2.00
+[    1.462746] NetLabel: Initializing
+[    1.462766] NetLabel:  domain hash size = 128
+[    1.462778] NetLabel:  protocols = UNLABELED CIPSOv4 CALIPSO
+[    1.462964] NetLabel:  unlabeled traffic allowed by default
+[    1.463444] clocksource: Switched to clocksource mct-frc
+[    1.585693] VFS: Disk quotas dquot_6.6.0
+[    1.585833] VFS: Dquot-cache hash table entries: 1024 (order 0, 4096 bytes)
+[    1.587160] AppArmor: AppArmor Filesystem Enabled
+[    1.605304] NET: Registered protocol family 2
+[    1.605568] IP idents hash table entries: 16384 (order: 5, 131072 bytes, linear)
+[    1.607386] tcp_listen_portaddr_hash hash table entries: 512 (order: 0, 6144 bytes, linear)
+[    1.607704] TCP established hash table entries: 8192 (order: 3, 32768 bytes, linear)
+[    1.607814] TCP bind hash table entries: 8192 (order: 4, 65536 bytes, linear)
+[    1.607976] TCP: Hash tables configured (established 8192 bind 8192)
+[    1.608167] UDP hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    1.608226] UDP-Lite hash table entries: 512 (order: 2, 16384 bytes, linear)
+[    1.608570] NET: Registered protocol family 1
+[    1.608618] NET: Registered protocol family 44
+[    1.608642] PCI: CLS 0 bytes, default 64
+[    1.609360] Trying to unpack rootfs image as initramfs...
+[    3.039937] Freeing initrd memory: 21148K
+[    3.042175] hw perfevents: enabled with armv7_cortex_a7 PMU driver, 5 counters available
+[    3.043396] hw perfevents: enabled with armv7_cortex_a15 PMU driver, 7 counters available
+[    3.046640] Initialise system trusted keyrings
+[    3.046761] Key type blacklist registered
+[    3.047080] workingset: timestamp_bits=14 max_order=19 bucket_order=5
+[    3.058109] zbud: loaded
+[    3.060208] integrity: Platform Keyring initialized
+[    3.060235] Key type asymmetric registered
+[    3.060253] Asymmetric key parser 'x509' registered
+[    3.060417] bounce: pool size: 64 pages
+[    3.060481] Block layer SCSI generic (bsg) driver version 0.4 loaded (major 250)
+[    3.060765] io scheduler mq-deadline registered
+[    3.100980] dma-pl330 121a0000.pdma: Loaded driver for PL330 DMAC-241330
+[    3.101004] dma-pl330 121a0000.pdma: 	DBUFF-32x4bytes Num_Chans-8 Num_Peri-32 Num_Events-32
+[    3.105250] dma-pl330 121b0000.pdma: Loaded driver for PL330 DMAC-241330
+[    3.105274] dma-pl330 121b0000.pdma: 	DBUFF-32x4bytes Num_Chans-8 Num_Peri-32 Num_Events-32
+[    3.106785] dma-pl330 10800000.mdma: Loaded driver for PL330 DMAC-241330
+[    3.106808] dma-pl330 10800000.mdma: 	DBUFF-64x8bytes Num_Chans-8 Num_Peri-1 Num_Events-32
+[    3.115288] Serial: 8250/16550 driver, 5 ports, IRQ sharing enabled
+[    3.120269] Serial: AMBA driver
+[    3.120557] 12c00000.serial: ttySAC0 at MMIO 0x12c00000 (irq = 70, base_baud = 0) is a S3C6400/10
+[    3.121714] 12c10000.serial: ttySAC1 at MMIO 0x12c10000 (irq = 71, base_baud = 0) is a S3C6400/10
+[    3.122848] 12c20000.serial: ttySAC2 at MMIO 0x12c20000 (irq = 72, base_baud = 0) is a S3C6400/10
+[    4.002926] printk: console [ttySAC2] enabled
+[    4.008386] 12c30000.serial: ttySAC3 at MMIO 0x12c30000 (irq = 73, base_baud = 0) is a S3C6400/10
+[    4.020594] STM32 USART driver initialized
+[    4.029955] mousedev: PS/2 mouse device common for all mice
+[    4.048214] ledtrig-cpu: registered to indicate activity on CPUs
+[    4.056214] NET: Registered protocol family 10
+[    4.124362] Segment Routing with IPv6
+[    4.126650] mip6: Mobile IPv6
+[    4.129544] NET: Registered protocol family 17
+[    4.134164] mpls_gso: MPLS GSO support
+[    4.138527] ThumbEE CPU extension supported.
+[    4.141930] Registering SWP/SWPB emulation handler
+[    4.146900] registered taskstats version 1
+[    4.150766] Loading compiled-in X.509 certificates
+[    4.423085] Loaded X.509 cert 'Debian Secure Boot CA: 6ccece7e4c6c0d1f6149f3dd27dfcc5cbb419ea1'
+[    4.430471] Loaded X.509 cert 'Debian Secure Boot Signer 2021 - linux: 4b6ef5abca669825178e052c84667ccbc0531f8c'
+[    4.440699] zswap: loaded using pool lzo/zbud
+[    4.446156] Key type ._fscrypt registered
+[    4.448808] Key type .fscrypt registered
+[    4.452689] Key type fscrypt-provisioning registered
+[    4.458020] AppArmor: AppArmor sha1 policy hashing enabled
+[    4.467603] dma-pl330 3880000.adma: Loaded driver for PL330 DMAC-241330
+[    4.472772] dma-pl330 3880000.adma: 	DBUFF-4x8bytes Num_Chans-6 Num_Peri-16 Num_Events-6
+[    4.503508] dma-pl330 3880000.adma: PM domain MAU will not be powered off
+[    4.626789] Freeing unused kernel memory: 2048K
+[    4.630552] Checked W+X mappings: passed, no W+X pages found
+[    4.635520] Run /init as init process
+Loading, please wait...
+Starting version 241
+[    5.466198] phy_exynos_usb2: module verification failed: signature and/or required key missing - tainting kernel
+[    5.468040] exynos5_usb3drd_phy 12100000.phy: supply vbus not found, using dummy regulator
+[    5.479431] samsung-usb2-phy 12130000.phy: supply vbus not found, using dummy regulator
+[    5.484383] exynos5_usb3drd_phy 12100000.phy: supply vbus-boost not found, using dummy regulator
+[    5.485539] Synopsys Designware Multimedia Card Interface Driver
+[    5.486752] usbcore: registered new interface driver usbfs
+[    5.486924] usbcore: registered new interface driver hub
+[    5.487063] usbcore: registered new device driver usb
+[    5.491104] dwmmc_exynos 12220000.mmc: IDMAC supports 32-bit address mode.
+[    5.497798] ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+[    5.501283] exynos5_usb3drd_phy 12500000.phy: supply vbus not found, using dummy regulator
+[    5.531972] s5m-rtc s2mps14-rtc: registered as rtc0
+[    5.541258] exynos5_usb3drd_phy 12500000.phy: supply vbus-boost not found, using dummy regulator
+[    5.548060] s5m-rtc s2mps14-rtc: setting system clock to 2000-01-01T00:00:20 UTC (946684820)
+[    5.565442] dwmmc_exynos 12220000.mmc: Using internal DMA controller.
+[    5.571717] dwmmc_exynos 12220000.mmc: Version ID is 250a
+[    5.577301] dwmmc_exynos 12220000.mmc: DW MMC controller at irq 91,64 bit host data width,64 deep fifo
+[    5.609734] ehci-exynos: EHCI Exynos driver
+[    5.611483] ohci_hcd: USB 1.1 'Open' Host Controller (OHCI) Driver
+[    5.613384] exynos-ehci 12110000.usb: EHCI Host Controller
+[    5.619421] dwmmc_exynos 12220000.mmc: IDMAC supports 32-bit address mode.
+[    5.624117] exynos-ehci 12110000.usb: new USB bus registered, assigned bus number 1
+[    5.638940] dwmmc_exynos 12220000.mmc: Using internal DMA controller.
+[    5.639396] exynos-ehci 12110000.usb: irq 89, io mem 0x12110000
+[    5.645016] dwmmc_exynos 12220000.mmc: Version ID is 250a
+[    5.645074] dwmmc_exynos 12220000.mmc: DW MMC controller at irq 91,64 bit host data width,64 deep fifo
+[    5.650072] s2mps11-clk s2mps11-clk: DMA mask not set
+[    5.663535] exynos-ehci 12110000.usb: USB 2.0 started, EHCI 1.00
+[    5.667378] ohci-exynos: OHCI Exynos driver
+[    5.670984] usb usb1: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 5.10
+[    5.677927] exynos-ohci 12120000.usb: USB Host Controller
+[    5.680675] usb usb1: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    5.680687] usb usb1: Product: EHCI Host Controller
+[    5.685786] exynos-tmu 100a0000.tmu: More trip points than supported by this TMU.
+[    5.685800] exynos-tmu 100a0000.tmu: 3 trip points should be configured in polling mode.
+[    5.686064] dwmmc_exynos 12220000.mmc: IDMAC supports 32-bit address mode.
+[    5.689274] dwmmc_exynos 12220000.mmc: Using internal DMA controller.
+[    5.692367] vddq_mmc2: Bringing 3300000uV into 2800000-2800000uV
+[    5.694279] usb usb1: Manufacturer: Linux 5.10.0-0.deb10.16-armmp-lpae ehci_hcd
+[    5.694288] usb usb1: SerialNumber: 12110000.usb
+[    5.695768] hub 1-0:1.0: USB hub found
+[    5.701538] dwmmc_exynos 12220000.mmc: Version ID is 250a
+[    5.706380] hub 1-0:1.0: 3 ports detected
+[    5.713822] dwmmc_exynos 12220000.mmc: DW MMC controller at irq 91,64 bit host data width,64 deep fifo
+[    5.714991] vdd_sd: Bringing 3300000uV into 2800000-2800000uV
+[    5.724773] exynos-ohci 12120000.usb: new USB bus registered, assigned bus number 2
+[    5.748907] mmc_host mmc0: Bus speed (slot 0) = 50000000Hz (slot req 400000Hz, actual 396825HZ div = 63)
+[    5.798534] exynos-ohci 12120000.usb: irq 89, io mem 0x12120000
+[    5.854856] xhci-hcd xhci-hcd.7.auto: xHCI Host Controller
+[    5.858999] xhci-hcd xhci-hcd.7.auto: new USB bus registered, assigned bus number 3
+[    5.870998] usb usb2: New USB device found, idVendor=1d6b, idProduct=0001, bcdDevice= 5.10
+[    5.871324] xhci-hcd xhci-hcd.7.auto: hcc params 0x0220f04c hci version 0x100 quirks 0x0000000002010010
+[    5.877834] usb usb2: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    5.877844] usb usb2: Product: USB Host Controller
+[    5.877854] usb usb2: Manufacturer: Linux 5.10.0-0.deb10.16-armmp-lpae ohci_hcd
+[    5.877862] usb usb2: SerialNumber: 12120000.usb
+[    5.878886] hub 2-0:1.0: USB hub found
+[    5.887325] xhci-hcd xhci-hcd.7.auto: irq 164, io mem 0x12000000
+[    5.894417] hub 2-0:1.0: 3 ports detected
+[    5.900896] mmc_host mmc0: Bus speed (slot 0) = 200000000Hz (slot req 200000000Hz, actual 200000000HZ div = 0)
+[    5.909817] usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 5.10
+[    5.915066] mmc0: new ultra high speed SDR104 SDHC card at address aaaa
+[    5.920711] usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    5.926260] mmcblk0: mmc0:aaaa SC16G 14.8 GiB 
+[    5.934658] usb usb3: Product: xHCI Host Controller
+[    5.934670] usb usb3: Manufacturer: Linux 5.10.0-0.deb10.16-armmp-lpae xhci-hcd
+[    5.951297]  mmcblk0: p1
+[    5.956667] usb usb3: SerialNumber: xhci-hcd.7.auto
+[    5.957644] hub 3-0:1.0: USB hub found
+[    5.984361] hub 3-0:1.0: 1 port detected
+[    5.990675] xhci-hcd xhci-hcd.7.auto: xHCI Host Controller
+[    5.994822] xhci-hcd xhci-hcd.7.auto: new USB bus registered, assigned bus number 4
+[    6.002363] xhci-hcd xhci-hcd.7.auto: Host supports USB 3.0 SuperSpeed
+[    6.008971] usb usb4: We don't know the algorithms for LPM for this host, disabling LPM.
+[    6.017366] usb usb4: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.10
+[    6.025142] usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    6.032337] usb usb4: Product: xHCI Host Controller
+[    6.037177] usb usb4: Manufacturer: Linux 5.10.0-0.deb10.16-armmp-lpae xhci-hcd
+[    6.044464] usb usb4: SerialNumber: xhci-hcd.7.auto
+[    6.050300] hub 4-0:1.0: USB hub found
+[    6.053106] hub 4-0:1.0: 1 port detected
+[    6.060722] xhci-hcd xhci-hcd.8.auto: xHCI Host Controller
+[    6.064802] xhci-hcd xhci-hcd.8.auto: new USB bus registered, assigned bus number 5
+[    6.073682] xhci-hcd xhci-hcd.8.auto: hcc params 0x0220f04c hci version 0x100 quirks 0x0000000002010010
+[    6.081925] xhci-hcd xhci-hcd.8.auto: irq 165, io mem 0x12400000
+[    6.088392] usb usb5: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 5.10
+[    6.095979] usb usb5: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    6.103147] usb usb5: Product: xHCI Host Controller
+[    6.108011] usb usb5: Manufacturer: Linux 5.10.0-0.deb10.16-armmp-lpae xhci-hcd
+[    6.115277] usb usb5: SerialNumber: xhci-hcd.8.auto
+[    6.121225] hub 5-0:1.0: USB hub found
+[    6.123937] hub 5-0:1.0: 1 port detected
+[    6.130216] xhci-hcd xhci-hcd.8.auto: xHCI Host Controller
+[    6.134287] xhci-hcd xhci-hcd.8.auto: new USB bus registered, assigned bus number 6
+[    6.141905] xhci-hcd xhci-hcd.8.auto: Host supports USB 3.0 SuperSpeed
+[    6.148513] usb usb6: We don't know the algorithms for LPM for this host, disabling LPM.
+[    6.156830] usb usb6: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.10
+[    6.164695] usb usb6: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+[    6.171873] usb usb6: Product: xHCI Host Controller
+[    6.176721] usb usb6: Manufacturer: Linux 5.10.0-0.deb10.16-armmp-lpae xhci-hcd
+[    6.184001] usb usb6: SerialNumber: xhci-hcd.8.auto
+[    6.190010] hub 6-0:1.0: USB hub found
+[    6.192637] hub 6-0:1.0: 1 port detected
+Begin: Loading essential drivers ... done.
+Begin: Running /scripts/init-premount ... done.
+Begin: Mounting root file system ... Begin: Running /scripts/local-top ... done.
+Begin: Running /scripts/local-premount ... done.
+[    6.298987] process '/usr/bin/fstype' started with executable stack
+Begin: Will now check root file system ... fsck from util-linux 2.33.1
+[/sbin/fsck.ext4 (1) -- /dev/mmcblk0p1] fsck.ext4 -a -C0 /dev/mmcblk0p1 
+/dev/mmcblk0p1: recovering journal
+/dev/mmcblk0p1: clean, 17547/196608 files, 170492/785920 blocks
+done.
+[    6.607698] usb 4-1: new SuperSpeed Gen 1 USB device number 2 using xhci-hcd
+[    6.633173] usb 4-1: New USB device found, idVendor=152d, idProduct=0578, bcdDevice=31.01
+[    6.639931] usb 4-1: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+[    6.647036] usb 4-1: Product: USB to SATA bridge
+[    6.651660] usb 4-1: Manufacturer: JMicron
+[    6.655712] usb 4-1: SerialNumber: DB00000000013B
+[    6.685464] SCSI subsystem initialized
+[    6.692485] usbcore: registered new interface driver usb-storage
+[    6.698423] EXT4-fs (mmcblk0p1): mounted filesystem with ordered data mode. Opts: (null)
+done.
+Begin: Running /scripts/local-bottom ... done.
+Begin: Running /scripts/init-bottom ... [    6.740793] scsi host0: uas
+[    6.743718] usbcore: registered new interface driver uas
+[    6.743888] scsi 0:0:0:0: Direct-Access     JMicron                   3101 PQ: 0 ANSI: 6
+done.
+[    6.990483] Not activating Mandatory Access Control as /sbin/tomoyo-init does not exist.
+[    7.147598] usb 6-1: new SuperSpeed Gen 1 USB device number 2 using xhci-hcd
+[    7.172851] usb 6-1: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=30.00
+[    7.179580] usb 6-1: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+[    7.186683] usb 6-1: Product: USB 10/100/1000 LAN
+[    7.191359] usb 6-1: Manufacturer: Realtek
+[    7.195454] usb 6-1: SerialNumber: 000001000000
+[    7.267168] systemd[1]: System time before build time, advancing clock.
+[    7.324547] systemd[1]: Inserted module 'autofs4'
+[    7.398304] systemd[1]: systemd 241 running in system mode. (+PAM +AUDIT +SELINUX +IMA +APPARMOR +SMACK +SYSVINIT +UTMP +LIBCRYPTSETUP +GCRYPT +GNUTLS +ACL +XZ +LZ4 +SECCOMP +BLKID +ELFUTILS +KMOD -IDN2 +IDN -PCRE2 default-hierarchy=hybrid)
+[    7.423656] systemd[1]: Detected architecture arm.
+
+Welcome to Debian GNU/Linux 10 (buster)!
+
+[    7.490859] systemd[1]: Set hostname to <OdroidHC1>.
+[    7.934927] random: systemd: uninitialized urandom read (16 bytes read)
+[    7.945480] random: systemd: uninitialized urandom read (16 bytes read)
+[    7.951370] systemd[1]: Listening on Syslog Socket.
+[  OK  ] Listening on Syslog Socket.
+[    7.971701] random: systemd: uninitialized urandom read (16 bytes read)
+[    7.977362] systemd[1]: Listening on initctl Compatibility Named Pipe.
+[  OK  ] Listening on initctl Compatibility Named Pipe.
+[    8.000083] systemd[1]: Started Dispatch Password Requests to Console Directory Watch.
+[  OK  ] Started Dispatch Password …ts to Console Directory Watch.
+[    8.024265] systemd[1]: Listening on fsck to fsckd communication Socket.
+[  OK  ] Listening on fsck to fsckd communication Socket.
+[    8.048527] systemd[1]: Listening on Journal Audit Socket.
+[  OK  ] Listening on Journal Audit Socket.
+[    8.068009] systemd[1]: Started Forward Password Requests to Wall Directory Watch.
+[  OK  ] Started Forward Password R…uests to Wall Directory Watch.
+[    8.091699] systemd[1]: Reached target Slices.
+[  OK  ] Reached target Slices.
+[  OK  ] Listening on Journal Socket.
+[  OK  ] Listening on udev Control Socket.
+[  OK  ] Created slice system-getty.slice.
+[  OK  ] Reached target Remote File Systems.
+         Starting Create list of re…odes for the current kernel...
+         Starting Load Kernel Modules...
+[  OK  ] Created slice system-serial\x2dgetty.slice.
+         Mounting POSIX Message Queue File System...
+[  OK  ] Set up automount Arbitrary…s File System Automount Point.
+[  OK  ] Reached target Swap.
+[  OK  ] Reached target Paths.
+         Starting Remount Root and Kernel File Systems...
+[  OK  ] Reached target Local Encrypted Volumes.
+[  OK  ] Listening on udev Kernel Socket.
+         Starting udev Coldplug all Devices...
+[    8.393086] EXT4-fs (mmcblk0p1): re-mounted. Opts: errors=remount-ro
+[  OK  ] Listening on Journal Socket (/dev/log).
+[  OK  ] Reached target Sockets.
+         Starting Journal Service...
+         Mounting Kernel Debug File System...
+         Mounting Huge Pages File System...
+[  OK  ] Started Create list of req… nodes for the current kernel.
+[  OK  ] Started Load Kernel Modules.
+[  OK  ] Mounted POSIX Message Queue File System.
+[  OK  ] Started Remount Root and Kernel File Systems.
+[  OK  ] Mounted Kernel Debug File System.
+[  OK  ] Mounted Huge Pages File System.
+         Starting Load/Save Random Seed...
+         Starting Create System Users...
+         Starting Apply Kernel Variables...
+[  OK  ] Started Load/Save Random Seed.
+[  OK  ] Started Create System Users.
+[  OK  ] Started Apply Kernel Variables.
+[  OK  ] Started Journal Service.
+         Starting Flush Journal to Persistent Storage...
+         Starting Create Static Device Nodes in /dev...
+[    8.881829] systemd-journald[236]: Received request to flush runtime journal from PID 1
+[  OK  ] Started Flush Journal to Persistent Storage.
+[  OK  ] Started Create Static Device Nodes in /dev.
+[    8.964942] random: systemd: uninitialized urandom read (16 bytes read)
+         Starting udev Kernel Devic[    8.983565] random: systemd-journal: uninitialized urandom read (16 bytes read)
+e Manager...
+[    9.004024] random: systemd: uninitialized urandom read (16 bytes read)
+[  OK  ] Reached target Local File Systems (Pre).
+[  OK  ] Reached target Local File Systems.
+         Starting Load AppArmor profiles...
+         Starting Create Volatile Files and Directories...
+[  OK  ] Started udev Kernel Device Manager.
+[  OK  ] Started Create Volatile Files and Directories.
+         Starting Update UTMP about System Boot/Shutdown...
+[    9.288351] audit: type=1400 audit(1550139120.020:2): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe" pid=267 comm="apparmor_parser"
+[    9.302310] audit: type=1400 audit(1550139120.020:3): apparmor="STATUS" operation="profile_load" profile="unconfined" name="nvidia_modprobe//kmod" pid=267 comm="apparmor_parser"
+         Starting Network Time Synchronization...
+[  OK  ] Started Load AppArmor profiles.
+[    9.357472] cpu cpu0: EM: created perf domain
+[    9.383612] cpu cpu4: EM: created perf domain
+[    9.408208] s3c2410-wdt 101d0000.watchdog: watchdog inactive, reset disabled, irq disabled
+[    9.413569] exynos-asv 10000000.chipid: cpu0 opp0, freq: 1500 missing
+[  OK  ] Started udev Coldplug all Devices.
+[    9.435688] exynos-asv 10000000.chipid: cpu4 opp0, freq: 2100 missing
+[    9.440947] exynos-trng 10830600.rng: Exynos True Random Number Generator.
+[    9.505912] panfrost 11800000.gpu: clock rate = 400000000
+[    9.543617] panfrost 11800000.gpu: mali-t620 id 0x620 major 0x0 minor 0x1 status 0x0
+[    9.550081] panfrost 11800000.gpu: features: 00000000,10206400, issues: 00000000,21eee400
+[    9.558071] panfrost 11800000.gpu: Features: L2:0x07110206 Shader:0x00000000 Tiler:0x00000809 Mem:0x1 MMU:0x00002830 AS:0xf JS:0x7
+[    9.569780] panfrost 11800000.gpu: shader_present=0x3f l2_present=0x11
+[  OK  ] Started Update UTMP about System Boot/Shutdown.
+[    9.584112] [drm] Initialized panfrost 1.1.0 20180908 for 11800000.gpu on minor 0
+[  OK  ] Started Network Time Synchronization.
+[  OK  ] Found device /dev/ttySAC2.
+[    9.704928] usbcore: registered new interface driver r8152
+[    9.711094] scsi 0:0:0:0: Attached scsi generic sg0 type 0
+[    9.717720] usbcore: registered new interface driver cdc_ether
+[  OK  ] Reached target System Time Synchronized.
+[    9.831438] hrtimer: interrupt took 11987416 ns
+[    9.851287] sd 0:0:0:0: [sda] 1953529856 512-byte logical blocks: (1.00 TB/932 GiB)
+[    9.857538] sd 0:0:0:0: [sda] 4096-byte physical blocks
+[    9.863133] sd 0:0:0:0: [sda] Write Protect is off
+[    9.868305] sd 0:0:0:0: [sda] Disabling FUA
+[    9.871732] sd 0:0:0:0: [sda] Write cache: enabled, read cache: enabled, doesn't support DPO or FUA
+[    9.872586] sd 0:0:0:0: [sda] Optimal transfer size 33553920 bytes not a multiple of physical block size (4096 bytes)
+         Starting Helper to synchronize boot up for ifupdown...
+[  OK [    9.908866] usb 6-1: reset SuperSpeed Gen 1 USB device number 2 using xhci-hcd
+ ] Reached target System Initialization.
+[  OK  ] Reached target Basic System.
+         Starting System Logging Service...
+[    9.959955] r8152 6-1:1.0: firmware: direct-loading firmware rtl_nic/rtl8153a-3.fw
+[    9.979967] random: systemd: uninitialized urandom read (16 bytes read)
+[  OK  ] Started Daily rotation of log files.
+[    9.994278] r8152 6-1:1.0: load rtl8153a-3 v2 02/07/20 successfully
+[    9.997658]  sda: sda1 sda2 < sda5 sda6 sda7 sda8 sda9 sda10 sda11 sda12 sda13 sda14 sda15 sda16 sda17 sda18 sda19 sda20 sda21 sda22 sda23 sda24 sda25 sda26 sda27 sda28 sda29 sda30 sda31 sda32 sda33 sda34 sda35 sda36 sda37 sda38 sda39 sda40 sda41 >
+[   10.028354] random: systemd: uninitialized urandom read (16 bytes read)
+[  OK  ] Started    10.056648] r8152 6-1:1.0 eth0: v1.11.11
+0;1;39mRegular background program processing daemon.
+[   10.069836] random: systemd-journal: uninitialized urandom read (16 bytes read)
+[   10.078674] random: crng init done
+[   10.080777] random: 90 urandom warning(s) missed due to ratelimiting
+[   10.097164] sd 0:0:0:0: [sda] Attached SCSI disk
+         Starting getty on tty2-tty…nd logind are not available...
+[  OK  ] Started Daily apt download activities.
+[  OK  ] Started Daily apt upgrade and clean activities.
+[  OK  ] Started Daily Cleanup of Temporary Directories.
+[  OK  ] Reached target Timers.
+[  OK  ] Started System Logging Service.
+[  OK  ] Started Helper to synchronize boot up for ifupdown.
+[  OK  ] Started getty on tty2-tty6… and logind are not available.
+[  OK  ] Started ifup for eth0.
+         Starting Raise network interfaces...
+[  OK  ] Started Raise network interfaces.
+[  OK  ] Reached target Network.
+         Starting Permit User Sessions...
+[  OK  ] Started Permit User Sessions.
+[  OK  ] Started Getty on tty1.
+[  OK  ] Started Getty on tty6.
+[  OK  ] Started Getty on tty3.
+[  OK  ] Started Getty on tty4.
+[  OK  ] Started Getty on tty5.
+[  OK  ] Started Getty on tty2.
+[  OK  ] Started Serial Getty on ttySAC2.
+[  OK  ] Reached target Login Prompts.
+[  OK  ] Reached target Multi-User System.
+[  OK  ] Reached target Graphical Interface.
+         Starting Update UTMP about System Runlevel Changes...
+[  OK  ] Started Update UTMP about System Runlevel Changes.
+[   13.687300] IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+[   13.694627] r8152 6-1:1.0 eth0: carrier on
+
+Debian GNU/Linux 10 OdroidHC1 ttySAC2
+
+OdroidHC1 login: [   35.812735] vddq_mmc0: disabling
+[   35.816854] vdd_adc: disabling
+[   35.819982] vdd_ldo12: disabling
+[   35.825713] vdd_ldo16: disabling
+[   35.831740] vdd_ldo24: disabling
+[   35.837066] vdd_ldo26: disabling
+[   35.848598] vdd_vmem: disabling
+root
+Last login: Sat Sep  2 14:49:07 UTC 2023 on ttySAC2
+Linux OdroidHC1 5.10.0-0.deb10.16-armmp-lpae #1 SMP Debian 5.10.127-2~bpo10+1 (2022-07-28) armv7l
+
+The programs included with the Debian GNU/Linux system are free software;
+the exact distribution terms for each program are described in the
+individual files in /usr/share/doc/*/copyright.
+
+Debian GNU/Linux comes with ABSOLUTELY NO WARRANTY, to the extent
+permitted by applicable law.
+root@OdroidHC1:~# 
+root@OdroidHC1:~# 
+root@OdroidHC1:~# 
+root@OdroidHC1:~# 
+root@OdroidHC1:~# 
+root@OdroidHC1:~# 
+root@OdroidHC1:~# uname -a
+Linux OdroidHC1 5.10.0-0.deb10.16-armmp-lpae #1 SMP Debian 5.10.127-2~bpo10+1 (2022-07-28) armv7l GNU/Linux
+root@OdroidHC1:~# 

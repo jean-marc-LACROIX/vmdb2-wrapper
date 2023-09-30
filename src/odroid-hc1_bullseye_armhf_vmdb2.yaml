@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 odroid-hc1_bullseye_armhf_vmdb2-0.15.yaml --output=../images/odroid-hc1_bullseye_armhf.img --rootfs-tarball=../rootfs_cache/bullseye_armhf_rootfs.tgz --verbose --log=../log_build/log_odroid-hc1_bullseye_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 odroid-hc1_bullseye_armhf_vmdb2.yaml --output=../images/odroid-hc1_bullseye_armhf.img --rootfs-tarball=../rootfs_cache/bullseye_armhf_rootfs.tgz --verbose --log=../log_build/log_odroid-hc1_bullseye_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
 steps:
   - mkimg: "{{ output }}"
     size: 3G
@@ -142,6 +142,13 @@ steps:
 
   - ansible: root
     playbook: vmdb2-ansible.yaml
+    extra_vars: 
+      LC_ALL:
+        en_US.UTF-8
+      LANG:
+        en_US.UTF-8 
+      LANGUAGE:
+        en_US.UTF
 
   - root-fs: root
     shell: |

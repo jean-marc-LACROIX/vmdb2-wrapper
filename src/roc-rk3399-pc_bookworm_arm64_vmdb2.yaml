@@ -1,7 +1,11 @@
-# Use like this : sudo vmdb2 odroid-hc1_bookworm_armhf_vmdb2.yaml --output=../images/odroid-hc1_bookworm_armhf.img --rootfs-tarball=../rootfs_cache/bookworm_armhf_rootfs.tgz --verbose --log=../log_build/log_odroid-hc1_bookworm_armhf_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 roc-rk3399-pc_bookworm_arm64_vmdb2.yaml --output=../images/roc-rk3399-pc_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_roc-rk3399-pc_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 # Please remember that full documentation is available here :
 # https://vmdb2-manual.liw.fi/
+
+# Specification for this board is available here :
+
+# https://en.t-firefly.com/doc/download/51.html
 
 # Following code  is   organized in   functionnal sections.  In   each
 # section, steps (for vmdb2 point of vue) are defined.
@@ -69,7 +73,7 @@ steps:
   - debootstrap: bookworm
     mirror: http://ftp.de.debian.org/debian
     target: rootfs_partition_tag
-    arch:   armhf
+    arch: arm64
     components:
     - main
     - contrib
@@ -83,8 +87,6 @@ steps:
     contents: |+
       # file /etc/apt/sources.list
       
-      # current Debian release (V11)
-      deb http://ftp.de.debian.org/debian bullseye main contrib non-free non-free-firmware
       # current Debian release (V12)
       deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
       # current Debian release (V12) security for bookworm release
@@ -137,15 +139,8 @@ steps:
       # Define behaviour on futur release
       Package: *
       Pin: release o=Debian,l=Debian,n=trixie
-      Pin-Priority: 90     
-      
-      # Because  Debian  u-boot-exynos package seems  not  working  on
-      # Bookworm, then install package from previous Debian (Bullseye)
-
-      Package: u-boot-exynos
-      Pin: release o=Debian,l=Debian,n=bullseye
-      Pin-Priority: 990
-
+      Pin-Priority: 90
+            
     unless: rootfs_unpacked
 
   # Create a tarball of  the image root filesystem.  File name of this
@@ -181,7 +176,7 @@ steps:
       # Install the current generic linux kernel for this architecture
       # (meta package)
 
-      apt-get --assume-yes install linux-image-armmp-lpae
+      apt-get --assume-yes install linux-image-arm64
 
       # Restore  previous   post-hook script,   because now  kernel  is
       # correctly installed on rootfs.
@@ -200,7 +195,7 @@ steps:
 
   - create-file: /etc/hostname
     contents: |+
-      Odroid-hc1
+      Roc-Rk3399-Pc
 
   # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
   # generate a  line  with correct UUID.  Remenber  that this  UUID is
@@ -210,21 +205,28 @@ steps:
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
-  # /usr/share/flash-kernel/db/all.db)  support cubietruck board.   It
-  # seems     therefore   not    mandatory     to    install    either
-  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file, so
-  # skip this step...  But if not defining the  machine ID (to overlap
-  # default config), there is  one 'smart system'  who search the  CPU
-  # and  SBC ID.... and at  this time, this fails (because emulation).
-  # As   a   result,  define now  machine    target  to  force  u-boot
-  # installation.  This  is due to the fact  that /proc is not mounted
-  # now, then  not possible to find  the correct SBC.  Of course, when
-  # booting  later the real board, this  file can be removed.  This is
-  # why it is removed at end of this process.
+  # /usr/share/flash-kernel/db/all.db) does not support Roc-Rk3399-Pc
+  # board.    As  a      result,    it    is  then   mandatory      to
+  # install /etc/flashkernel/db and/etc/flash-kernel/machine files.
+
+  - create-file: /etc/flash-kernel/db
+    contents: |+
+      Machine: rk3399-firefly
+      Kernel-Flavors: arm64
+      Boot-Script-Path: /boot/boot.scr
+      DTB-Id: rockchip/rk3399-roc-pc.dtb
+      U-Boot-Script-Name: bootscr.uboot-generic
+      Required-Packages: u-boot-tools
+
+  # According    /usr/share/doc/flash-kernel/README.gz  documentation,
+  # because Roc-Rk3399-Pc is not yet supported, then force the machine
+  # auto-detection   from     /proc/cpuinfo  and   force    a specific
+  # Machine.  Because we      are offline, we    must  force   machine
+  # description.
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      Hardkernel Odroid HC1
+      rk3399-firefly
 
   # launch one shell into rootfs
 
@@ -280,15 +282,16 @@ steps:
       allow-auto lo
       iface      lo inet loopback
 
-  # On this SBC,  only one interface  is available (eth0), then create
-  # this one.   Please    remember that  interface policy  naming   is
-  # controled by kernel  parameter boot option :  "net.ifnames=0" (see
-  # above)
+  # Please remember that  interface   policy naming is   controled  by
+  # kernel parameter boot option : "net.ifnames=0" (see above)
+
+  # On this SBC, only one interface is available (eth0), then create
+  # this one.   
 
   - create-file: /etc/network/interfaces.d/eth0
     contents: |+
       # file /etc/network/interfaces.d/eth0
-
+      
       # Ethernet  10/100/1000 full duplex interface. Because interface
       # is set in dhcp mode, then dhcp request configuration file is
       # set into /etc/dhcp/dhclient.conf 
@@ -307,7 +310,7 @@ steps:
       127.0.0.1  localhost
       
       # IPV4 loopback address on localhost (RFC 5735 compliant)
-      127.0.0.2  odroid-hc1
+      127.0.0.2  Roc-Rk3399-Pc
 
   # Launch one shell into chroot and make following actions...
 
@@ -368,6 +371,9 @@ steps:
     contents: |+
       # file /etc/modules
       
+      # Because  all Linux kernel  modules are loaded automatically at
+      # boot  time,  then  this   file is empty  for   standard Debian
+      # bookworm release
 
   # Create one empty file for DNS local  resolver. Remember that it is
   # sysadmin responsability  to   answer to strategic   DHCP option  :
@@ -387,46 +393,21 @@ steps:
   # SECTION 5/5: Install u-boot and launch Ansible user script
   # ----------------------------------------------------------
 
-  # install github u-boot from original Hardkernel
-
-  - root-fs: rootfs_partition_tag
-    shell: |
-      curl -L -o $ROOT/u-boot.tar.gz https://github.com/hardkernel/u-boot/releases/download/travis%2Fodroidxu3-108/u-boot-odroidxu3-108.tar.gz
-      tar xf $ROOT/u-boot.tar.gz -C $ROOT
-      rm $ROOT/u-boot.tar.gz
-
-  # Install Debian  u-boot package for this target.  It seems there is
-  # no  dependancy on u-boot-tools for  package  u-boot-sunxi. In fact
-  # this is a mandatory package, because u-boot-install-sunxi tool is
-  # defined into u-boot-tools packages. 
-  # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1049398
+  # Install Debian u-boot package for this target
 
   - apt: install
     packages:
-      - u-boot-exynos 
+      - u-boot-rockchip
     tag: rootfs_partition_tag
 
   # Install u-boot binaries on target
 
   - root-fs: rootfs_partition_tag
     shell: |
-
-      dd if=$ROOT/sd_fuse/bl1.bin.hardkernel of={{ output }} seek=1 conv=fsync,notrunc
-      dd if=$ROOT/sd_fuse/bl2.bin.hardkernel.1mb_uboot of={{ output }} seek=31 conv=fsync,notrunc
-
-      dd if=$ROOT/usr/lib/u-boot/odroid-xu3/u-boot.bin of={{ output }} bs=512 seek=63 conv=fsync,notrunc
-
-      dd if=$ROOT/sd_fuse/tzsw.bin.hardkernel of={{ output }} seek=2111 conv=fsync,notrunc
-      rm -r $ROOT/sd_fuse
-
-  # On  vmdb2-wrapper project, it is possible  for user  to deploy its
-  # own private  Ansible playbook. If  this file is  not present, then
-  # use the example   playbook as a  default playbook.  Otherwise, the
-  # user plabook will be used
+      TARGET="$ROOT/usr/lib/u-boot/roc-pc-rk3399" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
   - root-fs: rootfs_partition_tag
     shell: |
-
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
 
       mount -t proc proc $ROOT/proc
@@ -462,4 +443,3 @@ steps:
       # Be sure to remove tempory link used for Ansible run
 
       diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
-
