@@ -259,7 +259,8 @@ steps:
   # default data-base    for   all  supported   SBC  (located     into
   # /usr/share/flash-kernel/db/all.db)   does not  support   nanopi-r1
   # board.    As  a      result,    it    is  then   mandatory      to
-  # install /etc/flashkernel/db and/etc/flash-kernel/machine files.
+  # install      /etc/flashkernel/db      and/etc/flash-kernel/machine
+  # files.
 
   - create-file: /etc/flash-kernel/db
     contents: |+
@@ -271,14 +272,24 @@ steps:
       Required-Packages: u-boot-tools
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
-  # because nanopi-r1  is  not yet supported,   then force the machine
-  # auto-detection   from     /proc/cpuinfo  and   force    a specific
-  # Machine.  Because we      are offline, we    must  force   machine
-  # description.
+  # because   nanopi-r1 is not yet   supported, then force the machine
+  # auto-detection from  /proc/device-tree/model  and force a specific
+  # Machine.   Because    we  are offline,    we   must  force machine
+  # description.  Furthermore, there  is    a bug  into   flash-kernel
+  # (v3.107). When launching  flash-kernel, event with --force option,
+  # then flash-kernel exit with following message.
+
+  # "Unsupported platform 'FriendlyARM NanoPi R1"
+
+  # Because the SoC of this SBC is based  on the Allwinner H3 CPU, and
+  # because there are also many Chinese SB cards based on this SoC, it
+  # is  a good   idea to  change this    name  with another  supported
+  # equivalent SBC name by flash-kernel,  but with the correct DTS  of
+  # course. As a result, Flash-kernel does not exit with an error (!)
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      FriendlyARM NanoPi R1
+      Xunlong Orange Pi PC
 
   # launch one shell into rootfs
 
@@ -598,12 +609,6 @@ steps:
       # Because Ansible has finish running, it is possible to unmount /proc
 
       umount $ROOT/proc
-
-      # Remove the forced machine description used for off line build,
-      # when the board  is  power on, the flash-kernel   autodetection
-      # will find the correct name using /proc/cpuinfo
-
-      rm $ROOT/etc/flash-kernel/machine
 
       # Be sure to remove tempory link used for Ansible run
 
