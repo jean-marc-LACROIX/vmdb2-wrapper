@@ -1,0 +1,460 @@
+# Use like this : sudo vmdb2 odroid-n2_bookworm_arm64_vmdb2.yaml --output=../images/odroid-n2_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_odroid-n2_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
+
+# Please remember that full documentation is available here :
+# https://vmdb2-manual.liw.fi/
+
+# Following code  is   organized in   functionnal sections.  In   each
+# section, steps (for vmdb2 point of vue) are defined.
+
+steps:
+
+  # SECTION 1/5: Prepare local environnement for new image
+  # ------------------------------------------------------
+
+  # Create one file with 3G size. File name is set by "--output" shell
+  # parameter option
+
+  - mkimg: "{{ output }}"
+    size: 3G
+
+  # Create  partition entry on new image  file. In  order to always be
+  # compatible  with previous old systems  and tools, prefer partition
+  # type "msdos" instead of "gpt"
+
+  - mklabel: msdos
+    device:  "{{ output }}"
+
+  # Then create  one primary partition.   In order to support multiple
+  # partitions,  create also one  logical name (option  tags) for this
+  # partition.  It  is  therefore possible to use  this  name later to
+  # reference this object.
+
+  - mkpart: primary
+    device: "{{ output }}"
+
+    # We  have  to   start   higher    than 12M  because    of     the
+    # tzsw.bin.hardkernel which needs  to be  at 24576*512  Bytes.  In
+    # order to be  compliant on  all SBC, we  use  16 Mb as  a default
+    # configuration
+
+    start: 16M
+    end:   100%
+    tag:   rootfs_partition_tag
+
+  # Map image file partitions to loop device
+
+  - kpartx: "{{ output }}"
+
+  # Format root partition with standard "ext4" Linux
+
+  - mkfs: ext4
+    partition: rootfs_partition_tag
+
+  # Mount root partition (via loop device) on temporary mount point
+
+  - mount: rootfs_partition_tag
+
+  # Unpack a tarball of the root filesystem to the image, and set the
+  # rootfs_unpacked  condition to    true.  If the   tarball does  not
+  # exist,do nothing and leave the rootfs_unpacked condition to false.
+
+  - unpack-rootfs: rootfs_partition_tag
+
+  # SECTION 2/5: Create rootfs and minimal Debian configuration
+  # -----------------------------------------------------------
+
+  # We choose a Debian  version and architecture. Please remember that
+  # no kernel and no u-boot are installed here (because rootfs)
+
+  - debootstrap: bookworm
+    mirror: http://ftp.de.debian.org/debian
+    target: rootfs_partition_tag
+    arch: arm64
+    components:
+    - main
+    - contrib
+    - non-free
+    unless: rootfs_unpacked
+
+  # Install default files, so  that futur Debian commands "apt update"
+  # and "apt upgrade" will run
+
+  - create-file: /etc/apt/sources.list
+    contents: |+
+      # file /etc/apt/sources.list
+      
+      # current Debian release (V12)
+      deb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware
+      # current Debian release (V12) security for bookworm release
+      deb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware
+      # current Debian release (V12) update, only for bookworm release
+      deb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware
+      # current Debian release (V12) backports from next (Trixie) V13 release
+      deb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware
+      # current Debian release (V13)
+      deb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware
+
+    unless: rootfs_unpacked
+
+  # Install  flash-kernel &  initramfs-tools packages,  which needs to
+  # already   have   been  installed  before   creating  /boot   final
+  # directory.  Because this tools are  necessary for  on all SBC,  we
+  # install then now to include them into the rootfs cache
+
+  - apt: install
+    packages:
+      - flash-kernel
+      - initramfs-tools
+    tag: rootfs_partition_tag
+    unless: rootfs_unpacked
+
+  # Install preferences on the target. This is Debian policy to manage
+  # each package and/or pining. On many SBC target, only recent kernel
+  # has a correct native DTS/DTB.  As a result, define one policy (for
+  # apt point of vue)
+
+  - create-file: /etc/apt/preferences.d/debian_preferences.pref
+    contents: |+
+      # file : /etc/apt/preferences.d/debian_preferences.pref
+      
+      # Install  preferences on the target.  This is Debian policy to
+      # manage  each package and/or pining. On  many SBC target, only
+      # recent kernel has  a  correct native  DTS/DTB.   As a result,
+      # define one policy (for apt point of vue)
+      
+      # Define behaviour on current release
+      Package: *
+      Pin: release o=Debian,l=Debian,n=bookworm
+      Pin-Priority: 500
+      
+      # Define behaviour on backports for the current release
+      Package: *
+      Pin: release o=Debian,l=Debian,n=bookworm-backports
+      Pin-Priority: 500
+      
+      # Define behaviour on futur release
+      Package: *
+      Pin: release o=Debian,l=Debian,n=trixie
+      Pin-Priority: 90
+      
+      # Ethernet chip is RTL8211F   Gigabit. There are many  issues on
+      # this   Chip (!).
+      
+      # https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/
+      # https://linux-sunxi.org/Ethernet
+      # https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c
+      
+      # On  Debian firmware-realtek  package, it  seems  there are  no
+      # firmware  for this MAC (RTL8211F)   into this  package.  As  a
+      # result, it seems not be  relevant  to install it. But  because
+      # many issues, prefere now to install recent kernel
+      
+      Package: linux-image-arm64
+      Pin: release o=Debian,l=Debian,n=trixie
+      Pin-Priority: 980
+      
+    unless: rootfs_unpacked
+
+  # Create a tarball of  the image root filesystem.  File name of this
+  # file     is     defined   by   previous    command   line   option
+  # "--rootfs-tarball".    Please note that    step is  linked  to the
+  # previous "unpack_rootfs".
+
+  - cache-rootfs: rootfs_partition_tag
+    unless: rootfs_unpacked
+
+  # Launch one shell into chroot and make following actions...
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # Update  internal Debian apt data base.  In case we use one old
+      # cache tarball, it is necessary to look for new update
+
+      apt-get update
+
+      # Upgrade packages
+
+      apt-get --assume-yes upgrade
+
+      # When installing kernel, "flash-kernel" & "initramfs" tools are
+      # automatically called. Because the target is not yet configured
+      # (/etc/fstab),  we backup  and remove  post installation script
+      # during kernel   installation,   so that there  are   no action
+      # on rootfs.
+
+      mv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /
+
+      # Install the current generic linux kernel for this architecture
+      # (meta package)
+
+      apt-get --assume-yes install linux-image-arm64
+
+      # Restore  previous   post-hook script,   because now  kernel  is
+      # correctly installed on rootfs.
+
+      mv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/
+
+  # SECTION 3/5: Make initramfs & flashkernel configuration
+  # --------------------------------------------------------
+
+  # Now,  next actions  are not  shared   with "rootfs cache" and   is
+  # dedicated to target
+
+  # Set default  hostname    of target.  Please   note  there  are  no
+  # requirements for this value, it is  user defined. Good practice is
+  # to use the same name than in DTS
+
+  - create-file: /etc/hostname
+    contents: |+
+      Odroid-N2
+
+  # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
+  # generate a  line  with correct UUID.  Remenber  that this  UUID is
+  # previously created by mkfs tool
+
+  - fstab: rootfs_partition_tag
+
+  # According    /usr/share/doc/flash-kernel/README.gz  documentation,
+  # default data-base    for   all  supported   SBC  (located     into
+  # /usr/share/flash-kernel/db/all.db)   does not  support   nanopi-r1
+  # board.    As  a      result,    it    is  then   mandatory      to
+  # install /etc/flashkernel/db and/etc/flash-kernel/machine files.
+
+  - create-file: /etc/flash-kernel/db
+    contents: |+
+      Machine: Hardkernel ODROID-N2
+      Kernel-Flavors: arm64
+      DTB-Id: amlogic/meson-g12b-odroid-n2.dtb
+      Boot-Script-Path: /boot/boot.scr
+      U-Boot-Script-Name: bootscr.uboot-generic
+      Required-Packages: u-boot-tools
+
+  # According  /usr/share/doc/flash-kernel/README.gz    documentation,
+  # default   data-base    for  all supported     SBC  (located   into
+  # /usr/share/flash-kernel/db/all.db) support  odroid-n2 board.  As a
+  # result,     it    is then   not    mandatory    to install  either
+  # "/etc/flashkernel/db", either "/etc/flash-kernel/machine file,  so
+  # skip  this step....But  if not  defined  the  machine (to  overlap
+  # default config), there is one 'intelligent system' who search  the
+  # UUID, and ... fails. As a result  defined machine target, so that
+  # no error (FIXME)
+
+  - create-file: /etc/flash-kernel/machine
+    contents: |+
+      ODROID-N2
+
+  # launch one shell into rootfs
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # Because too many issues on SDCARD  on SBC (due to bad hardware
+      # !), be  sure  to add   "noatime,nodiratime" option on   rootfs
+      # mount, so that we increase flash SDcard lifetime
+
+      sed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab
+
+      # Be sure to force fsck on rootfs  so that every time, target is
+      # ok.  Furthermore,  force interface  name  with  "prefix kernel
+      # name" and suffix name based  on current index. Force also fsck
+      # on rootfs
+
+      sed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel
+
+      # "initramfs" & "flash-kernel" tools needs uuid rootfs in
+      # order to make the job. Back-up fsck hook now
+
+      mv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak
+      chmod -x /usr/share/initramfs-tools/hooks/fsck.bak
+
+      # Fix fsck to read root fstype in fstab
+
+      sed "s@\[.*\"\/\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck
+      chmod +x /usr/share/initramfs-tools/hooks/fsck
+
+      update-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\(.*\)$%\1%g")
+
+      # Remove root  password, so that  first login on default  tty is
+      # "root" without   any password.  It  is user  responsability to
+      # make   changes    according his   security   policy  (!),  not
+      # vmdb2-wrapper project (!)
+
+      sed -i "s@root:\*:@root::@g" /etc/shadow
+
+  # SECTION 4/5: Prepare network configuration
+  # ------------------------------------------
+
+  # Create loopback mandatory "lo"  interface.  It is a best  practice
+  # to use proposal  Debian  directory /etc/network/interface.d.  This
+  # directory  is  parsed in  lexical name   order  by Debian tools to
+  # create interfaces (Please, verify it in man !)
+
+  - create-file: /etc/network/interfaces.d/lo
+    contents: |+
+      # file /etc/network/interfaces.d/lo
+      
+      # loopback interface
+      allow-auto lo
+      iface      lo inet loopback
+
+  # Please remember that  interface   policy naming is   controled  by
+  # kernel parameter boot option : "net.ifnames=0" (see above)
+
+  # On this SBC, only one interface is available (eth0), then create
+  # this one.   
+
+  - create-file: /etc/network/interfaces.d/eth0
+    contents: |+
+      # file /etc/network/interfaces.d/eth0
+      
+      # Ethernet  10/100/1000 full duplex interface. Because interface
+      # is set in dhcp mode, then dhcp request configuration file is
+      # set into /etc/dhcp/dhclient.conf 
+      
+      allow-auto eth0
+      iface      eth0 inet dhcp
+
+  # Set local DNS resolver if no DNS available (for example if no DHCP
+  # server available)
+
+  - create-file: /etc/hosts
+    contents: |+
+      # file /etc/hosts
+      
+      # IPV4 loopback address on localhost (RFC 5735 compliant)
+      127.0.0.1  localhost
+      
+      # IPV4 loopback address on localhost (RFC 5735 compliant)
+      127.0.0.2  Odroid-N2
+
+  # Launch one shell into chroot and make following actions...
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # python3 is      needed  to  launch   "Ansible"   tools  later.
+      # Furthermore,  python3-apt   must be also  installed, otherwise
+      # followin error :
+
+      # Updating  cache    and  auto-installing  missing   dependency: python3-apt
+      
+      apt-get --assume-yes install python3 python3-apt
+      
+      # openssh-server is needed to connect to target on Ethernet port
+      # (and also from external Ansible script)
+
+      apt-get --assume-yes install openssh-server openssh-sftp-server
+
+      # Because this target boot first time in DHCP mode, then install
+      # Debian   ISC   client.      Please   verify   default   Debian
+      # /etc/dhcp/dhclient.conf
+
+      apt-get --assume-yes install isc-dhcp-client
+
+  # When target will  boot later,  we must  be sure  to have  one  ssh
+  # access on  root  account because at  this time,  only Unix root is
+  # created.  Of course, sysadmin set correct DHCP/DNS/default gateway
+  # infrastructure,    so that one IPV4   address   is assigned to the
+  # target.  Because this is the  first connection, we change  default
+  # Debian  "/etc/ssh/sshd_config" profile bahaviour.   With  this new
+  # profile configuration, root access is enable on the target without
+  # password. Please  update  ASAP  this file according   your private
+  # security policy.  Please be  sure to install this VMDB2 step after
+  # installing  Debian package,  so that  following  configuration  is
+  # used instead of Debian.
+
+  - chroot: rootfs_partition_tag
+    shell: |
+
+      # Be sure to enable ssh root access on target
+
+      sed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config
+
+      # Enable ssh public key
+
+      sed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config
+
+      # And finally enable ssh   root access without password  for  the
+      # first connection.
+
+      sed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config
+
+  # Create mandatory kernel modules (/etc/modules) loaded on startup
+
+  - create-file: /etc/modules
+    contents: |+
+      # file /etc/modules
+      
+      # Because  all Linux kernel  modules are loaded automatically at
+      # boot  time,  then  this   file is empty  for   standard Debian
+      # bookworm release
+
+  # Create one empty file for DNS local  resolver. Remember that it is
+  # sysadmin responsability  to   answer to strategic   DHCP option  :
+  # "request domain-name, domain-search" defined into file :
+  # /etc/dhcp/dhclient.conf.     When   DHCP-REQUEST+DHCP-OFFER is ok,
+  # following file  is  automatically modified by  ifup/ifdown  Debian
+  # infrastructure.
+
+  - create-file: /etc/resolv.conf
+    contents: |+
+      # file /etc/resolv.conf
+      
+      # This  file is installed by   vmdb2-project. It is automatically
+      # updated    according   network        sysadmin policy       on
+      # DHCP-REQUEST/DHCP-OFFER PDUs
+
+  # SECTION 5/5: Install u-boot and launch Ansible user script
+  # ----------------------------------------------------------
+
+  # Install Debian u-boot package for this target
+
+  - apt: install
+    packages:
+      - u-boot-amlogic
+    tag: rootfs_partition_tag
+
+  # Install u-boot binaries on target
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      TARGET="$ROOT/usr/lib/u-boot/odroid-n2-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
+
+      mount -t proc proc $ROOT/proc
+
+  # Install utf8   package.  On Debian  Bookworm,  when using Ansible,
+  # LANG=C is  no more sufficient.   It is now  mandatory to  use UTF8
+  # locale, otherwise, following error.... As a result, install Debian
+  # package. FIXME. It seems not sufficient (!), look at ansible task
+  # DEBUG STDERR: ERROR: Ansible requires the locale encoding to be UTF-8; Detected None.
+
+  # Launch final user application
+
+  #- ansible: rootfs_partition_tag
+  #  playbook: vmdb2-ansible.yaml
+
+  - root-fs: rootfs_partition_tag
+    shell: |
+      # Restore original fsck tool hook now
+
+      mv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck
+      chmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck
+
+      # Because Ansible has finish running, it is possible to unmount /proc
+
+      umount $ROOT/proc
+
+      # Remove the forced machine description used for off line build,
+      # when the board  is  power on, the flash-kernel   autodetection
+      # will find the correct name using /proc/cpuinfo
+
+      rm $ROOT/etc/flash-kernel/machine
+
+      # Be sure to remove tempory link used for Ansible run
+
+      diff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true
