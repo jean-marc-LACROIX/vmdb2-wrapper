@@ -242,7 +242,7 @@ steps:
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      ODROID-N2
+      Hardkernel ODROID-N2
 
   # launch one shell into rootfs
 
