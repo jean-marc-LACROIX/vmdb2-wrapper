@@ -419,12 +419,12 @@ steps:
 
   - root-fs: rootfs_partition_tag
     shell: |
-      TARGET="$ROOT/usr/lib/u-boot/odroid-n2-rk3328" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
+      # TARGET="$ROOT/usr/lib/u-boot/odroid-n2" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
+      dd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/odroid-n2/u-boot.bin of={{ output }} bs=1024 seek=8
 
   - root-fs: rootfs_partition_tag
     shell: |
       test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml
-
       mount -t proc proc $ROOT/proc
 
   # Install utf8   package.  On Debian  Bookworm,  when using Ansible,
