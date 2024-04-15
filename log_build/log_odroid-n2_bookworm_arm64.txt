@@ -1,0 +1,2065 @@
+2024-04-15 08:22:51 INFO Starting vmdb2 version 0.26
+2024-04-15 08:22:51 INFO Load spec file odroid-n2_bookworm_arm64_vmdb2.yaml
+2024-04-15 08:22:51 INFO Exec: ['dpkg', '--print-architecture']
+2024-04-15 08:22:51 DEBUG STDOUT: amd64
+
+2024-04-15 08:22:51 DEBUG STDERR: 
+2024-04-15 08:22:51 INFO Running step: {'mkimg': '../images/odroid-n2_bookworm_arm64.img', 'size': '3G'}
+2024-04-15 08:22:51 INFO Calling <bound method MkimgStepRunner.run of <mkimg_plugin.MkimgStepRunner object at 0x7f1666979150>>
+2024-04-15 08:22:51 INFO Exec: ['qemu-img', 'create', '-f', 'raw', '../images/odroid-n2_bookworm_arm64.img', '3G']
+2024-04-15 08:22:51 DEBUG STDOUT: Formatting '../images/odroid-n2_bookworm_arm64.img', fmt=raw size=3221225472
+
+2024-04-15 08:22:51 DEBUG STDERR: 
+2024-04-15 08:22:51 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <mkimg_plugin.MkimgStepRunner object at 0x7f1666979150>>
+2024-04-15 08:22:51 INFO Running step: {'mklabel': 'msdos', 'device': '../images/odroid-n2_bookworm_arm64.img'}
+2024-04-15 08:22:51 INFO Calling <bound method MklabelStepRunner.run of <mklabel_plugin.MklabelStepRunner object at 0x7f1666978f50>>
+2024-04-15 08:22:51 INFO Exec: ['parted', '-s', '../images/odroid-n2_bookworm_arm64.img', 'mklabel', 'msdos']
+2024-04-15 08:22:51 DEBUG STDOUT: 
+2024-04-15 08:22:51 DEBUG STDERR: SELinux enabled state cached to: disabled
+Found cgroup2 on /sys/fs/cgroup/unified, unified hierarchy for systemd controller
+Failed to determine unit we run in, ignoring: No data available
+SELinux enabled state cached to: disabled
+Found cgroup2 on /sys/fs/cgroup/unified, unified hierarchy for systemd controller
+Failed to determine unit we run in, ignoring: No data available
+
+2024-04-15 08:22:51 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <mklabel_plugin.MklabelStepRunner object at 0x7f1666978f50>>
+2024-04-15 08:22:51 INFO Running step: {'mkpart': 'primary', 'device': '../images/odroid-n2_bookworm_arm64.img', 'start': '16M', 'end': '100%', 'tag': 'rootfs_partition_tag'}
+2024-04-15 08:22:51 INFO Calling <bound method MkpartStepRunner.run of <mkpart_plugin.MkpartStepRunner object at 0x7f1667ac7ed0>>
+2024-04-15 08:22:51 INFO Exec: ['parted', '-m', '../images/odroid-n2_bookworm_arm64.img', 'print']
+2024-04-15 08:22:52 DEBUG STDOUT: BYT;
+/home/ansible/git/vmdb2-wrapper-jean-marc-LACROIX.git/images/odroid-n2_bookworm_arm64.img:3221MB:file:512:512:msdos::;
+
+2024-04-15 08:22:52 DEBUG STDERR: 
+2024-04-15 08:22:52 INFO Exec: ['parted', '-s', '../images/odroid-n2_bookworm_arm64.img', '--', 'mkpart', 'primary', 'ext2', '16M', '100%']
+2024-04-15 08:22:52 DEBUG STDOUT: 
+2024-04-15 08:22:52 DEBUG STDERR: SELinux enabled state cached to: disabled
+Found cgroup2 on /sys/fs/cgroup/unified, unified hierarchy for systemd controller
+Failed to determine unit we run in, ignoring: No data available
+SELinux enabled state cached to: disabled
+Found cgroup2 on /sys/fs/cgroup/unified, unified hierarchy for systemd controller
+Failed to determine unit we run in, ignoring: No data available
+
+2024-04-15 08:22:52 INFO Exec: ['parted', '-m', '../images/odroid-n2_bookworm_arm64.img', 'print']
+2024-04-15 08:22:52 DEBUG STDOUT: BYT;
+/home/ansible/git/vmdb2-wrapper-jean-marc-LACROIX.git/images/odroid-n2_bookworm_arm64.img:3221MB:file:512:512:msdos::;
+1:15.7MB:3221MB:3205MB:::;
+
+2024-04-15 08:22:52 DEBUG STDERR: 
+2024-04-15 08:22:52 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <mkpart_plugin.MkpartStepRunner object at 0x7f1667ac7ed0>>
+2024-04-15 08:22:52 INFO Running step: {'kpartx': '../images/odroid-n2_bookworm_arm64.img'}
+2024-04-15 08:22:52 INFO Calling <bound method KpartxStepRunner.run of <kpartx_plugin.KpartxStepRunner object at 0x7f1666978fd0>>
+2024-04-15 08:22:52 INFO Exec: ['kpartx', '-asv', '../images/odroid-n2_bookworm_arm64.img']
+2024-04-15 08:22:52 DEBUG STDOUT: add map loop0p1 (254:146): 0 6260736 linear 7:0 30720
+
+2024-04-15 08:22:52 DEBUG STDERR: 
+2024-04-15 08:22:52 INFO remembering /dev/mapper/loop0p1 as rootfs_partition_tag
+2024-04-15 08:22:52 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <kpartx_plugin.KpartxStepRunner object at 0x7f1666978fd0>>
+2024-04-15 08:22:52 INFO Running step: {'mkfs': 'ext4', 'partition': 'rootfs_partition_tag'}
+2024-04-15 08:22:52 INFO Calling <bound method MkfsStepRunner.run of <mkfs_plugin.MkfsStepRunner object at 0x7f1666bc2a50>>
+2024-04-15 08:22:52 INFO Exec: ['/sbin/mkfs', '-t', 'ext4', '-O', '^large_dir', '-O', '^metadata_csum_seed', '/dev/mapper/loop0p1']
+2024-04-15 08:22:52 DEBUG STDOUT: Discarding device blocks:      0/782592             done                            
+Creating filesystem with 782592 4k blocks and 195840 inodes
+Filesystem UUID: 404a0840-366f-4ab6-bd65-67798bb32fe4
+Superblock backups stored on blocks: 
+	32768, 98304, 163840, 229376, 294912
+
+Allocating group tables:  0/24     done                            
+Writing inode tables:  0/24     done                            
+Creating journal (16384 blocks): done
+Writing superblocks and filesystem accounting information:  0/24     done
+
+
+2024-04-15 08:22:52 DEBUG STDERR: mke2fs 1.47.0 (5-Feb-2023)
+
+2024-04-15 08:22:52 INFO Exec: ['blkid', '-c/dev/null', '-ovalue', '-sUUID', '/dev/mapper/loop0p1']
+2024-04-15 08:22:52 DEBUG STDOUT: 404a0840-366f-4ab6-bd65-67798bb32fe4
+
+2024-04-15 08:22:52 DEBUG STDERR: 
+2024-04-15 08:22:52 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <mkfs_plugin.MkfsStepRunner object at 0x7f1666bc2a50>>
+2024-04-15 08:22:52 INFO Running step: {'mount': 'rootfs_partition_tag'}
+2024-04-15 08:22:52 INFO Calling <bound method MountStepRunner.run of <mount_plugin.MountStepRunner object at 0x7f1666979010>>
+2024-04-15 08:22:52 INFO Exec: ['mount', '/dev/mapper/loop0p1', '/tmp/tmpbw0tnwgu']
+2024-04-15 08:22:52 DEBUG STDOUT: 
+2024-04-15 08:22:52 DEBUG STDERR: 
+2024-04-15 08:22:52 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <mount_plugin.MountStepRunner object at 0x7f1666979010>>
+2024-04-15 08:22:52 INFO Running step: {'unpack-rootfs': 'rootfs_partition_tag'}
+2024-04-15 08:22:52 INFO Calling <bound method UnpackCacheStepRunner.run of <unpack_rootfs_plugin.UnpackCacheStepRunner object at 0x7f1666978e50>>
+2024-04-15 08:22:52 DEBUG settings: {'rootfs-tarball': '../rootfs_cache/bookworm_arm64_rootfs.tgz'}
+2024-04-15 08:22:52 DEBUG tar_path: '../rootfs_cache/bookworm_arm64_rootfs.tgz'
+2024-04-15 08:22:52 INFO Exec: ['tar', '-C', '/tmp/tmpbw0tnwgu', '-xf', '../rootfs_cache/bookworm_arm64_rootfs.tgz', '--numeric-owner']
+2024-04-15 08:22:55 DEBUG STDOUT: 
+2024-04-15 08:22:55 DEBUG STDERR: 
+2024-04-15 08:22:55 INFO Exec: ['cp', '/etc/resolv.conf', '/tmp/tmpbw0tnwgu/etc/resolv.conf']
+2024-04-15 08:22:55 DEBUG STDOUT: 
+2024-04-15 08:22:55 DEBUG STDERR: 
+2024-04-15 08:22:55 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <unpack_rootfs_plugin.UnpackCacheStepRunner object at 0x7f1666978e50>>
+2024-04-15 08:22:55 INFO Running step: {'debootstrap': 'bookworm', 'mirror': 'http://ftp.de.debian.org/debian', 'target': 'rootfs_partition_tag', 'arch': 'arm64', 'components': ['main', 'contrib', 'non-free'], 'unless': 'rootfs_unpacked'}
+2024-04-15 08:22:55 INFO Skipping as requested by unless
+2024-04-15 08:22:55 INFO Calling <bound method DebootstrapStepRunner.run_even_if_skipped of <debootstrap_plugin.DebootstrapStepRunner object at 0x7f1666979050>>
+2024-04-15 08:22:55 INFO Running step: {'create-file': '/etc/apt/sources.list', 'contents': '# file /etc/apt/sources.list\n\n# current Debian release (V12)\ndeb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware\n# current Debian release (V12) security for bookworm release\ndeb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware\n# current Debian release (V12) update, only for bookworm release\ndeb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware\n# current Debian release (V12) backports from next (Trixie) V13 release\ndeb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware\n# current Debian release (V13)\ndeb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware\n', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:22:55 INFO Skipping as requested by unless
+2024-04-15 08:22:55 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:22:55 INFO Running step: {'apt': 'install', 'packages': ['flash-kernel', 'initramfs-tools'], 'tag': 'rootfs_partition_tag', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:22:55 INFO Skipping as requested by unless
+2024-04-15 08:22:55 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <apt_plugin.AptStepRunner object at 0x7f1666bc21d0>>
+2024-04-15 08:22:55 INFO Running step: {'create-file': '/etc/apt/preferences.d/debian_preferences.pref', 'contents': '# file : /etc/apt/preferences.d/debian_preferences.pref\n\n# Install  preferences on the target.  This is Debian policy to\n# manage  each package and/or pining. On  many SBC target, only\n# recent kernel has  a  correct native  DTS/DTB.   As a result,\n# define one policy (for apt point of vue)\n\n# Define behaviour on current release\nPackage: *\nPin: release o=Debian,l=Debian,n=bookworm\nPin-Priority: 500\n\n# Define behaviour on backports for the current release\nPackage: *\nPin: release o=Debian,l=Debian,n=bookworm-backports\nPin-Priority: 500\n\n# Define behaviour on futur release\nPackage: *\nPin: release o=Debian,l=Debian,n=trixie\nPin-Priority: 90\n\n# Ethernet chip is RTL8211F   Gigabit. There are many  issues on\n# this   Chip (!).\n\n# https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/\n# https://linux-sunxi.org/Ethernet\n# https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c\n\n# On  Debian firmware-realtek  package, it  seems  there are  no\n# firmware  for this MAC (RTL8211F)   into this  package.  As  a\n# result, it seems not be  relevant  to install it. But  because\n# many issues, prefere now to install recent kernel\n\nPackage: linux-image-arm64\nPin: release o=Debian,l=Debian,n=trixie\nPin-Priority: 980\n', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:22:55 INFO Skipping as requested by unless
+2024-04-15 08:22:55 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:22:55 INFO Running step: {'cache-rootfs': 'rootfs_partition_tag', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:22:55 INFO Skipping as requested by unless
+2024-04-15 08:22:55 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <cache_rootfs_plugin.MakeCacheStepRunner object at 0x7f16669790d0>>
+2024-04-15 08:22:55 INFO Running step: {'chroot': 'rootfs_partition_tag', 'shell': '\n# Update  internal Debian apt data base.  In case we use one old\n# cache tarball, it is necessary to look for new update\n\napt-get update\n\n# Upgrade packages\n\napt-get --assume-yes upgrade\n\n# When installing kernel, "flash-kernel" & "initramfs" tools are\n# automatically called. Because the target is not yet configured\n# (/etc/fstab),  we backup  and remove  post installation script\n# during kernel   installation,   so that there  are   no action\n# on rootfs.\n\nmv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /\n\n# Install the current generic linux kernel for this architecture\n# (meta package)\n\napt-get --assume-yes install linux-image-arm64\n\n# Restore  previous   post-hook script,   because now  kernel  is\n# correctly installed on rootfs.\n\nmv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/'}
+2024-04-15 08:22:55 INFO Calling <bound method ChrootStepRunner.run of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:22:55 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'sh', '-ec', '\n# Update  internal Debian apt data base.  In case we use one old\n# cache tarball, it is necessary to look for new update\n\napt-get update\n\n# Upgrade packages\n\napt-get --assume-yes upgrade\n\n# When installing kernel, "flash-kernel" & "initramfs" tools are\n# automatically called. Because the target is not yet configured\n# (/etc/fstab),  we backup  and remove  post installation script\n# during kernel   installation,   so that there  are   no action\n# on rootfs.\n\nmv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /\n\n# Install the current generic linux kernel for this architecture\n# (meta package)\n\napt-get --assume-yes install linux-image-arm64\n\n# Restore  previous   post-hook script,   because now  kernel  is\n# correctly installed on rootfs.\n\nmv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/']
+2024-04-15 08:29:22 DEBUG STDOUT: Get:1 http://security.debian.org bookworm-security InRelease [48.0 kB]
+Get:2 http://ftp.de.debian.org/debian bookworm InRelease [151 kB]
+Get:3 http://ftp.de.debian.org/debian bookworm-updates InRelease [55.4 kB]
+Get:4 http://ftp.de.debian.org/debian bookworm-backports InRelease [56.5 kB]
+Get:5 http://ftp.de.debian.org/debian trixie InRelease [158 kB]
+Get:6 http://security.debian.org bookworm-security/main arm64 Packages [148 kB]
+Get:7 http://security.debian.org bookworm-security/main Translation-en [91.7 kB]
+Get:8 http://security.debian.org bookworm-security/contrib Translation-en [372 B]
+Get:9 http://ftp.de.debian.org/debian bookworm/main arm64 Packages [8685 kB]
+Get:10 http://ftp.de.debian.org/debian bookworm-updates/main arm64 Packages.diff/Index [9483 B]
+Get:11 http://ftp.de.debian.org/debian bookworm-updates/main Translation-en.diff/Index [9483 B]
+Get:12 http://ftp.de.debian.org/debian bookworm-backports/main arm64 Packages.diff/Index [63.3 kB]
+Ign:12 http://ftp.de.debian.org/debian bookworm-backports/main arm64 Packages.diff/Index
+Get:13 http://ftp.de.debian.org/debian bookworm-backports/main Translation-en.diff/Index [63.3 kB]
+Get:14 http://ftp.de.debian.org/debian bookworm-backports/contrib arm64 Packages.diff/Index [24.1 kB]
+Get:15 http://ftp.de.debian.org/debian bookworm-backports/contrib Translation-en.diff/Index [4995 B]
+Get:16 http://ftp.de.debian.org/debian bookworm-backports/non-free arm64 Packages.diff/Index [3873 B]
+Get:17 http://ftp.de.debian.org/debian trixie/main arm64 Packages.diff/Index [27.9 kB]
+Ign:17 http://ftp.de.debian.org/debian trixie/main arm64 Packages.diff/Index
+Get:18 http://ftp.de.debian.org/debian trixie/main Translation-en.diff/Index [27.9 kB]
+Ign:18 http://ftp.de.debian.org/debian trixie/main Translation-en.diff/Index
+Get:19 http://ftp.de.debian.org/debian trixie/contrib arm64 Packages.diff/Index [27.8 kB]
+Ign:19 http://ftp.de.debian.org/debian trixie/contrib arm64 Packages.diff/Index
+Get:20 http://ftp.de.debian.org/debian trixie/contrib Translation-en.diff/Index [27.8 kB]
+Get:21 http://ftp.de.debian.org/debian trixie/non-free arm64 Packages.diff/Index [27.8 kB]
+Ign:21 http://ftp.de.debian.org/debian trixie/non-free arm64 Packages.diff/Index
+Get:22 http://ftp.de.debian.org/debian trixie/non-free Translation-en.diff/Index [27.8 kB]
+Get:23 http://ftp.de.debian.org/debian trixie/non-free-firmware arm64 Packages.diff/Index [14.5 kB]
+Ign:23 http://ftp.de.debian.org/debian trixie/non-free-firmware arm64 Packages.diff/Index
+Get:24 http://ftp.de.debian.org/debian trixie/non-free-firmware Translation-en.diff/Index [4180 B]
+Get:25 http://ftp.de.debian.org/debian bookworm-updates/main arm64 Packages T-2023-12-29-1403.39-F-2023-11-06-2008.27.pdiff [7468 B]
+Get:26 http://ftp.de.debian.org/debian bookworm-updates/main Translation-en T-2023-12-29-1403.39-F-2023-11-06-2008.27.pdiff [10.4 kB]
+Get:25 http://ftp.de.debian.org/debian bookworm-updates/main arm64 Packages T-2023-12-29-1403.39-F-2023-11-06-2008.27.pdiff [7468 B]
+Get:27 http://ftp.de.debian.org/debian bookworm-backports/main Translation-en T-2024-04-05-2005.03-F-2023-10-02-1404.11.pdiff [118 kB]
+Get:26 http://ftp.de.debian.org/debian bookworm-updates/main Translation-en T-2023-12-29-1403.39-F-2023-11-06-2008.27.pdiff [10.4 kB]
+Get:27 http://ftp.de.debian.org/debian bookworm-backports/main Translation-en T-2024-04-05-2005.03-F-2023-10-02-1404.11.pdiff [118 kB]
+Get:28 http://ftp.de.debian.org/debian bookworm-backports/contrib arm64 Packages T-2024-03-28-2021.46-F-2023-10-12-0803.19.pdiff [3729 B]
+Get:28 http://ftp.de.debian.org/debian bookworm-backports/contrib arm64 Packages T-2024-03-28-2021.46-F-2023-10-12-0803.19.pdiff [3729 B]
+Get:29 http://ftp.de.debian.org/debian bookworm-backports/contrib Translation-en T-2024-01-25-0204.30-F-2023-10-12-0803.19.pdiff [543 B]
+Get:29 http://ftp.de.debian.org/debian bookworm-backports/contrib Translation-en T-2024-01-25-0204.30-F-2023-10-12-0803.19.pdiff [543 B]
+Get:30 http://ftp.de.debian.org/debian bookworm-backports/non-free arm64 Packages T-2024-02-19-2010.17-F-2023-12-20-2024.36.pdiff [258 B]
+Get:30 http://ftp.de.debian.org/debian bookworm-backports/non-free arm64 Packages T-2024-02-19-2010.17-F-2023-12-20-2024.36.pdiff [258 B]
+Get:31 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-09-30-1422.55.pdiff [29 B]
+Get:32 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-02-0205.14.pdiff [412 B]
+Get:33 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-13-1405.15.pdiff [713 B]
+Get:34 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-15-0215.54.pdiff [190 B]
+Get:35 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-22-0807.31.pdiff [2409 B]
+Get:36 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-22-2013.27.pdiff [74 B]
+Get:37 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-23-0803.51.pdiff [529 B]
+Get:38 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-26-1415.08.pdiff [31 B]
+Get:39 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-27-0215.07.pdiff [1031 B]
+Get:40 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-10-28-0203.34.pdiff [380 B]
+Get:41 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-11-06-0203.41.pdiff [256 B]
+Get:42 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-11-07-0203.48.pdiff [1045 B]
+Get:43 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-11-17-0204.01.pdiff [149 B]
+Get:44 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-11-27-0203.46.pdiff [164 B]
+Get:45 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-11-29-0203.59.pdiff [31 B]
+Get:46 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-11-29-1403.46.pdiff [29 B]
+Get:47 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-12-02-1404.05.pdiff [31 B]
+Get:48 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-12-11-1403.34.pdiff [31 B]
+Get:49 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-12-17-0204.04.pdiff [563 B]
+Get:50 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-12-23-0803.56.pdiff [140 B]
+Get:51 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-12-24-0204.24.pdiff [742 B]
+Get:52 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2023-12-27-0204.00.pdiff [297 B]
+Get:53 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-02-1407.22.pdiff [31 B]
+Get:54 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-09-0805.28.pdiff [29 B]
+Get:55 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-10-1406.54.pdiff [29 B]
+Get:56 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-12-0213.45.pdiff [1097 B]
+Get:57 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-14-1404.49.pdiff [31 B]
+Get:58 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-16-0204.43.pdiff [499 B]
+Get:59 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-18-0215.26.pdiff [761 B]
+Get:60 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-19-0204.13.pdiff [713 B]
+Get:61 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-24-1406.53.pdiff [42 B]
+Get:62 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-01-29-1407.31.pdiff [31 B]
+Get:63 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-02-01-0216.28.pdiff [86 B]
+Get:64 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-02-03-0208.15.pdiff [258 B]
+Get:65 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-02-13-0206.45.pdiff [31 B]
+Get:66 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-02-21-0205.57.pdiff [131 B]
+Get:67 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-03-07-1416.30.pdiff [38 B]
+Get:68 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-03-13-2048.27.pdiff [31 B]
+Get:69 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-03-15-1419.03.pdiff [31 B]
+Get:70 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-03-29-0222.48.pdiff [31 B]
+Get:71 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-04-01-0209.39.pdiff [31 B]
+Get:72 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-04-01-1411.11.pdiff [473 B]
+Get:73 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-04-04-1404.45.pdiff [31 B]
+Get:74 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-04-14-1407.11.pdiff [42 B]
+Get:74 http://ftp.de.debian.org/debian trixie/contrib Translation-en 2024-04-14-1407.11.pdiff [42 B]
+Get:75 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-10-04-0214.39.pdiff [1352 B]
+Get:76 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-10-05-0204.02.pdiff [31 B]
+Get:77 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-10-22-0807.31.pdiff [7135 B]
+Get:78 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-10-22-2013.27.pdiff [97 B]
+Get:79 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-10-26-1415.08.pdiff [31 B]
+Get:80 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-03-0204.56.pdiff [240 B]
+Get:81 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-16-0236.54.pdiff [492 B]
+Get:82 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-18-1404.22.pdiff [31 B]
+Get:83 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-20-0203.33.pdiff [199 B]
+Get:84 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-21-0204.34.pdiff [433 B]
+Get:85 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-25-0204.55.pdiff [218 B]
+Get:86 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-26-0203.42.pdiff [237 B]
+Get:87 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-28-0205.29.pdiff [240 B]
+Get:88 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-28-1406.19.pdiff [31 B]
+Get:89 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-11-29-1403.46.pdiff [446 B]
+Get:90 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-12-09-0205.38.pdiff [388 B]
+Get:91 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-12-10-1113.22.pdiff [29 B]
+Get:92 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-12-18-0205.08.pdiff [40 B]
+Get:93 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-12-19-2005.32.pdiff [675 B]
+Get:94 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-12-24-0204.24.pdiff [571 B]
+Get:95 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2023-12-30-1403.45.pdiff [31 B]
+Get:96 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-04-1403.44.pdiff [58 B]
+Get:97 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-10-1406.54.pdiff [29 B]
+Get:98 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-11-0244.20.pdiff [582 B]
+Get:99 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-21-0209.18.pdiff [138 B]
+Get:100 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-29-0205.07.pdiff [1296 B]
+Get:101 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-31-0205.02.pdiff [245 B]
+Get:102 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-01-31-1411.03.pdiff [287 B]
+Get:103 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-02-08-0206.21.pdiff [1264 B]
+Get:104 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-02-15-0206.06.pdiff [99 B]
+Get:105 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-02-17-0206.28.pdiff [698 B]
+Get:106 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-02-20-0209.13.pdiff [357 B]
+Get:107 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-03-04-0211.28.pdiff [216 B]
+Get:108 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-03-10-1412.03.pdiff [313 B]
+Get:109 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-03-13-0213.15.pdiff [684 B]
+Get:110 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-03-16-1413.45.pdiff [31 B]
+Get:111 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-03-26-1409.13.pdiff [31 B]
+Get:112 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-04-02-0206.34.pdiff [3493 B]
+Get:113 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-04-04-1404.45.pdiff [31 B]
+Get:114 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-04-14-1407.11.pdiff [31 B]
+Get:114 http://ftp.de.debian.org/debian trixie/non-free Translation-en 2024-04-14-1407.11.pdiff [31 B]
+Get:115 http://ftp.de.debian.org/debian trixie/non-free-firmware Translation-en 2023-10-05-0204.02.pdiff [396 B]
+Get:116 http://ftp.de.debian.org/debian trixie/non-free-firmware Translation-en 2023-12-04-0207.14.pdiff [1384 B]
+Get:117 http://ftp.de.debian.org/debian trixie/non-free-firmware Translation-en 2023-12-25-0208.17.pdiff [287 B]
+Get:118 http://ftp.de.debian.org/debian trixie/non-free-firmware Translation-en 2024-03-08-0206.55.pdiff [307 B]
+Get:118 http://ftp.de.debian.org/debian trixie/non-free-firmware Translation-en 2024-03-08-0206.55.pdiff [307 B]
+Get:119 http://ftp.de.debian.org/debian bookworm-backports/contrib Translation-en T-2024-01-25-0204.30-F-2024-01-25-0204.30.pdiff [759 B]
+Get:119 http://ftp.de.debian.org/debian bookworm-backports/contrib Translation-en T-2024-01-25-0204.30-F-2024-01-25-0204.30.pdiff [759 B]
+Get:120 http://ftp.de.debian.org/debian bookworm/main Translation-en [6109 kB]
+Get:121 http://ftp.de.debian.org/debian bookworm/contrib arm64 Packages [45.6 kB]
+Get:122 http://ftp.de.debian.org/debian bookworm/contrib Translation-en [48.7 kB]
+Get:123 http://ftp.de.debian.org/debian bookworm/non-free arm64 Packages [75.4 kB]
+Get:124 http://ftp.de.debian.org/debian bookworm/non-free Translation-en [66.8 kB]
+Get:125 http://ftp.de.debian.org/debian bookworm/non-free-firmware arm64 Packages [5824 B]
+Get:126 http://ftp.de.debian.org/debian bookworm-updates/contrib arm64 Packages [768 B]
+Get:127 http://ftp.de.debian.org/debian bookworm-updates/contrib Translation-en [408 B]
+Get:128 http://ftp.de.debian.org/debian bookworm-updates/non-free arm64 Packages [12.0 kB]
+Get:129 http://ftp.de.debian.org/debian bookworm-updates/non-free Translation-en [7744 B]
+Get:130 http://ftp.de.debian.org/debian bookworm-updates/non-free-firmware arm64 Packages [616 B]
+Get:131 http://ftp.de.debian.org/debian bookworm-updates/non-free-firmware Translation-en [384 B]
+Get:132 http://ftp.de.debian.org/debian bookworm-backports/main arm64 Packages [186 kB]
+Get:133 http://ftp.de.debian.org/debian trixie/main arm64 Packages [8828 kB]
+Get:134 http://ftp.de.debian.org/debian trixie/main Translation-en [6018 kB]
+Get:135 http://ftp.de.debian.org/debian trixie/contrib arm64 Packages [45.6 kB]
+Get:136 http://ftp.de.debian.org/debian trixie/non-free arm64 Packages [75.6 kB]
+Get:137 http://ftp.de.debian.org/debian trixie/non-free-firmware arm64 Packages [5972 B]
+Get:138 http://ftp.de.debian.org/debian bookworm-backports/contrib arm64 Packages [4700 B]
+Get:139 http://ftp.de.debian.org/debian bookworm-backports/main Translation-en [157 kB]
+Fetched 31.6 MB in 1min 22s (384 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+Calculating upgrade...
+The following packages will be upgraded:
+  base-files bsdutils debian-archive-keyring debianutils fdisk libblkid1
+  libc-bin libc6 libcryptsetup12 libfdisk1 libgnutls30 libgssapi-krb5-2
+  libk5crypto3 libkrb5-3 libkrb5support0 libmount1 libnftables1 libpam-modules
+  libpam-modules-bin libpam-runtime libpam0g libsmartcols1 libssl3
+  libsystemd-shared libsystemd0 libudev1 libuuid1 mount nftables perl-base
+  systemd systemd-sysv tar tzdata udev usr-is-merged util-linux
+  util-linux-extra
+38 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+Need to get 19.2 MB of archives.
+After this operation, 287 kB of additional disk space will be used.
+Get:1 http://ftp.de.debian.org/debian bookworm/main arm64 base-files arm64 12.4+deb12u5 [70.8 kB]
+Get:2 http://security.debian.org bookworm-security/main arm64 bsdutils arm64 1:2.38.1-5+deb12u1 [94.0 kB]
+Get:3 http://ftp.de.debian.org/debian bookworm/main arm64 debianutils arm64 5.7-0.5~deb12u1 [103 kB]
+Get:4 http://ftp.de.debian.org/debian bookworm/main arm64 perl-base arm64 5.36.0-7+deb12u1 [1478 kB]
+Get:5 http://security.debian.org bookworm-security/main arm64 libsmartcols1 arm64 2.38.1-5+deb12u1 [104 kB]
+Get:6 http://security.debian.org bookworm-security/main arm64 util-linux-extra arm64 2.38.1-5+deb12u1 [112 kB]
+Get:7 http://security.debian.org bookworm-security/main arm64 util-linux arm64 2.38.1-5+deb12u1 [1144 kB]
+Get:8 http://security.debian.org bookworm-security/main arm64 mount arm64 2.38.1-5+deb12u1 [134 kB]
+Get:9 http://ftp.de.debian.org/debian bookworm/main arm64 tar arm64 1.34+dfsg-1.2+deb12u1 [818 kB]
+Get:10 http://security.debian.org bookworm-security/main arm64 libblkid1 arm64 2.38.1-5+deb12u1 [143 kB]
+Get:11 http://security.debian.org bookworm-security/main arm64 libuuid1 arm64 2.38.1-5+deb12u1 [28.3 kB]
+Get:12 http://security.debian.org bookworm-security/main arm64 libfdisk1 arm64 2.38.1-5+deb12u1 [182 kB]
+Get:13 http://security.debian.org bookworm-security/main arm64 libmount1 arm64 2.38.1-5+deb12u1 [159 kB]
+Get:14 http://security.debian.org bookworm-security/main arm64 fdisk arm64 2.38.1-5+deb12u1 [139 kB]
+Get:15 http://ftp.de.debian.org/debian bookworm/main arm64 libc6 arm64 2.36-9+deb12u4 [2322 kB]
+Get:16 http://ftp.de.debian.org/debian bookworm/main arm64 libc-bin arm64 2.36-9+deb12u4 [530 kB]
+Get:17 http://ftp.de.debian.org/debian bookworm/main arm64 libpam0g arm64 1.5.2-6+deb12u1 [90.6 kB]
+Get:18 http://ftp.de.debian.org/debian bookworm/main arm64 libpam-modules-bin arm64 1.5.2-6+deb12u1 [74.9 kB]
+Get:19 http://ftp.de.debian.org/debian bookworm/main arm64 libpam-modules arm64 1.5.2-6+deb12u1 [286 kB]
+Get:20 http://ftp.de.debian.org/debian bookworm/main arm64 libssl3 arm64 3.0.11-1~deb12u2 [1803 kB]
+Get:21 http://ftp.de.debian.org/debian bookworm/main arm64 libcryptsetup12 arm64 2:2.6.1-4~deb12u2 [205 kB]
+Get:22 http://ftp.de.debian.org/debian bookworm/main arm64 systemd arm64 252.22-1~deb12u1 [2829 kB]
+Get:23 http://ftp.de.debian.org/debian bookworm/main arm64 libsystemd-shared arm64 252.22-1~deb12u1 [1508 kB]
+Get:24 http://ftp.de.debian.org/debian bookworm/main arm64 libsystemd0 arm64 252.22-1~deb12u1 [308 kB]
+Get:25 http://ftp.de.debian.org/debian bookworm/main arm64 systemd-sysv arm64 252.22-1~deb12u1 [41.9 kB]
+Get:26 http://ftp.de.debian.org/debian bookworm/main arm64 libpam-runtime all 1.5.2-6+deb12u1 [161 kB]
+Get:27 http://ftp.de.debian.org/debian bookworm/main arm64 debian-archive-keyring all 2023.3+deb12u1 [161 kB]
+Get:28 http://ftp.de.debian.org/debian bookworm/main arm64 libgnutls30 arm64 3.7.9-2+deb12u2 [1313 kB]
+Get:29 http://ftp.de.debian.org/debian bookworm/main arm64 udev arm64 252.22-1~deb12u1 [1602 kB]
+Get:30 http://ftp.de.debian.org/debian bookworm/main arm64 libudev1 arm64 252.22-1~deb12u1 [102 kB]
+Get:31 http://ftp.de.debian.org/debian bookworm/main arm64 usr-is-merged all 37~deb12u1 [5616 B]
+Get:32 http://ftp.de.debian.org/debian bookworm/main arm64 tzdata all 2024a-0+deb12u1 [297 kB]
+Get:33 http://ftp.de.debian.org/debian bookworm/main arm64 nftables arm64 1.0.6-2+deb12u2 [70.0 kB]
+Get:34 http://ftp.de.debian.org/debian bookworm/main arm64 libnftables1 arm64 1.0.6-2+deb12u2 [276 kB]
+Get:35 http://ftp.de.debian.org/debian bookworm/main arm64 libgssapi-krb5-2 arm64 1.20.1-2+deb12u1 [123 kB]
+Get:36 http://ftp.de.debian.org/debian bookworm/main arm64 libkrb5-3 arm64 1.20.1-2+deb12u1 [313 kB]
+Get:37 http://ftp.de.debian.org/debian bookworm/main arm64 libkrb5support0 arm64 1.20.1-2+deb12u1 [31.7 kB]
+Get:38 http://ftp.de.debian.org/debian bookworm/main arm64 libk5crypto3 arm64 1.20.1-2+deb12u1 [79.0 kB]
+Preconfiguring packages ...
+Fetched 19.2 MB in 38s (501 kB/s)
+(Reading database ... 9143 files and directories currently installed.)
+Preparing to unpack .../base-files_12.4+deb12u5_arm64.deb ...
+Unpacking base-files (12.4+deb12u5) over (12.4+deb12u1) ...
+Setting up base-files (12.4+deb12u5) ...
+Installing new version of config file /etc/debian_version ...
+(Reading database ... 9143 files and directories currently installed.)
+Preparing to unpack .../bsdutils_1%3a2.38.1-5+deb12u1_arm64.deb ...
+Unpacking bsdutils (1:2.38.1-5+deb12u1) over (1:2.38.1-5+b1) ...
+Setting up bsdutils (1:2.38.1-5+deb12u1) ...
+(Reading database ... 9142 files and directories currently installed.)
+Preparing to unpack .../debianutils_5.7-0.5~deb12u1_arm64.deb ...
+Unpacking debianutils (5.7-0.5~deb12u1) over (5.7-0.4) ...
+Setting up debianutils (5.7-0.5~deb12u1) ...
+(Reading database ... 9142 files and directories currently installed.)
+Preparing to unpack .../perl-base_5.36.0-7+deb12u1_arm64.deb ...
+Unpacking perl-base (5.36.0-7+deb12u1) over (5.36.0-7) ...
+Setting up perl-base (5.36.0-7+deb12u1) ...
+(Reading database ... 9142 files and directories currently installed.)
+Preparing to unpack .../tar_1.34+dfsg-1.2+deb12u1_arm64.deb ...
+Unpacking tar (1.34+dfsg-1.2+deb12u1) over (1.34+dfsg-1.2) ...
+Setting up tar (1.34+dfsg-1.2+deb12u1) ...
+(Reading database ... 9142 files and directories currently installed.)
+Preparing to unpack .../libc6_2.36-9+deb12u4_arm64.deb ...
+Unpacking libc6:arm64 (2.36-9+deb12u4) over (2.36-9+deb12u1) ...
+Setting up libc6:arm64 (2.36-9+deb12u4) ...
+(Reading database ... 9142 files and directories currently installed.)
+Preparing to unpack .../libsmartcols1_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking libsmartcols1:arm64 (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Setting up libsmartcols1:arm64 (2.38.1-5+deb12u1) ...
+(Reading database ... 9141 files and directories currently installed.)
+Preparing to unpack .../util-linux-extra_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking util-linux-extra (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Setting up util-linux-extra (2.38.1-5+deb12u1) ...
+(Reading database ... 9140 files and directories currently installed.)
+Preparing to unpack .../util-linux_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking util-linux (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Setting up util-linux (2.38.1-5+deb12u1) ...
+(Reading database ... 9139 files and directories currently installed.)
+Preparing to unpack .../libc-bin_2.36-9+deb12u4_arm64.deb ...
+Unpacking libc-bin (2.36-9+deb12u4) over (2.36-9+deb12u1) ...
+Setting up libc-bin (2.36-9+deb12u4) ...
+(Reading database ... 9139 files and directories currently installed.)
+Preparing to unpack .../libpam0g_1.5.2-6+deb12u1_arm64.deb ...
+Unpacking libpam0g:arm64 (1.5.2-6+deb12u1) over (1.5.2-6) ...
+Setting up libpam0g:arm64 (1.5.2-6+deb12u1) ...
+(Reading database ... 9139 files and directories currently installed.)
+Preparing to unpack .../libpam-modules-bin_1.5.2-6+deb12u1_arm64.deb ...
+Unpacking libpam-modules-bin (1.5.2-6+deb12u1) over (1.5.2-6) ...
+Setting up libpam-modules-bin (1.5.2-6+deb12u1) ...
+(Reading database ... 9139 files and directories currently installed.)
+Preparing to unpack .../libpam-modules_1.5.2-6+deb12u1_arm64.deb ...
+Unpacking libpam-modules:arm64 (1.5.2-6+deb12u1) over (1.5.2-6) ...
+Setting up libpam-modules:arm64 (1.5.2-6+deb12u1) ...
+(Reading database ... 9139 files and directories currently installed.)
+Preparing to unpack .../mount_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking mount (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Preparing to unpack .../libblkid1_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking libblkid1:arm64 (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Setting up libblkid1:arm64 (2.38.1-5+deb12u1) ...
+(Reading database ... 9137 files and directories currently installed.)
+Preparing to unpack .../libssl3_3.0.11-1~deb12u2_arm64.deb ...
+Unpacking libssl3:arm64 (3.0.11-1~deb12u2) over (3.0.9-1) ...
+Preparing to unpack .../libuuid1_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking libuuid1:arm64 (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Setting up libuuid1:arm64 (2.38.1-5+deb12u1) ...
+(Reading database ... 9136 files and directories currently installed.)
+Preparing to unpack .../libcryptsetup12_2%3a2.6.1-4~deb12u2_arm64.deb ...
+Unpacking libcryptsetup12:arm64 (2:2.6.1-4~deb12u2) over (2:2.6.1-4~deb12u1) ...
+Preparing to unpack .../libfdisk1_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking libfdisk1:arm64 (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Preparing to unpack .../libmount1_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking libmount1:arm64 (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Setting up libmount1:arm64 (2.38.1-5+deb12u1) ...
+Setting up libssl3:arm64 (3.0.11-1~deb12u2) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../systemd_252.22-1~deb12u1_arm64.deb ...
+Unpacking systemd (252.22-1~deb12u1) over (252.12-1~deb12u1) ...
+Preparing to unpack .../libsystemd-shared_252.22-1~deb12u1_arm64.deb ...
+Unpacking libsystemd-shared:arm64 (252.22-1~deb12u1) over (252.12-1~deb12u1) ...
+Preparing to unpack .../libsystemd0_252.22-1~deb12u1_arm64.deb ...
+Unpacking libsystemd0:arm64 (252.22-1~deb12u1) over (252.12-1~deb12u1) ...
+Setting up libsystemd0:arm64 (252.22-1~deb12u1) ...
+Setting up libcryptsetup12:arm64 (2:2.6.1-4~deb12u2) ...
+Setting up libfdisk1:arm64 (2.38.1-5+deb12u1) ...
+Setting up libsystemd-shared:arm64 (252.22-1~deb12u1) ...
+Setting up mount (2.38.1-5+deb12u1) ...
+Setting up systemd (252.22-1~deb12u1) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../systemd-sysv_252.22-1~deb12u1_arm64.deb ...
+Unpacking systemd-sysv (252.22-1~deb12u1) over (252.12-1~deb12u1) ...
+Preparing to unpack .../libpam-runtime_1.5.2-6+deb12u1_all.deb ...
+Unpacking libpam-runtime (1.5.2-6+deb12u1) over (1.5.2-6) ...
+Setting up libpam-runtime (1.5.2-6+deb12u1) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../debian-archive-keyring_2023.3+deb12u1_all.deb ...
+Unpacking debian-archive-keyring (2023.3+deb12u1) over (2023.3) ...
+Setting up debian-archive-keyring (2023.3+deb12u1) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../libgnutls30_3.7.9-2+deb12u2_arm64.deb ...
+Unpacking libgnutls30:arm64 (3.7.9-2+deb12u2) over (3.7.9-2) ...
+Setting up libgnutls30:arm64 (3.7.9-2+deb12u2) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../udev_252.22-1~deb12u1_arm64.deb ...
+Unpacking udev (252.22-1~deb12u1) over (252.12-1~deb12u1) ...
+Preparing to unpack .../libudev1_252.22-1~deb12u1_arm64.deb ...
+Unpacking libudev1:arm64 (252.22-1~deb12u1) over (252.12-1~deb12u1) ...
+Setting up libudev1:arm64 (252.22-1~deb12u1) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../usr-is-merged_37~deb12u1_all.deb ...
+Unpacking usr-is-merged (37~deb12u1) over (35) ...
+Setting up usr-is-merged (37~deb12u1) ...
+(Reading database ... 9134 files and directories currently installed.)
+Preparing to unpack .../0-tzdata_2024a-0+deb12u1_all.deb ...
+Unpacking tzdata (2024a-0+deb12u1) over (2023c-5) ...
+Preparing to unpack .../1-fdisk_2.38.1-5+deb12u1_arm64.deb ...
+Unpacking fdisk (2.38.1-5+deb12u1) over (2.38.1-5+b1) ...
+Preparing to unpack .../2-nftables_1.0.6-2+deb12u2_arm64.deb ...
+Unpacking nftables (1.0.6-2+deb12u2) over (1.0.6-2+deb12u1) ...
+Preparing to unpack .../3-libnftables1_1.0.6-2+deb12u2_arm64.deb ...
+Unpacking libnftables1:arm64 (1.0.6-2+deb12u2) over (1.0.6-2+deb12u1) ...
+Preparing to unpack .../4-libgssapi-krb5-2_1.20.1-2+deb12u1_arm64.deb ...
+Unpacking libgssapi-krb5-2:arm64 (1.20.1-2+deb12u1) over (1.20.1-2) ...
+Preparing to unpack .../5-libkrb5-3_1.20.1-2+deb12u1_arm64.deb ...
+Unpacking libkrb5-3:arm64 (1.20.1-2+deb12u1) over (1.20.1-2) ...
+Preparing to unpack .../6-libkrb5support0_1.20.1-2+deb12u1_arm64.deb ...
+Unpacking libkrb5support0:arm64 (1.20.1-2+deb12u1) over (1.20.1-2) ...
+Preparing to unpack .../7-libk5crypto3_1.20.1-2+deb12u1_arm64.deb ...
+Unpacking libk5crypto3:arm64 (1.20.1-2+deb12u1) over (1.20.1-2) ...
+Setting up systemd-sysv (252.22-1~deb12u1) ...
+Setting up libnftables1:arm64 (1.0.6-2+deb12u2) ...
+Setting up nftables (1.0.6-2+deb12u2) ...
+Setting up fdisk (2.38.1-5+deb12u1) ...
+Setting up libkrb5support0:arm64 (1.20.1-2+deb12u1) ...
+Setting up tzdata (2024a-0+deb12u1) ...
+Setting up udev (252.22-1~deb12u1) ...
+A chroot environment has been detected, udev not started.
+Setting up libk5crypto3:arm64 (1.20.1-2+deb12u1) ...
+Setting up libkrb5-3:arm64 (1.20.1-2+deb12u1) ...
+Setting up libgssapi-krb5-2:arm64 (1.20.1-2+deb12u1) ...
+Processing triggers for libc-bin (2.36-9+deb12u4) ...
+Processing triggers for initramfs-tools (0.142) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  apparmor firmware-linux-free linux-image-6.1.0-20-arm64
+Suggested packages:
+  apparmor-profiles-extra apparmor-utils linux-doc-6.1 debian-kernel-handbook
+The following NEW packages will be installed:
+  apparmor firmware-linux-free linux-image-6.1.0-20-arm64 linux-image-arm64
+0 upgraded, 4 newly installed, 0 to remove and 0 not upgraded.
+Need to get 58.6 MB of archives.
+After this operation, 359 MB of additional disk space will be used.
+Get:1 http://ftp.de.debian.org/debian bookworm/main arm64 apparmor arm64 3.0.8-3 [567 kB]
+Get:2 http://security.debian.org bookworm-security/main arm64 linux-image-6.1.0-20-arm64 arm64 6.1.85-1 [58.0 MB]
+Get:3 http://ftp.de.debian.org/debian bookworm/main arm64 firmware-linux-free all 20200122-1 [24.2 kB]
+Get:4 http://security.debian.org bookworm-security/main arm64 linux-image-arm64 arm64 6.1.85-1 [1448 B]
+Preconfiguring packages ...
+Fetched 58.6 MB in 2min 5s (470 kB/s)
+Selecting previously unselected package apparmor.
+(Reading database ... 9133 files and directories currently installed.)
+Preparing to unpack .../apparmor_3.0.8-3_arm64.deb ...
+Unpacking apparmor (3.0.8-3) ...
+Selecting previously unselected package firmware-linux-free.
+Preparing to unpack .../firmware-linux-free_20200122-1_all.deb ...
+Unpacking firmware-linux-free (20200122-1) ...
+Selecting previously unselected package linux-image-6.1.0-20-arm64.
+Preparing to unpack .../linux-image-6.1.0-20-arm64_6.1.85-1_arm64.deb ...
+Unpacking linux-image-6.1.0-20-arm64 (6.1.85-1) ...
+Selecting previously unselected package linux-image-arm64.
+Preparing to unpack .../linux-image-arm64_6.1.85-1_arm64.deb ...
+Unpacking linux-image-arm64 (6.1.85-1) ...
+Setting up linux-image-6.1.0-20-arm64 (6.1.85-1) ...
+I: /vmlinuz.old is now a symlink to boot/vmlinuz-6.1.0-20-arm64
+I: /initrd.img.old is now a symlink to boot/initrd.img-6.1.0-20-arm64
+I: /vmlinuz is now a symlink to boot/vmlinuz-6.1.0-20-arm64
+I: /initrd.img is now a symlink to boot/initrd.img-6.1.0-20-arm64
+Setting up firmware-linux-free (20200122-1) ...
+Setting up apparmor (3.0.8-3) ...
+Setting up linux-image-arm64 (6.1.85-1) ...
+Processing triggers for initramfs-tools (0.142) ...
+
+2024-04-15 08:29:22 DEBUG STDERR: E: Can not write log (Is /dev/pts mounted?) - posix_openpt (19: No such device)
+/proc/ is not mounted, but required for successful operation of systemd-tmpfiles. Please mount /proc/. Alternatively, consider using the --root= or --image= switches.
+
+Current default time zone: 'Etc/UTC'
+Local time is now:      Mon Apr 15 06:26:31 UTC 2024.
+Universal Time is now:  Mon Apr 15 06:26:31 UTC 2024.
+Run 'dpkg-reconfigure tzdata' if you wish to change it.
+
+/proc/ is not mounted, but required for successful operation of systemd-tmpfiles. Please mount /proc/. Alternatively, consider using the --root= or --image= switches.
+E: Can not write log (Is /dev/pts mounted?) - posix_openpt (2: No such file or directory)
+Created symlink /etc/systemd/system/sysinit.target.wants/apparmor.service -> /lib/systemd/system/apparmor.service.
+
+2024-04-15 08:29:22 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:29:22 INFO Running step: {'create-file': '/etc/hostname', 'contents': 'Odroid-N2\n'}
+2024-04-15 08:29:22 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:29:22 INFO Creating file /tmp/tmpbw0tnwgu//etc/hostname, uid 0, gid 0, perms 644
+2024-04-15 08:29:22 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:29:22 INFO Running step: {'fstab': 'rootfs_partition_tag'}
+2024-04-15 08:29:22 INFO Calling <bound method FstabStepRunner.run of <fstab_plugin.FstabStepRunner object at 0x7f1666978ed0>>
+2024-04-15 08:29:22 INFO crypts: []
+2024-04-15 08:29:22 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <fstab_plugin.FstabStepRunner object at 0x7f1666978ed0>>
+2024-04-15 08:29:22 INFO Running step: {'create-file': '/etc/flash-kernel/db', 'contents': 'Machine: Hardkernel ODROID-N2\nKernel-Flavors: arm64\nDTB-Id: amlogic/meson-g12b-odroid-n2.dtb\nBoot-Script-Path: /boot/boot.scr\nU-Boot-Script-Name: bootscr.uboot-generic\nRequired-Packages: u-boot-tools\n'}
+2024-04-15 08:29:22 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:29:22 INFO Creating file /tmp/tmpbw0tnwgu//etc/flash-kernel/db, uid 0, gid 0, perms 644
+2024-04-15 08:29:22 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:29:22 INFO Running step: {'create-file': '/etc/flash-kernel/machine', 'contents': 'Hardkernel ODROID-N2\n'}
+2024-04-15 08:29:22 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:29:22 INFO Creating file /tmp/tmpbw0tnwgu//etc/flash-kernel/machine, uid 0, gid 0, perms 644
+2024-04-15 08:29:22 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:29:22 INFO Running step: {'chroot': 'rootfs_partition_tag', 'shell': '\n# Because too many issues on SDCARD  on SBC (due to bad hardware\n# !), be  sure  to add   "noatime,nodiratime" option on   rootfs\n# mount, so that we increase flash SDcard lifetime\n\nsed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab\n\n# Be sure to force fsck on rootfs  so that every time, target is\n# ok.  Furthermore,  force interface  name  with  "prefix kernel\n# name" and suffix name based  on current index. Force also fsck\n# on rootfs\n\nsed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \\  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel\n\n# "initramfs" & "flash-kernel" tools needs uuid rootfs in\n# order to make the job. Back-up fsck hook now\n\nmv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak\nchmod -x /usr/share/initramfs-tools/hooks/fsck.bak\n\n# Fix fsck to read root fstype in fstab\n\nsed "s@\\[.*\\"\\/\\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck\nchmod +x /usr/share/initramfs-tools/hooks/fsck\n\nupdate-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\\(.*\\)$%\\1%g")\n\n# Remove root  password, so that  first login on default  tty is\n# "root" without   any password.  It  is user  responsability to\n# make   changes    according his   security   policy  (!),  not\n# vmdb2-wrapper project (!)\n\nsed -i "s@root:\\*:@root::@g" /etc/shadow'}
+2024-04-15 08:29:22 INFO Calling <bound method ChrootStepRunner.run of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:29:22 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'sh', '-ec', '\n# Because too many issues on SDCARD  on SBC (due to bad hardware\n# !), be  sure  to add   "noatime,nodiratime" option on   rootfs\n# mount, so that we increase flash SDcard lifetime\n\nsed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab\n\n# Be sure to force fsck on rootfs  so that every time, target is\n# ok.  Furthermore,  force interface  name  with  "prefix kernel\n# name" and suffix name based  on current index. Force also fsck\n# on rootfs\n\nsed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \\  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel\n\n# "initramfs" & "flash-kernel" tools needs uuid rootfs in\n# order to make the job. Back-up fsck hook now\n\nmv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak\nchmod -x /usr/share/initramfs-tools/hooks/fsck.bak\n\n# Fix fsck to read root fstype in fstab\n\nsed "s@\\[.*\\"\\/\\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck\nchmod +x /usr/share/initramfs-tools/hooks/fsck\n\nupdate-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\\(.*\\)$%\\1%g")\n\n# Remove root  password, so that  first login on default  tty is\n# "root" without   any password.  It  is user  responsability to\n# make   changes    according his   security   policy  (!),  not\n# vmdb2-wrapper project (!)\n\nsed -i "s@root:\\*:@root::@g" /etc/shadow']
+2024-04-15 08:32:50 DEBUG STDOUT: update-initramfs: Generating /boot/initrd.img-6.1.0-20-arm64
+Copying module directory kernel/drivers/usb/host
+(excluding hwa-hc.ko sl811_cs.ko sl811-hcd.ko u132-hcd.ko whci-hcd.ko)
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/common/usb-common.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/core/usbcore.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ehci-hcd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/xhci-hcd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/xhci-pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ohci-hcd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ohci-pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ehci-platform.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/xhci-plat-hcd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ehci-pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ehci-fsl.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/roles/roles.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/tegra/phy-tegra-xusb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/xhci-tegra.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ehci-orion.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/fsl-mph-dr-of.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/host/ohci-platform.ko
+Copying module directory kernel/drivers/usb/chipidea
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/common/ulpi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/gadget/udc/udc-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/ci_hdrc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/usbmisc_imx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/ci_hdrc_imx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/phy/phy-generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/ci_hdrc_pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/ci_hdrc_msm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/ci_hdrc_tegra.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/chipidea/ci_hdrc_usb2.ko
+Copying module directory kernel/drivers/usb/dwc2
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc2/dwc2.ko
+Copying module directory kernel/drivers/usb/dwc3
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-of-simple.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-meson-g12a.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-qcom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-xilinx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-am62.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-keystone.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-haps.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/dwc3/dwc3-imx8mp.ko
+Copying module directory kernel/drivers/usb/isp1760
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/isp1760/isp1760.ko
+Copying module directory kernel/drivers/usb/musb
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/musb/musb_hdrc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/allwinner/phy-sun4i-usb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/musb/sunxi.ko
+Copying module directory kernel/drivers/usb/typec/tcpm
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/typec/typec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/typec/tcpm/tcpm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/typec/tcpm/tcpci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/typec/tcpm/fusb302.ko
+Copying module directory kernel/drivers/input/keyboard
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/opencores-kbd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/lm8323.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/matrix-keymap.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/adp5588-keys.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/gpio_keys_polled.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/max7359_keypad.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/qt2160.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/tegra-kbc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/gpio_keys.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/iio/industrialio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/adc-keys.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/stowaway.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/cros_ec_keyb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/keyboard/snvs_pwrkey.ko
+Copying module directory kernel/drivers/hid
+(excluding hid-*ff.ko hid-a4tech.ko hid-cypress.ko hid-dr.ko hid-elecom.ko hid-gyration.ko hid-icade.ko hid-kensington.ko hid-kye.ko hid-lcpower.ko hid-magicmouse.ko hid-multitouch.ko hid-ntrig.ko hid-petalynx.ko hid-picolcd.ko hid-pl.ko hid-ps3remote.ko hid-quanta.ko hid-roccat-ko*.ko hid-roccat-pyra.ko hid-saitek.ko hid-sensor-hub.ko hid-sony.ko hid-speedlink.ko hid-tivo.ko hid-twinhan.ko hid-uclogic.ko hid-wacom.ko hid-waltop.ko hid-wiimote.ko hid-zydacron.ko)
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-cp2112.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-penmount.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-cmedia.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/rmi4/rmi_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-rmi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/usbhid/usbhid.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat-common.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat-isku.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-holtek-kbd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat-ryos.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-steelseries.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-chicony.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-aureal.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-creative-sb0540.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/input/ff-memless.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-nintendo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-gembird.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-thrustmaster.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-gfrm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-nti.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-jabra.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-ft260.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-logitech-dj.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/sound/soundcore.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/sound/core/snd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/sound/core/snd-seq-device.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/sound/core/snd-rawmidi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-prodikeys.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-accutouch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-maltron.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-mcp2221.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-corsair.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-glorious.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-samsung.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-primax.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-monterey.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-gt683r.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-elo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-sjoy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/leds/led-class-multicolor.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-playstation.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-vivaldi-common.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat-lua.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/i2c-hid/i2c-hid.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/i2c-hid/i2c-hid-acpi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/i2c-hid/i2c-hid-of.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-viewsonic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-xinmo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-u2fzero.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-topseed.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-lg-g15.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-macally.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-asus.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-retrode.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-sunplus.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-redragon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-ortek.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-elan.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-udraw-ps3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-plantronics.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-alps.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-sensor-hub.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-sensor-custom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/uhid.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-ezkey.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-microsoft.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-belkin.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-apple.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat-savu.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-logitech.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-steam.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-lenovo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hv/hv_vmbus.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-hyperv.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-ite.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-keytouch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-cherry.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-semitek.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/wacom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-cougar.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-mf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-vivaldi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-google-hammer.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-logitech-hidpp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-holtek-mouse.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-led.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/hid/hid-roccat-arvo.ko
+Copying module directory kernel/drivers/bus
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/bus/mhi/host/mhi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/bus/mhi/host/mhi_pci_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/bus/moxtet.ko
+Copying module directory kernel/drivers/clk
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/clk-fsl-flexspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/clk-hi655x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/firmware/arm_scpi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/clk-scpi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/qcom/gpucc-sdm845.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/qcom/camcc-sdm845.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rpmsg/rpmsg_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/soc/qcom/smd-rpm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/qcom/clk-smd-rpm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/qcom/dispcc-sdm845.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/qcom/videocc-sdm845.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/qcom_rpm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/qcom/clk-rpm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/clk-pwm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/meson/clk-phase.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/meson/sclk-div.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/clk/meson/axg-audio.ko
+Copying module directory kernel/drivers/gpio
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-viperboard.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-xgene-sb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-rcar.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-mb86s7x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-pcie-idio-24.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-regmap.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-pci-idio-16.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-exar.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-sl28cpld.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-zynq.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpio/gpio-moxtet.ko
+Copying module directory kernel/drivers/i2c/busses
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/algos/i2c-algo-pca.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-pca-platform.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-designware-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-designware-platform.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-viperboard.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-cros-ec-tunnel.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-mv64xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-qcom-geni.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-isch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-pxa.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-xlp9xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-diolan-u2c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-imx-lpi2c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-thunderx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-bcm2835.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-robotfuzz-osif.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-tiny-usb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-rk3x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-qup.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-xgene-slimpro.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-imx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-taos-evm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-omap.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-meson.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-ocores.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/algos/i2c-algo-bit.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-gpio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-tegra.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/busses/i2c-simtec.ko
+Copying module directory kernel/drivers/i2c/muxes
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/i2c-mux.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/muxes/i2c-mux-reg.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/muxes/i2c-mux-pca954x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/i2c/muxes/i2c-mux-pinctrl.ko
+Copying module directory kernel/drivers/mfd
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/lpc_sch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/wm8994.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/axp20x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/axp20x-rsb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/viperboard.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/hi655x-pmic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/axp20x-i2c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/rohm-bd718x7.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/khadas-mcu.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/cros_ec_dev.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mfd/qcom-spmi-pmic.ko
+Copying module directory kernel/drivers/pci/controller
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pci/controller/pci-hyperv-intf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pci/controller/dwc/pci-meson.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pci/controller/pci-hyperv.ko
+Copying module directory kernel/drivers/phy
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/ti/phy-gmii-sel.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/phy-xgene.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/allwinner/phy-sun6i-mipi-dphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/marvell/phy-mvebu-a3700-comphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/marvell/phy-mvebu-cp110-comphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/marvell/phy-mvebu-a3700-utmi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/amlogic/phy-meson8b-usb2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-ipq806x-sata.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-qmp-ufs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-usb-hsic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-qmp-pcie-msm8996.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-qmp-pcie.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-qmp-combo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-qmp-usb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-qusb2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-usb-hs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/qualcomm/phy-qcom-apq8064-sata.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-snps-pcie3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-dphy-rx0.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-usb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-inno-csidphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-pcie.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-inno-usb2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-dp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-emmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-inno-hdmi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-inno-dsidphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-naneng-combphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/rockchip/phy-rockchip-typec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/renesas/phy-rcar-gen3-usb2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/xilinx/phy-zynqmp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/freescale/phy-fsl-imx8-mipi-dphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/freescale/phy-fsl-imx8mq-usb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/phy/hisilicon/phy-hi6220-usb.ko
+Copying module directory kernel/drivers/pinctrl
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pinctrl/pinctrl-axp209.ko
+Copying module directory kernel/drivers/regulator
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/vctrl-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/pwm-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/qcom_spmi-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/axp20x-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/max77620-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/rohm-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/bd718x7-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/hi655x-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/qcom_rpm-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/qcom-rpmh-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/gpio-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/pfuze100-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/mp8859.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/pca9450-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/rpi-panel-attiny-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/rk808-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/fan53555.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/qcom_smd-regulator.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/regulator/fixed.ko
+Copying module directory kernel/drivers/reset
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/reset/reset-meson-audio-arb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/reset/reset-imx7.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/reset/reset-raspberrypi.ko
+Copying module directory kernel/drivers/spi
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-bcm2835.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-armada-3700.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-rockchip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-qup.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-rockchip-sfc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-imx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-fsl-dspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/parport/parport.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-bitbang.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-lm70llp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-nxp-fspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-butterfly.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-sun6i.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-omap2-mcspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-xlp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-tegra114.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-fsl-qspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-meson-spicc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-bcm2835aux.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-tegra20-slink.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-cadence-quadspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-meson-spifc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-thunderx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-gpio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/spi/spi-tegra20-sflash.ko
+Copying module directory kernel/drivers/usb/phy
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/phy/phy-tegra-usb.ko
+Copying module directory kernel/drivers/rtc
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-hym8563.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-pcf8523.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-meson-vrtc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-snvs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-mv.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-cros-ec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-pm8xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/base/regmap/regmap-spi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-pcf2127.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-armada38x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-m41t80.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/rtc/rtc-rv8803.ko
+Copying module directory kernel/drivers/net
+(excluding appletalk arcnet bonding can cdc-phonet.ko cdc_mbim.ko cdc_subset.ko cx82310_eth.ko dummy.ko gl620a.ko hamradio hippi hso.ko huawei_cdc_ncm.ko ifb.ko ipheth.ko irda kalmia.ko lg-vl600.ko macvlan.ko macvtap.ko net1080.ko pcmcia plusb.ko qmi_wwan.ko sb1000.ko sierra_net.ko team tokenring tun.ko veth.ko wan wimax wireless xen-netback.ko zaurus.ko)
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/wwan/wwan.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/wwan/iosm/iosm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/wwan/mhi_wwan_ctrl.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/wwan/mhi_wwan_mbim.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/macsec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/ieee802154/ieee802154.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/mac802154/mac802154.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/at86rf230.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/fakelb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/adf7242.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/atusb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/mrf24j40.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/cc2520.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ieee802154/mac802154_hwsim.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/tls/tls.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/netronome/nfp/nfp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mii.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/e100.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/igbvf/igbvf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/e1000e/e1000e.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/igb/igb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/e1000/e1000.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/igc/igc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/i40e/i40e.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/iavf/iavf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/libphy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/fwnode_mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/fixed_phy.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/of_mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/mdio_devres.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/xfrm/xfrm_algo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/ixgbe/ixgbe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/ice/ice.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/ixgb/ixgb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/intel/ixgbevf/ixgbevf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dec/tulip/de2104x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dec/tulip/tulip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dec/tulip/winbond-840.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dec/tulip/dmfe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dec/tulip/uli526x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/ti/tlan.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-bitbang.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/ti/davinci_mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/ti/am65-cpts.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/phylink.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/ti/ti-am65-cpsw-nuss.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/neterion/s2io.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cadence/macb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/silan/sc92031.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/thunder/thunder_xcv.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/thunder/thunder_bgx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/thunder/nicpf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/common/cavium_ptp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/thunder/nicvf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/liquidio/liquidio_vf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cavium/liquidio/liquidio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/atheros/atl1e/atl1e.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/atheros/alx/alx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/atheros/atlx/atl1.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/atheros/atlx/atl2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/atheros/atl1c/atl1c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/qlogic/qed/qed.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/qlogic/qla3xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/qlogic/qlcnic/qlcnic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/qlogic/qede/qede.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/qlogic/netxen/netxen_nic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/google/gve/gve.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/chelsio/cxgb3/cxgb3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/chelsio/cxgb4vf/cxgb4vf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/chelsio/libcxgb/libcxgb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/chelsio/cxgb4/cxgb4.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/chelsio/cxgb/cxgb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/amazon/ena/ena.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/acpi_mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/marvell/mvmdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/marvell/sky2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/marvell/mvneta.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/marvell/skge.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/marvell/mvpp2/mvpp2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/micrel/ksz884x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/agere/et131x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/sun/niu.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/sun/cassini.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/qualcomm/emac/qcom-emac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/realtek/8139too.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/realtek/8139cp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/realtek/r8169.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-xgene.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/apm/xgene/xgene-enet.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/apm/xgene-v2/xgene-enet-v2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/aquantia/atlantic/atlantic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/jme.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/8390/8390.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/8390/ne2k-pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/alteon/acenic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crc16.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/microchip/lan743x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/via/via-velocity.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/myricom/myri10ge/myri10ge.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/smsc/smsc911x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/smsc/epic100.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/smsc/smc91x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/smsc/smsc9420.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/huawei/hinic/hinic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mtd/mtd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/sfc/siena/sfc-siena.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/sfc/sfc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/sfc/falcon/sfc-falcon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/psample/psample.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/mellanox/mlxfw/mlxfw.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/mellanox/mlx5/core/mlx5_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/mellanox/mlx4/mlx4_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/mellanox/mlx4/mlx4_en.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/pcs/pcs_xpcs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/stmmac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/stmmac-platform.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-sunxi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-meson8b.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-qcom-ethqos.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-imx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-meson.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-rk.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-mux.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-sun8i.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/stmicro/stmmac/dwmac-ipq806x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/tehuti/tehuti.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/3com/3c59x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/3com/typhoon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/socionext/netsec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/broadcom/bnx2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/broadcom/bnxt/bnxt_en.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/uio/uio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/broadcom/cnic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/broadcom/genet/genet.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/crypto/crc32c_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/libcrc32c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/broadcom/bnx2x/bnx2x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/broadcom/tg3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/rdc/r6040.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/fealnx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/sis/sis190.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/adaptec/starfire.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/cisco/enic/enic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/llc/llc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/802/stp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/bridge/bridge.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/mscc/mscc_ocelot_switch_lib.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/brocade/bna/bna.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/emulex/benet/be2net.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/core/selftests.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/fec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/pcs/pcs-lynx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ptp/ptp-qoriq.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/soc/fsl/dpio/fsl-mc-dpio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/dpaa2/fsl-dpaa2-eth.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/dpaa2/fsl-dpaa2-ptp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/xgmac_mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/enetc/fsl-enetc-mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/enetc/fsl-enetc-ierb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/enetc/fsl-enetc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/enetc/fsl-enetc-ptp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/freescale/enetc/fsl-enetc-vf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/natsemi/ns83820.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/natsemi/natsemi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dlink/sundance.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/dlink/dl2k.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/packetengines/yellowfin.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/packetengines/hamachi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hix5hd2_gmac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hip04_eth.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hisi_femac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns_mdio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns3/hnae3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns3/hclgevf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns3/hclge.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns3/hns3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns/hnae.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns/hns_dsaf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/hisilicon/hns/hns_enet_drv.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/amd/pcnet32.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ethernet/amd/xgbe/amd-xgbe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-i2c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-hisi-femac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-cavium.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-mux-meson-g12a.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-bcm-unimac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-mux-mmioreg.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mdio/mdio-thunder.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/slip/slhc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/slip/slip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/core/failover.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/net_failover.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/ipv4/udp_tunnel.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/gtp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/ipv6/ip6_udp_tunnel.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/vxlan/vxlan.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crypto/libarc4.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/ppp_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/ppp_mppe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/bsd_comp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/ppp_async.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/pppox.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/pppoe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/ppp_synctty.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/ipv4/gre.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/pptp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ppp/ppp_deflate.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crypto/libchacha.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crypto/libcurve25519-generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/arch/arm64/crypto/poly1305-neon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/arch/arm64/crypto/chacha-neon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crypto/libchacha20poly1305.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/wireguard/wireguard.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/mhi_net.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/hyperv/hv_netvsc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/fddi/defxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/fddi/skfp/skfp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/usbnet.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/int51x1.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/cdc_ether.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/rndis_host.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/dm9601.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/sr9700.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/asix.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/smsc95xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/smsc75xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/r8152.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/ax88179_178a.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/kaweth.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/cdc_ncm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/lan78xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/cdc_eem.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/catc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/mcs7830.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/sr9800.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/r8153_ecm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/ch9200.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/aqc111.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/rtl8150.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/usb/pegasus.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/eql.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/virtio_net.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ipvlan/ipvlan.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/tap.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/ipvlan/ipvtap.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/nlmon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/dsa/dsa_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/dsa/mv88e6xxx/mv88e6xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/dsa/mv88e6060.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/sched/sch_taprio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/dsa/ocelot/mscc_felix.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/dp83822.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/et1011c.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/cicada.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/dp83867.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/aquantia.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/national.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/bcm-phy-lib.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/at803x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/lxt.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/ax88796b.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/bcm-phy-ptp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/broadcom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/cortina.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/meson-gxl.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/dp83640.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/bcm54140.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/dp83tc811.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/amd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/bcm87xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/teranetics.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/uPD60620.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/ste10Xp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/rockchip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/microchip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/qsemi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/icplus.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/smsc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/sfp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/marvell.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/motorcomm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/mscc/mscc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/vitesse.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/davicom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/dp83848.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/bcm7xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/realtek.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/micrel.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/microchip_t1.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/phy/marvell10g.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/xen-netfront.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/configfs/configfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/netconsole.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/vmw_vsock/vsock.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/vsockmon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/vrf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/vmxnet3/vmxnet3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/net/geneve.ko
+Copying module directory kernel/drivers/scsi
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_common.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_mod.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/misc/eeprom/eeprom_93cx6.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/wd719x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_transport_srp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/megaraid/megaraid_sas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/esas2r/esas2r.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/sg.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/crypto/crct10dif_common.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crc64.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/arch/arm64/crypto/crct10dif-ce.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/crypto/crct10dif_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crc-t10dif.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crc64-rocksoft.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/block/t10-pi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/sd_mod.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_transport_iscsi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/libiscsi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/iscsi_boot_sysfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/qedi/qedi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_transport_sas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/mpi3mr/mpi3mr.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/libiscsi_tcp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_transport_fc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/libfc/libfc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/fcoe/libfcoe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/fcoe/fcoe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/aacraid/aacraid.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/ch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/target/target_core_mod.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/host/nvme-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/host/nvme-fabrics.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/host/nvme-fc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/qla2xxx/qla2xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/qla2xxx/tcm_qla2xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/3w-9xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/scsi_transport_spi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/3w-xxxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/libata.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/libsas/libsas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/dmx3191d.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/cdrom/cdrom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/sr_mod.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/device_handler/scsi_dh_hp_sw.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/device_handler/scsi_dh_alua.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/device_handler/scsi_dh_emc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/device_handler/scsi_dh_rdac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/qedf/qedf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/atp870u.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/aic94xx/aic94xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/bnx2i/bnx2i.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/iscsi_tcp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hisi_sas/hisi_sas_main.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hisi_sas/hisi_sas_v1_hw.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hisi_sas/hisi_sas_v3_hw.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hisi_sas/hisi_sas_v2_hw.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/xen-scsifront.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/pm8001/pm80xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/raid_class.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/pmcraid.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/aic7xxx/aic79xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/aic7xxx/aic7xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/misc/enclosure.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/ses.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/3w-sas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/sym53c8xx_2/sym53c8xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/cxgbi/libcxgbi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/cxgbi/cxgb4i/cxgb4i.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/cxgbi/cxgb3i/cxgb3i.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hpsa.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/mvumi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/mvsas/mvsas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/smartpqi/smartpqi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/bfa/bfa.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/mpt3sas/mpt3sas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hv_storvsc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/stex.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/virtio_scsi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/advansys.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/be2iscsi/be2iscsi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/bnx2fc/bnx2fc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/csiostor/csiostor.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/qla4xxx/qla4xxx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/hptiop.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/st.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/snic/snic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/target/nvmet.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/target/nvmet-fc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/scsi/lpfc/lpfc.ko
+Copying module directory kernel/drivers/ufs
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/devfreq/governor_simpleondemand.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ufs/core/ufshcd-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ufs/host/ufshcd-pltfrm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ufs/host/ufs_qcom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ufs/host/ufshcd-pci.ko
+Copying module directory kernel/drivers/block
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/xen-blkfront.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/brd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/xen-blkback/xen-blkback.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/ceph/libceph.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/rbd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/lru_cache.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/drbd/drbd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/aoe/aoe.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/mtip32xx/mtip32xx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/virtio_blk.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/mm/zsmalloc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/zram/zram.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/null_blk/null_blk.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/loop.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/block/nbd.ko
+Copying module directory kernel/drivers/nvme
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/core/ib_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/core/ib_cm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/core/iw_cm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/core/rdma_cm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/host/nvme-rdma.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/host/nvme-tcp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/host/nvme.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/target/nvmet-tcp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvme/target/nvmet-rdma.ko
+Copying module directory kernel/drivers/ata
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/libahci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/libahci_platform.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_platform.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_promise.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_ninja32.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_sil.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_qstor.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_sis.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_qoriq.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_rdc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_jmicron.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_tegra.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_sil24.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_mv.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pdc_adma.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/acard-ahci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_xgene.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_vsc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_piccolo.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_sis.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_cmd64x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_dwc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_sch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_via.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_sx4.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_svw.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_ceva.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ata_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_nv.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_atp867x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_marvell.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_it8213.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/sata_uli.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_it821x.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_mvebu.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ahci_seattle.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/ata_piix.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/ata/pata_artop.ko
+Copying module directory kernel/drivers/mmc
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-acpi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sunxi-mmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-pltfm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-of-dwcmshc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/tmio_mmc_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/renesas_sdhi_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/renesas_sdhi_internal_dmac.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci_f_sdh30.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/ushc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/dw_mmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/dw_mmc-pltfm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/dw_mmc-rockchip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/armmmci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/meson-gx-mmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/misc/cardreader/rtsx_usb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/rtsx_usb_sdmmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/cqhci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci_am654.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-esdhc-imx.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crc-itu-t.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/crc7.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/of_mmc_spi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/mmc_spi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/bcm2835.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-of-arasan.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-iproc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-tegra.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/toshsd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/misc/tifm_core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/tifm_sd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-msm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/via-sdmmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/dw_mmc-k3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/misc/cb710/cb710.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/cb710-mmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/vub300.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-xenon-driver.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/misc/cardreader/rtsx_pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/rtsx_pci_sdmmc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/host/sdhci-of-esdhc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mmc/core/sdio_uart.ko
+Copying module directory kernel/drivers/usb/storage
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/usb-storage.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/uas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-eneub6250.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-onetouch.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-cypress.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-jumpshot.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-sddr09.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-sddr55.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-isd200.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-karma.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-freecom.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-usbat.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-realtek.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-alauda.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/usb/storage/ums-datafab.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/zstd/zstd_compress.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/raid6/raid6_pq.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/arch/arm64/lib/xor-neon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/crypto/xor.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/btrfs/btrfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/jbd2/jbd2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/mbcache.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/ext4/ext4.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/lz4/lz4_compress.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/lib/lz4/lz4hc_compress.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/f2fs/f2fs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/isofs/isofs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/jfs/jfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/reiserfs/reiserfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/udf/udf.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/xfs/xfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/netfs/netfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/fscache/fscache.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/sunrpc/sunrpc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/nfs_common/grace.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/lockd/lockd.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/nfs/nfs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/nfs/nfsv2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/nfs_common/nfs_acl.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/nfs/nfsv3.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/net/dns_resolver/dns_resolver.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/fs/nfs/nfsv4.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/virtio/virtio_pci_modern_dev.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/virtio/virtio_pci_legacy_dev.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/virtio/virtio_pci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/virtio/virtio_mmio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/extcon/extcon-usb-gpio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/extcon/extcon-usbc-cros-ec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/power/supply/axp20x_usb_power.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/platform/chrome/cros_ec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/platform/chrome/cros_ec_spi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/nvmem/nvmem-imx-ocotp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/message/fusion/mptbase.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/message/fusion/mptscsih.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/message/fusion/mptfc.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/message/fusion/mptsas.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/message/fusion/mptspi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/firewire/firewire-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/firewire/firewire-ohci.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/firewire/firewire-sbp2.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/drm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/drm_kms_helper.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/drm_dma_helper.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/display/drm_display_helper.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/bridge/analogix/analogix_dp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/media/rc/rc-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/media/cec/core/cec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/bridge/synopsys/dw-hdmi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/bridge/synopsys/dw-mipi-dsi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/rockchip/rockchipdrm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pwm/pwm-cros-ec.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/video/backlight/pwm_bl.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pwm/pwm-rockchip.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/panel/panel-simple.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/bridge/analogix/analogix-anx6345.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pwm/pwm-sun4i.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/sun4i/sun8i_tcon_top.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/sun4i/sun4i-tcon.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/sun4i/sun4i-drm.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/sun4i/sun8i-mixer.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/display/drm_dp_aux_bus.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/panel/panel-edp.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/pwm/pwm-imx27.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mux/mux-core.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/bridge/nwl-dsi.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/bridge/ti-sn65dsi86.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/imx/dcss/imx-dcss.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/mux/mux-mmio.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/gpu/drm/mxsfb/mxsfb.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/interconnect/imx/imx-interconnect.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/interconnect/imx/imx8mq-interconnect.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/crypto/blake2b_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/crypto/crc32_generic.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/soc/rockchip/io-domain.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/core/ib_uverbs.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/hw/mlx5/mlx5_ib.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/infiniband/hw/mlx4/mlx4_ib.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/dma/pl330.ko
+Adding binary-link /usr/sbin/modprobe
+Adding binary /usr/bin/kmod
+Adding binary-link /usr/lib/aarch64-linux-gnu/libzstd.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/libzstd.so.1.5.5
+Adding binary-link /usr/lib/aarch64-linux-gnu/liblzma.so.5
+Adding binary /usr/lib/aarch64-linux-gnu/liblzma.so.5.4.1
+Adding binary /lib/aarch64-linux-gnu/libcrypto.so.3
+Adding binary /lib/aarch64-linux-gnu/libc.so.6
+Adding binary-link /usr/lib/ld-linux-aarch64.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1
+Adding binary-link /usr/sbin/rmmod
+Adding config /lib/modprobe.d/aliases.conf
+Adding config /lib/modprobe.d/fbdev-blacklist.conf
+Adding config /lib/modprobe.d/systemd.conf
+Calling hook flash_kernel_set_root
+Calling hook fsck
+Adding binary /sbin/fsck
+Adding binary-link /usr/lib/aarch64-linux-gnu/libmount.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/libmount.so.1.1.0
+Adding binary-link /usr/lib/aarch64-linux-gnu/libblkid.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/libblkid.so.1.1.0
+Adding binary /lib/aarch64-linux-gnu/libselinux.so.1
+Adding binary-link /usr/lib/aarch64-linux-gnu/libpcre2-8.so.0
+Adding binary /usr/lib/aarch64-linux-gnu/libpcre2-8.so.0.11.2
+Adding binary /sbin/logsave
+Adding binary-link /usr/sbin/fsck.ext4
+Adding binary /usr/sbin/e2fsck
+Adding binary-link /usr/lib/aarch64-linux-gnu/libext2fs.so.2
+Adding binary /usr/lib/aarch64-linux-gnu/libext2fs.so.2.4
+Adding binary-link /usr/lib/aarch64-linux-gnu/libcom_err.so.2
+Adding binary /usr/lib/aarch64-linux-gnu/libcom_err.so.2.1
+Adding binary-link /usr/lib/aarch64-linux-gnu/libuuid.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/libuuid.so.1.3.0
+Adding binary-link /usr/lib/aarch64-linux-gnu/libe2p.so.2
+Adding binary /usr/lib/aarch64-linux-gnu/libe2p.so.2.3
+Calling hook keymap
+Calling hook kmod
+Calling hook resume
+I: Configuration sets RESUME=
+Calling hook thermal
+Calling hook udev
+Adding binary-link /usr/lib/systemd/systemd-udevd
+Adding binary /usr/bin/udevadm
+Adding binary-link /usr/lib/aarch64-linux-gnu/libkmod.so.2
+Adding binary /usr/lib/aarch64-linux-gnu/libkmod.so.2.4.0
+Adding binary-link /usr/lib/aarch64-linux-gnu/libacl.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/libacl.so.1.1.2301
+Adding binary-link /usr/lib/aarch64-linux-gnu/libcap.so.2
+Adding binary /usr/lib/aarch64-linux-gnu/libcap.so.2.66
+Adding binary /lib/udev/ata_id
+Adding binary /lib/udev/scsi_id
+Adding binary /sbin/blkid
+Calling hook zz-busybox
+Adding binary /bin/busybox
+Adding binary /lib/aarch64-linux-gnu/libresolv.so.2
+Calling hook dmsetup
+Adding binary /sbin/dmsetup
+Adding binary /lib/aarch64-linux-gnu/libdevmapper.so.1.02.1
+Adding binary-link /usr/lib/aarch64-linux-gnu/libudev.so.1
+Adding binary /usr/lib/aarch64-linux-gnu/libudev.so.1.7.5
+Adding binary /lib/aarch64-linux-gnu/libm.so.6
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/dax/dax.ko
+Adding module /lib/modules/6.1.0-20-arm64/kernel/drivers/md/dm-mod.ko
+Calling hook klibc-utils
+Building cpio /boot/initrd.img-6.1.0-20-arm64.new initramfs
+
+2024-04-15 08:32:50 DEBUG STDERR: /usr/share/initramfs-tools/hooks/fsck.bak ignored: not executable
+UUID 404a0840-366f-4ab6-bd65-67798bb32fe4 doesn't exist in /dev/disk/by-uuid
+Warning: root device /dev/disk/by-uuid/404a0840-366f-4ab6-bd65-67798bb32fe4 does not exist
+/usr/share/initramfs-tools/scripts/init-top/ORDER ignored: not executable
+/usr/share/initramfs-tools/scripts/local-premount/ORDER ignored: not executable
+/usr/share/initramfs-tools/scripts/init-bottom/ORDER ignored: not executable
+Using DTB: amlogic/meson-g12b-odroid-n2.dtb
+Installing /usr/lib/linux-image-6.1.0-20-arm64/amlogic/meson-g12b-odroid-n2.dtb into /boot/dtbs/6.1.0-20-arm64/amlogic/meson-g12b-odroid-n2.dtb
+Installing new meson-g12b-odroid-n2.dtb.
+Installing /usr/lib/linux-image-6.1.0-20-arm64/amlogic/meson-g12b-odroid-n2.dtb into /boot/dtbs/6.1.0-20-arm64/amlogic/meson-g12b-odroid-n2.dtb
+Taking backup of meson-g12b-odroid-n2.dtb.
+Installing new meson-g12b-odroid-n2.dtb.
+flash-kernel: installing version 6.1.0-20-arm64
+Generating boot script u-boot image... done.
+Installing new boot.scr.
+
+2024-04-15 08:32:50 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:32:50 INFO Running step: {'create-file': '/etc/network/interfaces.d/lo', 'contents': '# file /etc/network/interfaces.d/lo\n\n# loopback interface\nallow-auto lo\niface      lo inet loopback\n'}
+2024-04-15 08:32:50 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:32:50 INFO Creating file /tmp/tmpbw0tnwgu//etc/network/interfaces.d/lo, uid 0, gid 0, perms 644
+2024-04-15 08:32:50 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:32:50 INFO Running step: {'create-file': '/etc/network/interfaces.d/eth0', 'contents': '# file /etc/network/interfaces.d/eth0\n\n# Ethernet  10/100/1000 full duplex interface. Because interface\n# is set in dhcp mode, then dhcp request configuration file is\n# set into /etc/dhcp/dhclient.conf \n\nallow-auto eth0\niface      eth0 inet dhcp\n'}
+2024-04-15 08:32:50 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:32:50 INFO Creating file /tmp/tmpbw0tnwgu//etc/network/interfaces.d/eth0, uid 0, gid 0, perms 644
+2024-04-15 08:32:50 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:32:50 INFO Running step: {'create-file': '/etc/hosts', 'contents': '# file /etc/hosts\n\n# IPV4 loopback address on localhost (RFC 5735 compliant)\n127.0.0.1  localhost\n\n# IPV4 loopback address on localhost (RFC 5735 compliant)\n127.0.0.2  Odroid-N2\n'}
+2024-04-15 08:32:50 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:32:50 INFO Creating file /tmp/tmpbw0tnwgu//etc/hosts, uid 0, gid 0, perms 644
+2024-04-15 08:32:50 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:32:50 INFO Running step: {'chroot': 'rootfs_partition_tag', 'shell': '\n# python3 is      needed  to  launch   "Ansible"   tools  later.\n# Furthermore,  python3-apt   must be also  installed, otherwise\n# followin error :\n\n# Updating  cache    and  auto-installing  missing   dependency: python3-apt\n\napt-get --assume-yes install python3 python3-apt\n\n# openssh-server is needed to connect to target on Ethernet port\n# (and also from external Ansible script)\n\napt-get --assume-yes install openssh-server openssh-sftp-server\n\n# Because this target boot first time in DHCP mode, then install\n# Debian   ISC   client.      Please   verify   default   Debian\n# /etc/dhcp/dhclient.conf\n\napt-get --assume-yes install isc-dhcp-client'}
+2024-04-15 08:32:50 INFO Calling <bound method ChrootStepRunner.run of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:32:50 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'sh', '-ec', '\n# python3 is      needed  to  launch   "Ansible"   tools  later.\n# Furthermore,  python3-apt   must be also  installed, otherwise\n# followin error :\n\n# Updating  cache    and  auto-installing  missing   dependency: python3-apt\n\napt-get --assume-yes install python3 python3-apt\n\n# openssh-server is needed to connect to target on Ethernet port\n# (and also from external Ansible script)\n\napt-get --assume-yes install openssh-server openssh-sftp-server\n\n# Because this target boot first time in DHCP mode, then install\n# Debian   ISC   client.      Please   verify   default   Debian\n# /etc/dhcp/dhclient.conf\n\napt-get --assume-yes install isc-dhcp-client']
+2024-04-15 08:35:51 DEBUG STDOUT: Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  ca-certificates distro-info-data iso-codes libexpat1 libnsl2
+  libpython3-stdlib libpython3.11-minimal libpython3.11-stdlib libsqlite3-0
+  lsb-release media-types openssl python-apt-common python3-minimal python3.11
+  python3.11-minimal
+Suggested packages:
+  isoquery python3-doc python3-tk python3-venv python-apt-doc python3.11-venv
+  python3.11-doc binutils binfmt-support
+The following NEW packages will be installed:
+  ca-certificates distro-info-data iso-codes libexpat1 libnsl2
+  libpython3-stdlib libpython3.11-minimal libpython3.11-stdlib libsqlite3-0
+  lsb-release media-types openssl python-apt-common python3 python3-apt
+  python3-minimal python3.11 python3.11-minimal
+0 upgraded, 18 newly installed, 0 to remove and 0 not upgraded.
+Need to get 10.7 MB of archives.
+After this operation, 50.0 MB of additional disk space will be used.
+Get:1 http://ftp.de.debian.org/debian bookworm/main arm64 libpython3.11-minimal arm64 3.11.2-6 [806 kB]
+Get:2 http://ftp.de.debian.org/debian bookworm/main arm64 libexpat1 arm64 2.5.0-1 [84.8 kB]
+Get:3 http://ftp.de.debian.org/debian bookworm/main arm64 python3.11-minimal arm64 3.11.2-6 [1858 kB]
+Get:4 http://ftp.de.debian.org/debian bookworm/main arm64 python3-minimal arm64 3.11.2-1+b1 [26.3 kB]
+Get:5 http://ftp.de.debian.org/debian bookworm/main arm64 media-types all 10.0.0 [26.1 kB]
+Get:6 http://ftp.de.debian.org/debian bookworm/main arm64 libnsl2 arm64 1.3.0-2 [36.9 kB]
+Get:7 http://ftp.de.debian.org/debian bookworm/main arm64 libsqlite3-0 arm64 3.40.1-2 [786 kB]
+Get:8 http://ftp.de.debian.org/debian bookworm/main arm64 libpython3.11-stdlib arm64 3.11.2-6 [1747 kB]
+Get:9 http://ftp.de.debian.org/debian bookworm/main arm64 python3.11 arm64 3.11.2-6 [572 kB]
+Get:10 http://ftp.de.debian.org/debian bookworm/main arm64 libpython3-stdlib arm64 3.11.2-1+b1 [9296 B]
+Get:11 http://ftp.de.debian.org/debian bookworm/main arm64 python3 arm64 3.11.2-1+b1 [26.3 kB]
+Get:12 http://ftp.de.debian.org/debian bookworm/main arm64 openssl arm64 3.0.11-1~deb12u2 [1385 kB]
+Get:13 http://ftp.de.debian.org/debian bookworm/main arm64 ca-certificates all 20230311 [153 kB]
+Get:14 http://ftp.de.debian.org/debian bookworm/main arm64 distro-info-data all 0.58+deb12u1 [6072 B]
+Get:15 http://ftp.de.debian.org/debian bookworm/main arm64 iso-codes all 4.15.0-1 [2906 kB]
+Get:16 http://ftp.de.debian.org/debian bookworm/main arm64 lsb-release all 12.0-1 [6416 B]
+Get:17 http://ftp.de.debian.org/debian bookworm/main arm64 python-apt-common all 2.6.0 [64.3 kB]
+Get:18 http://ftp.de.debian.org/debian bookworm/main arm64 python3-apt arm64 2.6.0 [152 kB]
+Preconfiguring packages ...
+Fetched 10.7 MB in 22s (475 kB/s)
+Selecting previously unselected package libpython3.11-minimal:arm64.
+(Reading database ... 14632 files and directories currently installed.)
+Preparing to unpack .../libpython3.11-minimal_3.11.2-6_arm64.deb ...
+Unpacking libpython3.11-minimal:arm64 (3.11.2-6) ...
+Selecting previously unselected package libexpat1:arm64.
+Preparing to unpack .../libexpat1_2.5.0-1_arm64.deb ...
+Unpacking libexpat1:arm64 (2.5.0-1) ...
+Selecting previously unselected package python3.11-minimal.
+Preparing to unpack .../python3.11-minimal_3.11.2-6_arm64.deb ...
+Unpacking python3.11-minimal (3.11.2-6) ...
+Setting up libpython3.11-minimal:arm64 (3.11.2-6) ...
+Setting up libexpat1:arm64 (2.5.0-1) ...
+Setting up python3.11-minimal (3.11.2-6) ...
+Selecting previously unselected package python3-minimal.
+(Reading database ... 14947 files and directories currently installed.)
+Preparing to unpack .../0-python3-minimal_3.11.2-1+b1_arm64.deb ...
+Unpacking python3-minimal (3.11.2-1+b1) ...
+Selecting previously unselected package media-types.
+Preparing to unpack .../1-media-types_10.0.0_all.deb ...
+Unpacking media-types (10.0.0) ...
+Selecting previously unselected package libnsl2:arm64.
+Preparing to unpack .../2-libnsl2_1.3.0-2_arm64.deb ...
+Unpacking libnsl2:arm64 (1.3.0-2) ...
+Selecting previously unselected package libsqlite3-0:arm64.
+Preparing to unpack .../3-libsqlite3-0_3.40.1-2_arm64.deb ...
+Unpacking libsqlite3-0:arm64 (3.40.1-2) ...
+Selecting previously unselected package libpython3.11-stdlib:arm64.
+Preparing to unpack .../4-libpython3.11-stdlib_3.11.2-6_arm64.deb ...
+Unpacking libpython3.11-stdlib:arm64 (3.11.2-6) ...
+Selecting previously unselected package python3.11.
+Preparing to unpack .../5-python3.11_3.11.2-6_arm64.deb ...
+Unpacking python3.11 (3.11.2-6) ...
+Selecting previously unselected package libpython3-stdlib:arm64.
+Preparing to unpack .../6-libpython3-stdlib_3.11.2-1+b1_arm64.deb ...
+Unpacking libpython3-stdlib:arm64 (3.11.2-1+b1) ...
+Setting up python3-minimal (3.11.2-1+b1) ...
+Selecting previously unselected package python3.
+(Reading database ... 15370 files and directories currently installed.)
+Preparing to unpack .../0-python3_3.11.2-1+b1_arm64.deb ...
+Unpacking python3 (3.11.2-1+b1) ...
+Selecting previously unselected package openssl.
+Preparing to unpack .../1-openssl_3.0.11-1~deb12u2_arm64.deb ...
+Unpacking openssl (3.0.11-1~deb12u2) ...
+Selecting previously unselected package ca-certificates.
+Preparing to unpack .../2-ca-certificates_20230311_all.deb ...
+Unpacking ca-certificates (20230311) ...
+Selecting previously unselected package distro-info-data.
+Preparing to unpack .../3-distro-info-data_0.58+deb12u1_all.deb ...
+Unpacking distro-info-data (0.58+deb12u1) ...
+Selecting previously unselected package iso-codes.
+Preparing to unpack .../4-iso-codes_4.15.0-1_all.deb ...
+Unpacking iso-codes (4.15.0-1) ...
+Selecting previously unselected package lsb-release.
+Preparing to unpack .../5-lsb-release_12.0-1_all.deb ...
+Unpacking lsb-release (12.0-1) ...
+Selecting previously unselected package python-apt-common.
+Preparing to unpack .../6-python-apt-common_2.6.0_all.deb ...
+Unpacking python-apt-common (2.6.0) ...
+Selecting previously unselected package python3-apt.
+Preparing to unpack .../7-python3-apt_2.6.0_arm64.deb ...
+Unpacking python3-apt (2.6.0) ...
+Setting up media-types (10.0.0) ...
+Setting up distro-info-data (0.58+deb12u1) ...
+Setting up libsqlite3-0:arm64 (3.40.1-2) ...
+Setting up python-apt-common (2.6.0) ...
+Setting up libnsl2:arm64 (1.3.0-2) ...
+Setting up lsb-release (12.0-1) ...
+Setting up openssl (3.0.11-1~deb12u2) ...
+Setting up iso-codes (4.15.0-1) ...
+Setting up libpython3.11-stdlib:arm64 (3.11.2-6) ...
+Setting up ca-certificates (20230311) ...
+Setting up libpython3-stdlib:arm64 (3.11.2-1+b1) ...
+Setting up python3.11 (3.11.2-6) ...
+Setting up python3 (3.11.2-1+b1) ...
+running python rtupdate hooks for python3.11...
+running python post-rtupdate hooks for python3.11...
+Setting up python3-apt (2.6.0) ...
+Processing triggers for systemd (252.22-1~deb12u1) ...
+Processing triggers for libc-bin (2.36-9+deb12u4) ...
+Processing triggers for ca-certificates (20230311) ...
+Updating certificates in /etc/ssl/certs...
+0 added, 0 removed; done.
+Running hooks in /etc/ca-certificates/update.d...
+done.
+Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  dbus dbus-bin dbus-daemon dbus-session-bus-common dbus-system-bus-common
+  dbus-user-session libcbor0.8 libdbus-1-3 libfido2-1 libpam-systemd libwrap0
+  libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1
+  ncurses-term openssh-client runit-helper xauth
+Suggested packages:
+  keychain libpam-ssh monkeysphere ssh-askpass molly-guard ufw
+The following NEW packages will be installed:
+  dbus dbus-bin dbus-daemon dbus-session-bus-common dbus-system-bus-common
+  dbus-user-session libcbor0.8 libdbus-1-3 libfido2-1 libpam-systemd libwrap0
+  libx11-6 libx11-data libxau6 libxcb1 libxdmcp6 libxext6 libxmuu1
+  ncurses-term openssh-client openssh-server openssh-sftp-server runit-helper
+  xauth
+0 upgraded, 24 newly installed, 0 to remove and 0 not upgraded.
+Need to get 4406 kB of archives.
+After this operation, 20.3 MB of additional disk space will be used.
+Get:1 http://ftp.de.debian.org/debian bookworm/main arm64 libdbus-1-3 arm64 1.14.10-1~deb12u1 [193 kB]
+Get:2 http://ftp.de.debian.org/debian bookworm/main arm64 dbus-bin arm64 1.14.10-1~deb12u1 [104 kB]
+Get:3 http://ftp.de.debian.org/debian bookworm/main arm64 dbus-session-bus-common all 1.14.10-1~deb12u1 [78.2 kB]
+Get:4 http://ftp.de.debian.org/debian bookworm/main arm64 dbus-daemon arm64 1.14.10-1~deb12u1 [176 kB]
+Get:5 http://ftp.de.debian.org/debian bookworm/main arm64 dbus-system-bus-common all 1.14.10-1~deb12u1 [79.3 kB]
+Get:6 http://ftp.de.debian.org/debian bookworm/main arm64 dbus arm64 1.14.10-1~deb12u1 [96.2 kB]
+Get:7 http://ftp.de.debian.org/debian bookworm/main arm64 libcbor0.8 arm64 0.8.0-2+b1 [26.0 kB]
+Get:8 http://ftp.de.debian.org/debian bookworm/main arm64 libfido2-1 arm64 1.12.0-2+b1 [72.6 kB]
+Get:9 http://ftp.de.debian.org/debian bookworm/main arm64 openssh-client arm64 1:9.2p1-2+deb12u2 [933 kB]
+Get:10 http://ftp.de.debian.org/debian bookworm/main arm64 openssh-sftp-server arm64 1:9.2p1-2+deb12u2 [60.7 kB]
+Get:11 http://ftp.de.debian.org/debian bookworm/main arm64 runit-helper all 2.15.2 [6520 B]
+Get:12 http://ftp.de.debian.org/debian bookworm/main arm64 libwrap0 arm64 7.6.q-32 [54.7 kB]
+Get:13 http://ftp.de.debian.org/debian bookworm/main arm64 openssh-server arm64 1:9.2p1-2+deb12u2 [413 kB]
+Get:14 http://ftp.de.debian.org/debian bookworm/main arm64 libpam-systemd arm64 252.22-1~deb12u1 [208 kB]
+Get:15 http://ftp.de.debian.org/debian bookworm/main arm64 ncurses-term all 6.4-4 [501 kB]
+Get:16 http://ftp.de.debian.org/debian bookworm/main arm64 dbus-user-session arm64 1.14.10-1~deb12u1 [78.1 kB]
+Get:17 http://ftp.de.debian.org/debian bookworm/main arm64 libxau6 arm64 1:1.0.9-1 [19.7 kB]
+Get:18 http://ftp.de.debian.org/debian bookworm/main arm64 libxdmcp6 arm64 1:1.1.2-3 [25.4 kB]
+Get:19 http://ftp.de.debian.org/debian bookworm/main arm64 libxcb1 arm64 1.15-1 [143 kB]
+Get:20 http://ftp.de.debian.org/debian bookworm/main arm64 libx11-data all 2:1.8.4-2+deb12u2 [292 kB]
+Get:21 http://ftp.de.debian.org/debian bookworm/main arm64 libx11-6 arm64 2:1.8.4-2+deb12u2 [735 kB]
+Get:22 http://ftp.de.debian.org/debian bookworm/main arm64 libxext6 arm64 2:1.3.4-1+b1 [51.7 kB]
+Get:23 http://ftp.de.debian.org/debian bookworm/main arm64 libxmuu1 arm64 2:1.1.3-3 [24.0 kB]
+Get:24 http://ftp.de.debian.org/debian bookworm/main arm64 xauth arm64 1:1.1.2-1 [35.5 kB]
+Preconfiguring packages ...
+Fetched 4406 kB in 12s (377 kB/s)
+Selecting previously unselected package libdbus-1-3:arm64.
+(Reading database ... 17276 files and directories currently installed.)
+Preparing to unpack .../00-libdbus-1-3_1.14.10-1~deb12u1_arm64.deb ...
+Unpacking libdbus-1-3:arm64 (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-bin.
+Preparing to unpack .../01-dbus-bin_1.14.10-1~deb12u1_arm64.deb ...
+Unpacking dbus-bin (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-session-bus-common.
+Preparing to unpack .../02-dbus-session-bus-common_1.14.10-1~deb12u1_all.deb ...
+Unpacking dbus-session-bus-common (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-daemon.
+Preparing to unpack .../03-dbus-daemon_1.14.10-1~deb12u1_arm64.deb ...
+Unpacking dbus-daemon (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus-system-bus-common.
+Preparing to unpack .../04-dbus-system-bus-common_1.14.10-1~deb12u1_all.deb ...
+Unpacking dbus-system-bus-common (1.14.10-1~deb12u1) ...
+Selecting previously unselected package dbus.
+Preparing to unpack .../05-dbus_1.14.10-1~deb12u1_arm64.deb ...
+Unpacking dbus (1.14.10-1~deb12u1) ...
+Selecting previously unselected package libcbor0.8:arm64.
+Preparing to unpack .../06-libcbor0.8_0.8.0-2+b1_arm64.deb ...
+Unpacking libcbor0.8:arm64 (0.8.0-2+b1) ...
+Selecting previously unselected package libfido2-1:arm64.
+Preparing to unpack .../07-libfido2-1_1.12.0-2+b1_arm64.deb ...
+Unpacking libfido2-1:arm64 (1.12.0-2+b1) ...
+Selecting previously unselected package openssh-client.
+Preparing to unpack .../08-openssh-client_1%3a9.2p1-2+deb12u2_arm64.deb ...
+Unpacking openssh-client (1:9.2p1-2+deb12u2) ...
+Selecting previously unselected package openssh-sftp-server.
+Preparing to unpack .../09-openssh-sftp-server_1%3a9.2p1-2+deb12u2_arm64.deb ...
+Unpacking openssh-sftp-server (1:9.2p1-2+deb12u2) ...
+Selecting previously unselected package runit-helper.
+Preparing to unpack .../10-runit-helper_2.15.2_all.deb ...
+Unpacking runit-helper (2.15.2) ...
+Selecting previously unselected package libwrap0:arm64.
+Preparing to unpack .../11-libwrap0_7.6.q-32_arm64.deb ...
+Unpacking libwrap0:arm64 (7.6.q-32) ...
+Selecting previously unselected package openssh-server.
+Preparing to unpack .../12-openssh-server_1%3a9.2p1-2+deb12u2_arm64.deb ...
+Unpacking openssh-server (1:9.2p1-2+deb12u2) ...
+Selecting previously unselected package libpam-systemd:arm64.
+Preparing to unpack .../13-libpam-systemd_252.22-1~deb12u1_arm64.deb ...
+Unpacking libpam-systemd:arm64 (252.22-1~deb12u1) ...
+Selecting previously unselected package ncurses-term.
+Preparing to unpack .../14-ncurses-term_6.4-4_all.deb ...
+Unpacking ncurses-term (6.4-4) ...
+Selecting previously unselected package dbus-user-session.
+Preparing to unpack .../15-dbus-user-session_1.14.10-1~deb12u1_arm64.deb ...
+Unpacking dbus-user-session (1.14.10-1~deb12u1) ...
+Selecting previously unselected package libxau6:arm64.
+Preparing to unpack .../16-libxau6_1%3a1.0.9-1_arm64.deb ...
+Unpacking libxau6:arm64 (1:1.0.9-1) ...
+Selecting previously unselected package libxdmcp6:arm64.
+Preparing to unpack .../17-libxdmcp6_1%3a1.1.2-3_arm64.deb ...
+Unpacking libxdmcp6:arm64 (1:1.1.2-3) ...
+Selecting previously unselected package libxcb1:arm64.
+Preparing to unpack .../18-libxcb1_1.15-1_arm64.deb ...
+Unpacking libxcb1:arm64 (1.15-1) ...
+Selecting previously unselected package libx11-data.
+Preparing to unpack .../19-libx11-data_2%3a1.8.4-2+deb12u2_all.deb ...
+Unpacking libx11-data (2:1.8.4-2+deb12u2) ...
+Selecting previously unselected package libx11-6:arm64.
+Preparing to unpack .../20-libx11-6_2%3a1.8.4-2+deb12u2_arm64.deb ...
+Unpacking libx11-6:arm64 (2:1.8.4-2+deb12u2) ...
+Selecting previously unselected package libxext6:arm64.
+Preparing to unpack .../21-libxext6_2%3a1.3.4-1+b1_arm64.deb ...
+Unpacking libxext6:arm64 (2:1.3.4-1+b1) ...
+Selecting previously unselected package libxmuu1:arm64.
+Preparing to unpack .../22-libxmuu1_2%3a1.1.3-3_arm64.deb ...
+Unpacking libxmuu1:arm64 (2:1.1.3-3) ...
+Selecting previously unselected package xauth.
+Preparing to unpack .../23-xauth_1%3a1.1.2-1_arm64.deb ...
+Unpacking xauth (1:1.1.2-1) ...
+Setting up runit-helper (2.15.2) ...
+Setting up libxau6:arm64 (1:1.0.9-1) ...
+Setting up libxdmcp6:arm64 (1:1.1.2-3) ...
+Setting up libxcb1:arm64 (1.15-1) ...
+Setting up libcbor0.8:arm64 (0.8.0-2+b1) ...
+Setting up libwrap0:arm64 (7.6.q-32) ...
+Setting up libx11-data (2:1.8.4-2+deb12u2) ...
+Setting up libdbus-1-3:arm64 (1.14.10-1~deb12u1) ...
+Setting up dbus-session-bus-common (1.14.10-1~deb12u1) ...
+Setting up libx11-6:arm64 (2:1.8.4-2+deb12u2) ...
+Setting up dbus-system-bus-common (1.14.10-1~deb12u1) ...
+Setting up libfido2-1:arm64 (1.12.0-2+b1) ...
+Setting up libxmuu1:arm64 (2:1.1.3-3) ...
+Setting up dbus-bin (1.14.10-1~deb12u1) ...
+Setting up ncurses-term (6.4-4) ...
+Setting up openssh-client (1:9.2p1-2+deb12u2) ...
+Setting up libxext6:arm64 (2:1.3.4-1+b1) ...
+Setting up dbus-daemon (1.14.10-1~deb12u1) ...
+Setting up dbus (1.14.10-1~deb12u1) ...
+Setting up xauth (1:1.1.2-1) ...
+Setting up libpam-systemd:arm64 (252.22-1~deb12u1) ...
+Setting up openssh-sftp-server (1:9.2p1-2+deb12u2) ...
+Setting up openssh-server (1:9.2p1-2+deb12u2) ...
+Setting up dbus-user-session (1.14.10-1~deb12u1) ...
+Processing triggers for libc-bin (2.36-9+deb12u4) ...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+isc-dhcp-client is already the newest version (4.4.3-P1-2).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+2024-04-15 08:35:51 DEBUG STDERR: E: Can not write log (Is /dev/pts mounted?) - posix_openpt (2: No such file or directory)
+Updating certificates in /etc/ssl/certs...
+140 added, 0 removed; done.
+E: Can not write log (Is /dev/pts mounted?) - posix_openpt (2: No such file or directory)
+/proc/ is not mounted, but required for successful operation of systemd-tmpfiles. Please mount /proc/. Alternatively, consider using the --root= or --image= switches.
+invoke-rc.d: could not determine current runlevel
+
+Creating config file /etc/ssh/sshd_config with new version
+Creating SSH2 RSA key; this may take some time ...
+3072 SHA256:GSF9ZHr1VFTZoHyMFW+y/8SEliL9FYwBJSxUv6pkuVs root@hn-asusgl752-400 (RSA)
+Creating SSH2 ECDSA key; this may take some time ...
+256 SHA256:yQxHL4T0t8eygTwVmr87dMPESrTmHpuBzn0E/dx5IBU root@hn-asusgl752-400 (ECDSA)
+Creating SSH2 ED25519 key; this may take some time ...
+256 SHA256:cL0CZ0aFn/IP+EPOryl/bif3v32SvP3SFwYEduwS/VQ root@hn-asusgl752-400 (ED25519)
+invoke-rc.d: could not determine current runlevel
+Created symlink /etc/systemd/system/sshd.service -> /lib/systemd/system/ssh.service.
+Created symlink /etc/systemd/system/multi-user.target.wants/ssh.service -> /lib/systemd/system/ssh.service.
+
+2024-04-15 08:35:51 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:35:51 INFO Running step: {'chroot': 'rootfs_partition_tag', 'shell': "\n# Be sure to enable ssh root access on target\n\nsed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config\n\n# Enable ssh public key\n\nsed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config\n\n# And finally enable ssh   root access without password  for  the\n# first connection.\n\nsed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config"}
+2024-04-15 08:35:51 INFO Calling <bound method ChrootStepRunner.run of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:35:51 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'sh', '-ec', "\n# Be sure to enable ssh root access on target\n\nsed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config\n\n# Enable ssh public key\n\nsed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config\n\n# And finally enable ssh   root access without password  for  the\n# first connection.\n\nsed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config"]
+2024-04-15 08:35:51 DEBUG STDOUT: 
+2024-04-15 08:35:51 DEBUG STDERR: 
+2024-04-15 08:35:51 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:35:51 INFO Running step: {'create-file': '/etc/modules', 'contents': '# file /etc/modules\n\n# Because  all Linux kernel  modules are loaded automatically at\n# boot  time,  then  this   file is empty  for   standard Debian\n# bookworm release\n'}
+2024-04-15 08:35:51 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:35:51 INFO Creating file /tmp/tmpbw0tnwgu//etc/modules, uid 0, gid 0, perms 644
+2024-04-15 08:35:51 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:35:51 INFO Running step: {'create-file': '/etc/resolv.conf', 'contents': '# file /etc/resolv.conf\n\n# This  file is installed by   vmdb2-project. It is automatically\n# updated    according   network        sysadmin policy       on\n# DHCP-REQUEST/DHCP-OFFER PDUs\n'}
+2024-04-15 08:35:51 INFO Calling <bound method CreateFileStepRunner.run of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:35:51 INFO Creating file /tmp/tmpbw0tnwgu//etc/resolv.conf, uid 0, gid 0, perms 644
+2024-04-15 08:35:51 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:35:51 INFO Running step: {'apt': 'install', 'packages': ['u-boot-amlogic'], 'tag': 'rootfs_partition_tag'}
+2024-04-15 08:35:51 INFO Calling <bound method AptStepRunner.run of <apt_plugin.AptStepRunner object at 0x7f1666bc21d0>>
+2024-04-15 08:35:51 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'apt-get', 'update']
+2024-04-15 08:36:17 DEBUG STDOUT: Hit:1 http://ftp.de.debian.org/debian bookworm InRelease
+Hit:2 http://ftp.de.debian.org/debian bookworm-updates InRelease
+Hit:3 http://security.debian.org bookworm-security InRelease
+Hit:4 http://ftp.de.debian.org/debian bookworm-backports InRelease
+Hit:5 http://ftp.de.debian.org/debian trixie InRelease
+Reading package lists...
+
+2024-04-15 08:36:17 DEBUG STDERR: 
+2024-04-15 08:36:17 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'apt-get', '-y', '--no-show-progress', '', 'install', 'eatmydata']
+2024-04-15 08:36:21 DEBUG STDOUT: Reading package lists...
+Building dependency tree...
+Reading state information...
+eatmydata is already the newest version (131-1).
+0 upgraded, 0 newly installed, 0 to remove and 0 not upgraded.
+
+2024-04-15 08:36:21 DEBUG STDERR: 
+2024-04-15 08:36:21 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'eatmydata', 'apt-get', 'update']
+2024-04-15 08:36:51 DEBUG STDOUT: Hit:1 http://security.debian.org bookworm-security InRelease
+Hit:2 http://ftp.de.debian.org/debian bookworm InRelease
+Hit:3 http://ftp.de.debian.org/debian bookworm-updates InRelease
+Hit:4 http://ftp.de.debian.org/debian bookworm-backports InRelease
+Hit:5 http://ftp.de.debian.org/debian trixie InRelease
+Reading package lists...
+
+2024-04-15 08:36:51 DEBUG STDERR: 
+2024-04-15 08:36:51 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'eatmydata', 'apt-get', '-y', '--no-show-progress', '', 'install', 'u-boot-amlogic']
+2024-04-15 08:37:04 DEBUG STDOUT: Reading package lists...
+Building dependency tree...
+Reading state information...
+The following additional packages will be installed:
+  arm-trusted-firmware
+The following NEW packages will be installed:
+  arm-trusted-firmware u-boot-amlogic
+0 upgraded, 2 newly installed, 0 to remove and 0 not upgraded.
+Need to get 840 kB of archives.
+After this operation, 9928 kB of additional disk space will be used.
+Get:1 http://ftp.de.debian.org/debian bookworm/main arm64 arm-trusted-firmware arm64 2.8.0+dfsg-1 [228 kB]
+Get:2 http://ftp.de.debian.org/debian bookworm/main arm64 u-boot-amlogic arm64 2023.01+dfsg-2 [613 kB]
+Fetched 840 kB in 3s (254 kB/s)
+Selecting previously unselected package arm-trusted-firmware.
+(Reading database ... 20661 files and directories currently installed.)
+Preparing to unpack .../arm-trusted-firmware_2.8.0+dfsg-1_arm64.deb ...
+Unpacking arm-trusted-firmware (2.8.0+dfsg-1) ...
+Selecting previously unselected package u-boot-amlogic:arm64.
+Preparing to unpack .../u-boot-amlogic_2023.01+dfsg-2_arm64.deb ...
+Unpacking u-boot-amlogic:arm64 (2023.01+dfsg-2) ...
+Setting up u-boot-amlogic:arm64 (2023.01+dfsg-2) ...
+Setting up arm-trusted-firmware (2.8.0+dfsg-1) ...
+
+2024-04-15 08:37:04 DEBUG STDERR: E: Can not write log (Is /dev/pts mounted?) - posix_openpt (2: No such file or directory)
+
+2024-04-15 08:37:04 INFO Exec: ['chroot', '/tmp/tmpbw0tnwgu', 'apt-get', 'clean']
+2024-04-15 08:37:04 DEBUG STDOUT: 
+2024-04-15 08:37:04 DEBUG STDERR: 
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <apt_plugin.AptStepRunner object at 0x7f1666bc21d0>>
+2024-04-15 08:37:04 INFO Running step: {'root-fs': 'rootfs_partition_tag', 'shell': '# TARGET="$ROOT/usr/lib/u-boot/odroid-n2" $ROOT/usr/bin/u-boot-install-rockchip ../images/odroid-n2_bookworm_arm64.img\ndd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/odroid-n2/u-boot.bin of=../images/odroid-n2_bookworm_arm64.img bs=1024 seek=8'}
+2024-04-15 08:37:04 INFO Calling <bound method ShellStepRunner.run of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Exec: ['sh', '-ec', '# TARGET="$ROOT/usr/lib/u-boot/odroid-n2" $ROOT/usr/bin/u-boot-install-rockchip ../images/odroid-n2_bookworm_arm64.img\ndd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/odroid-n2/u-boot.bin of=../images/odroid-n2_bookworm_arm64.img bs=1024 seek=8']
+2024-04-15 08:37:04 DEBUG STDOUT: 
+2024-04-15 08:37:04 DEBUG STDERR: 777+1 records in
+777+1 records out
+796264 bytes (796 kB, 778 KiB) copied, 0.00817451 s, 97.4 MB/s
+
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Running step: {'root-fs': 'rootfs_partition_tag', 'shell': 'test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml\nmount -t proc proc $ROOT/proc'}
+2024-04-15 08:37:04 INFO Calling <bound method ShellStepRunner.run of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Exec: ['sh', '-ec', 'test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml\nmount -t proc proc $ROOT/proc']
+2024-04-15 08:37:04 DEBUG STDOUT: 
+2024-04-15 08:37:04 DEBUG STDERR: 
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Running step: {'root-fs': 'rootfs_partition_tag', 'shell': '# Restore original fsck tool hook now\n\nmv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck\nchmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck\n\n# Because Ansible has finish running, it is possible to unmount /proc\n\numount $ROOT/proc\n\n# Remove the forced machine description used for off line build,\n# when the board  is  power on, the flash-kernel   autodetection\n# will find the correct name using /proc/cpuinfo\n\nrm $ROOT/etc/flash-kernel/machine\n\n# Be sure to remove tempory link used for Ansible run\n\ndiff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true'}
+2024-04-15 08:37:04 INFO Calling <bound method ShellStepRunner.run of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Exec: ['sh', '-ec', '# Restore original fsck tool hook now\n\nmv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck\nchmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck\n\n# Because Ansible has finish running, it is possible to unmount /proc\n\numount $ROOT/proc\n\n# Remove the forced machine description used for off line build,\n# when the board  is  power on, the flash-kernel   autodetection\n# will find the correct name using /proc/cpuinfo\n\nrm $ROOT/etc/flash-kernel/machine\n\n# Be sure to remove tempory link used for Ansible run\n\ndiff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true']
+2024-04-15 08:37:04 DEBUG STDOUT: 
+2024-04-15 08:37:04 DEBUG STDERR: 
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.run_even_if_skipped of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'root-fs': 'rootfs_partition_tag', 'shell': '# Restore original fsck tool hook now\n\nmv $ROOT/usr/share/initramfs-tools/hooks/fsck.bak $ROOT/usr/share/initramfs-tools/hooks/fsck\nchmod +x $ROOT/usr/share/initramfs-tools/hooks/fsck\n\n# Because Ansible has finish running, it is possible to unmount /proc\n\numount $ROOT/proc\n\n# Remove the forced machine description used for off line build,\n# when the board  is  power on, the flash-kernel   autodetection\n# will find the correct name using /proc/cpuinfo\n\nrm $ROOT/etc/flash-kernel/machine\n\n# Be sure to remove tempory link used for Ansible run\n\ndiff vmdb2-ansible.yaml.example vmdb2-ansible.yaml && test -L vmdb2-ansible.yaml && rm vmdb2-ansible.yaml || true'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'root-fs': 'rootfs_partition_tag', 'shell': 'test -e vmdb2-ansible.yaml || ln -s vmdb2-ansible.yaml.example vmdb2-ansible.yaml\nmount -t proc proc $ROOT/proc'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'root-fs': 'rootfs_partition_tag', 'shell': '# TARGET="$ROOT/usr/lib/u-boot/odroid-n2" $ROOT/usr/bin/u-boot-install-rockchip ../images/odroid-n2_bookworm_arm64.img\ndd conv=fsync,notrunc if=$ROOT/usr/lib/u-boot/odroid-n2/u-boot.bin of=../images/odroid-n2_bookworm_arm64.img bs=1024 seek=8'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <shell_plugin.ShellStepRunner object at 0x7f1666beabd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'apt': 'install', 'packages': ['u-boot-amlogic'], 'tag': 'rootfs_partition_tag'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <apt_plugin.AptStepRunner object at 0x7f1666bc21d0>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/resolv.conf', 'contents': '# file /etc/resolv.conf\n\n# This  file is installed by   vmdb2-project. It is automatically\n# updated    according   network        sysadmin policy       on\n# DHCP-REQUEST/DHCP-OFFER PDUs\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/modules', 'contents': '# file /etc/modules\n\n# Because  all Linux kernel  modules are loaded automatically at\n# boot  time,  then  this   file is empty  for   standard Debian\n# bookworm release\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'chroot': 'rootfs_partition_tag', 'shell': "\n# Be sure to enable ssh root access on target\n\nsed -i -e 's/#PermitRootLogin prohibit-password/PermitRootLogin  yes/g' /etc/ssh/sshd_config\n\n# Enable ssh public key\n\nsed -i -e 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_config\n\n# And finally enable ssh   root access without password  for  the\n# first connection.\n\nsed -i -e 's/#PermitEmptyPasswords no/PermitEmptyPasswords yes/g' /etc/ssh/sshd_config"}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'chroot': 'rootfs_partition_tag', 'shell': '\n# python3 is      needed  to  launch   "Ansible"   tools  later.\n# Furthermore,  python3-apt   must be also  installed, otherwise\n# followin error :\n\n# Updating  cache    and  auto-installing  missing   dependency: python3-apt\n\napt-get --assume-yes install python3 python3-apt\n\n# openssh-server is needed to connect to target on Ethernet port\n# (and also from external Ansible script)\n\napt-get --assume-yes install openssh-server openssh-sftp-server\n\n# Because this target boot first time in DHCP mode, then install\n# Debian   ISC   client.      Please   verify   default   Debian\n# /etc/dhcp/dhclient.conf\n\napt-get --assume-yes install isc-dhcp-client'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/hosts', 'contents': '# file /etc/hosts\n\n# IPV4 loopback address on localhost (RFC 5735 compliant)\n127.0.0.1  localhost\n\n# IPV4 loopback address on localhost (RFC 5735 compliant)\n127.0.0.2  Odroid-N2\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/network/interfaces.d/eth0', 'contents': '# file /etc/network/interfaces.d/eth0\n\n# Ethernet  10/100/1000 full duplex interface. Because interface\n# is set in dhcp mode, then dhcp request configuration file is\n# set into /etc/dhcp/dhclient.conf \n\nallow-auto eth0\niface      eth0 inet dhcp\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/network/interfaces.d/lo', 'contents': '# file /etc/network/interfaces.d/lo\n\n# loopback interface\nallow-auto lo\niface      lo inet loopback\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'chroot': 'rootfs_partition_tag', 'shell': '\n# Because too many issues on SDCARD  on SBC (due to bad hardware\n# !), be  sure  to add   "noatime,nodiratime" option on   rootfs\n# mount, so that we increase flash SDcard lifetime\n\nsed -i "s@errors=remount-ro@noatime,nodiratime,errors=remount-ro@g" /etc/fstab\n\n# Be sure to force fsck on rootfs  so that every time, target is\n# ok.  Furthermore,  force interface  name  with  "prefix kernel\n# name" and suffix name based  on current index. Force also fsck\n# on rootfs\n\nsed -i "s@quiet@root=$(grep ^UUID /etc/fstab | cut -d \\  -f 1) net.ifnames=0 fsck.mode=force fsck.repair=yes @g" /etc/default/flash-kernel\n\n# "initramfs" & "flash-kernel" tools needs uuid rootfs in\n# order to make the job. Back-up fsck hook now\n\nmv /usr/share/initramfs-tools/hooks/fsck /usr/share/initramfs-tools/hooks/fsck.bak\nchmod -x /usr/share/initramfs-tools/hooks/fsck.bak\n\n# Fix fsck to read root fstype in fstab\n\nsed "s@\\[.*\\"\\/\\".*|| @@g" /usr/share/initramfs-tools/hooks/fsck.bak > /usr/share/initramfs-tools/hooks/fsck\nchmod +x /usr/share/initramfs-tools/hooks/fsck\n\nupdate-initramfs -v -c -k $(ls -l /vmlinuz | sed "s%^.*vmlinuz-\\(.*\\)$%\\1%g")\n\n# Remove root  password, so that  first login on default  tty is\n# "root" without   any password.  It  is user  responsability to\n# make   changes    according his   security   policy  (!),  not\n# vmdb2-wrapper project (!)\n\nsed -i "s@root:\\*:@root::@g" /etc/shadow'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/flash-kernel/machine', 'contents': 'Hardkernel ODROID-N2\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/flash-kernel/db', 'contents': 'Machine: Hardkernel ODROID-N2\nKernel-Flavors: arm64\nDTB-Id: amlogic/meson-g12b-odroid-n2.dtb\nBoot-Script-Path: /boot/boot.scr\nU-Boot-Script-Name: bootscr.uboot-generic\nRequired-Packages: u-boot-tools\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'fstab': 'rootfs_partition_tag'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <fstab_plugin.FstabStepRunner object at 0x7f1666978ed0>>
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/hostname', 'contents': 'Odroid-N2\n'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <create_file_plugin.CreateFileStepRunner object at 0x7f1666be2c10>>
+2024-04-15 08:37:04 INFO Running teardown: {'chroot': 'rootfs_partition_tag', 'shell': '\n# Update  internal Debian apt data base.  In case we use one old\n# cache tarball, it is necessary to look for new update\n\napt-get update\n\n# Upgrade packages\n\napt-get --assume-yes upgrade\n\n# When installing kernel, "flash-kernel" & "initramfs" tools are\n# automatically called. Because the target is not yet configured\n# (/etc/fstab),  we backup  and remove  post installation script\n# during kernel   installation,   so that there  are   no action\n# on rootfs.\n\nmv /etc/kernel/postinst.d/initramfs-tools /etc/kernel/postinst.d/zz-flash-kernel /\n\n# Install the current generic linux kernel for this architecture\n# (meta package)\n\napt-get --assume-yes install linux-image-arm64\n\n# Restore  previous   post-hook script,   because now  kernel  is\n# correctly installed on rootfs.\n\nmv /initramfs-tools /zz-flash-kernel /etc/kernel/postinst.d/'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <chroot_plugin.ChrootStepRunner object at 0x7f1666bc2dd0>>
+2024-04-15 08:37:04 INFO Running teardown: {'cache-rootfs': 'rootfs_partition_tag', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:37:04 INFO Skipping as requested by unless
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/apt/preferences.d/debian_preferences.pref', 'contents': '# file : /etc/apt/preferences.d/debian_preferences.pref\n\n# Install  preferences on the target.  This is Debian policy to\n# manage  each package and/or pining. On  many SBC target, only\n# recent kernel has  a  correct native  DTS/DTB.   As a result,\n# define one policy (for apt point of vue)\n\n# Define behaviour on current release\nPackage: *\nPin: release o=Debian,l=Debian,n=bookworm\nPin-Priority: 500\n\n# Define behaviour on backports for the current release\nPackage: *\nPin: release o=Debian,l=Debian,n=bookworm-backports\nPin-Priority: 500\n\n# Define behaviour on futur release\nPackage: *\nPin: release o=Debian,l=Debian,n=trixie\nPin-Priority: 90\n\n# Ethernet chip is RTL8211F   Gigabit. There are many  issues on\n# this   Chip (!).\n\n# https://lore.kernel.org/lkml/20190508.093729.1392898151729084665.davem@davemloft.net/T/\n# https://linux-sunxi.org/Ethernet\n# https://elixir.bootlin.com/linux/latest/source/drivers/net/phy/realtek.c\n\n# On  Debian firmware-realtek  package, it  seems  there are  no\n# firmware  for this MAC (RTL8211F)   into this  package.  As  a\n# result, it seems not be  relevant  to install it. But  because\n# many issues, prefere now to install recent kernel\n\nPackage: linux-image-arm64\nPin: release o=Debian,l=Debian,n=trixie\nPin-Priority: 980\n', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:37:04 INFO Skipping as requested by unless
+2024-04-15 08:37:04 INFO Running teardown: {'apt': 'install', 'packages': ['flash-kernel', 'initramfs-tools'], 'tag': 'rootfs_partition_tag', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:37:04 INFO Skipping as requested by unless
+2024-04-15 08:37:04 INFO Running teardown: {'create-file': '/etc/apt/sources.list', 'contents': '# file /etc/apt/sources.list\n\n# current Debian release (V12)\ndeb http://ftp.de.debian.org/debian bookworm main contrib non-free non-free-firmware\n# current Debian release (V12) security for bookworm release\ndeb http://security.debian.org/ bookworm-security main contrib non-free non-free-firmware\n# current Debian release (V12) update, only for bookworm release\ndeb http://ftp.de.debian.org/debian bookworm-updates main contrib non-free non-free-firmware\n# current Debian release (V12) backports from next (Trixie) V13 release\ndeb http://ftp.de.debian.org/debian bookworm-backports main contrib non-free non-free-firmware\n# current Debian release (V13)\ndeb http://ftp.de.debian.org/debian trixie main contrib non-free non-free-firmware\n', 'unless': 'rootfs_unpacked'}
+2024-04-15 08:37:04 INFO Skipping as requested by unless
+2024-04-15 08:37:04 INFO Running teardown: {'debootstrap': 'bookworm', 'mirror': 'http://ftp.de.debian.org/debian', 'target': 'rootfs_partition_tag', 'arch': 'arm64', 'components': ['main', 'contrib', 'non-free'], 'unless': 'rootfs_unpacked'}
+2024-04-15 08:37:04 INFO Skipping as requested by unless
+2024-04-15 08:37:04 INFO Running teardown: {'unpack-rootfs': 'rootfs_partition_tag'}
+2024-04-15 08:37:04 INFO Calling <bound method StepRunnerInterface.teardown of <unpack_rootfs_plugin.UnpackCacheStepRunner object at 0x7f1666978e50>>
+2024-04-15 08:37:04 INFO Running teardown: {'mount': 'rootfs_partition_tag'}
+2024-04-15 08:37:04 INFO Calling <bound method MountStepRunner.teardown of <mount_plugin.MountStepRunner object at 0x7f1666979010>>
+2024-04-15 08:37:04 DEBUG Unmounting /tmp/tmpbw0tnwgu and everything on top of it
+2024-04-15 08:37:04 DEBUG Finished unmounting /tmp/tmpbw0tnwgu
+2024-04-15 08:37:04 INFO Exec: ['zerofree', '-v', '/dev/mapper/loop0p1']
+2024-04-15 08:37:10 DEBUG STDOUT: 124679/522243/782592
+
+2024-04-15 08:37:10 DEBUG STDERR:  0.0% 0.0% 0.1% 0.2% 0.3% 0.4% 0.5% 0.6% 0.7% 0.8% 0.9% 1.0% 1.1% 1.2% 1.3% 1.4% 1.5% 1.6% 1.7% 1.8% 1.9% 2.0% 2.1% 2.2% 2.3% 2.4% 2.5% 2.6% 2.7% 2.8% 2.9% 3.0% 3.1% 3.2% 3.3% 3.4% 3.5% 3.6% 3.7% 3.8% 3.9% 4.0% 4.1% 4.2% 4.3% 4.4% 4.5% 4.6% 4.7% 4.8% 4.9% 5.0% 5.1% 5.2% 5.3% 5.4% 5.5% 5.6% 5.7% 5.8% 5.9% 6.0% 6.1% 6.2% 6.3% 6.4% 6.5% 6.6% 6.7% 6.8% 6.9% 7.0% 7.1% 7.2% 7.3% 7.4% 7.5% 7.6% 7.7% 7.8% 7.9% 8.0% 8.1% 8.2% 8.3% 8.4% 8.5% 8.6% 8.7% 8.8% 8.9% 9.0% 9.1% 9.2% 9.3% 9.4% 9.5% 9.6% 9.7% 9.8% 9.9%10.0%10.1%10.2%10.3%10.4%10.5%10.6%10.7%10.8%10.9%11.0%11.1%11.2%11.3%11.4%11.5%11.6%11.7%11.8%11.9%12.0%12.1%12.2%12.3%12.4%12.5%12.6%12.7%12.8%12.9%13.0%13.1%13.2%13.3%13.4%13.5%13.6%13.7%13.8%13.9%14.0%14.1%14.2%14.3%14.4%14.5%14.6%14.7%14.8%14.9%15.0%15.1%15.2%15.3%15.4%15.5%15.6%15.7%15.8%15.9%16.0%16.1%16.2%16.3%16.4%16.5%16.6%16.7%16.8%16.9%17.0%17.1%17.2%17.3%17.4%17.5%17.6%17.7%17.8%17.9%18.0%18.1%18.2%18.3%18.4%18.5%18.6%18.7%18.8%18.9%19.0%19.1%19.2%19.3%19.4%19.5%19.6%19.7%19.8%19.9%20.0%20.1%20.2%20.3%20.4%20.5%20.6%20.7%20.8%20.9%21.0%21.1%21.2%21.3%21.4%21.5%21.6%21.7%21.8%21.9%22.0%22.1%22.2%22.3%22.4%22.5%22.6%22.7%22.8%22.9%23.0%23.1%23.2%23.3%23.4%23.5%23.6%23.7%23.8%23.9%24.0%24.1%24.2%24.3%24.4%24.5%24.6%24.7%24.8%24.9%25.0%25.1%25.2%25.3%25.4%25.5%25.6%25.7%25.8%25.9%26.0%26.1%26.2%26.3%26.4%26.5%26.6%26.7%26.8%26.9%27.0%27.1%27.2%27.3%27.4%27.5%27.6%27.7%27.8%27.9%28.0%28.1%28.2%28.3%28.4%28.5%28.6%28.7%28.8%28.9%29.0%29.1%29.2%29.3%29.4%29.5%29.6%29.7%29.8%29.9%30.0%30.1%30.2%30.3%30.4%30.5%30.6%30.7%30.8%30.9%31.0%31.1%31.2%31.3%31.4%31.5%31.6%31.7%31.8%31.9%32.0%32.1%32.2%32.3%32.4%32.5%32.6%32.7%32.8%32.9%33.0%33.1%33.2%33.3%33.4%33.5%33.6%33.7%33.8%33.9%34.0%34.1%34.2%34.3%34.4%34.5%34.6%34.7%34.8%34.9%35.0%35.1%35.2%35.3%35.4%35.5%35.6%35.7%35.8%35.9%36.0%36.1%36.2%36.3%36.4%36.5%36.6%36.7%36.8%36.9%37.0%37.1%37.2%37.3%37.4%37.5%37.6%37.7%37.8%37.9%38.0%38.1%38.2%38.3%38.4%38.5%38.6%38.7%38.8%38.9%39.0%39.1%39.2%39.3%39.4%39.5%39.6%39.7%39.8%39.9%40.0%40.1%40.2%40.3%40.4%40.5%40.6%40.7%40.8%40.9%41.0%41.1%41.2%41.3%41.4%41.5%41.6%41.7%41.8%41.9%42.0%42.1%42.2%42.3%42.4%42.5%42.6%42.7%42.8%42.9%43.0%43.1%43.2%43.3%43.4%43.5%43.6%43.7%43.8%43.9%44.0%44.1%44.2%44.3%44.4%44.5%44.6%44.7%44.8%44.9%45.0%45.1%45.2%45.3%45.4%45.5%45.6%45.7%45.8%45.9%46.0%46.1%46.2%46.3%46.4%46.5%46.6%46.7%46.8%46.9%47.0%47.1%47.2%47.3%47.4%47.5%47.6%47.7%47.8%47.9%48.0%48.1%48.2%48.3%48.4%48.5%48.6%48.7%48.8%48.9%49.0%49.1%49.2%49.3%49.4%49.5%49.6%49.7%49.8%49.9%50.0%50.1%50.2%50.3%50.4%50.5%50.6%50.7%50.8%50.9%51.0%51.1%51.2%51.3%51.4%51.5%51.6%51.7%51.8%51.9%52.0%52.1%52.2%52.3%52.4%52.5%52.6%52.7%52.8%52.9%53.0%53.1%53.2%53.3%53.4%53.5%53.6%53.7%53.8%53.9%54.0%54.1%54.2%54.3%54.4%54.5%54.6%54.7%54.8%54.9%55.0%55.1%55.2%55.3%55.4%55.5%55.6%55.7%55.8%55.9%56.0%56.1%56.2%56.3%56.4%56.5%56.6%56.7%56.8%56.9%57.0%57.1%57.2%57.3%57.4%57.5%57.6%57.7%57.8%57.9%58.0%58.1%58.2%58.3%58.4%58.5%58.6%58.7%58.8%58.9%59.0%59.1%59.2%59.3%59.4%59.5%59.6%59.7%59.8%59.9%60.0%60.1%60.2%60.3%60.4%60.5%60.6%60.7%60.8%60.9%61.0%61.1%61.2%61.3%61.4%61.5%61.6%61.7%61.8%61.9%62.0%62.1%62.2%62.3%62.4%62.5%62.6%62.7%62.8%62.9%63.0%63.1%63.2%63.3%63.4%63.5%63.6%63.7%63.8%63.9%64.0%64.1%64.2%64.3%64.4%64.5%64.6%64.7%64.8%64.9%65.0%65.1%65.2%65.3%65.4%65.5%65.6%65.7%65.8%65.9%66.0%66.1%66.2%66.3%66.4%66.5%66.6%66.7%66.8%66.9%67.0%67.1%67.2%67.3%67.4%67.5%67.6%67.7%67.8%67.9%68.0%68.1%68.2%68.3%68.4%68.5%68.6%68.7%68.8%68.9%69.0%69.1%69.2%69.3%69.4%69.5%69.6%69.7%69.8%69.9%70.0%70.1%70.2%70.3%70.4%70.5%70.6%70.7%70.8%70.9%71.0%71.1%71.2%71.3%71.4%71.5%71.6%71.7%71.8%71.9%72.0%72.1%72.2%72.3%72.4%72.5%72.6%72.7%72.8%72.9%73.0%73.1%73.2%73.3%73.4%73.5%73.6%73.7%73.8%73.9%74.0%74.1%74.2%74.3%74.4%74.5%74.6%74.7%74.8%74.9%75.0%75.1%75.2%75.3%75.4%75.5%75.6%75.7%75.8%75.9%76.0%76.1%76.2%76.3%76.4%76.5%76.6%76.7%76.8%76.9%77.0%77.1%77.2%77.3%77.4%77.5%77.6%77.7%77.8%77.9%78.0%78.1%78.2%78.3%78.4%78.5%78.6%78.7%78.8%78.9%79.0%79.1%79.2%79.3%79.4%79.5%79.6%79.7%79.8%79.9%80.0%80.1%80.2%80.3%80.4%80.5%80.6%80.7%80.8%80.9%81.0%81.1%81.2%81.3%81.4%81.5%81.6%81.7%81.8%81.9%82.0%82.1%82.2%82.3%82.4%82.5%82.6%82.7%82.8%82.9%83.0%83.1%83.2%83.3%83.4%83.5%83.6%83.7%83.8%83.9%84.0%84.1%84.2%84.3%84.4%84.5%84.6%84.7%84.8%84.9%85.0%85.1%85.2%85.3%85.4%85.5%85.6%85.7%85.8%85.9%86.0%86.1%86.2%86.3%86.4%86.5%86.6%86.7%86.8%86.9%87.0%87.1%87.2%87.3%87.4%87.5%87.6%87.7%87.8%87.9%88.0%88.1%88.2%88.3%88.4%88.5%88.6%88.7%88.8%88.9%89.0%89.1%89.2%89.3%89.4%89.5%89.6%89.7%89.8%89.9%90.0%90.1%90.2%90.3%90.4%90.5%90.6%90.7%90.8%90.9%91.0%91.1%91.2%91.3%91.4%91.5%91.6%91.7%91.8%91.9%92.0%92.1%92.2%92.3%92.4%92.5%92.6%92.7%92.8%92.9%93.0%93.1%93.2%93.3%93.4%93.5%93.6%93.7%93.8%93.9%94.0%94.1%94.2%94.3%94.4%94.5%94.6%94.7%94.8%94.9%95.0%95.1%95.2%95.3%95.4%95.5%95.6%95.7%95.8%95.9%96.0%96.1%96.2%96.3%96.4%96.5%96.6%96.7%96.8%96.9%97.0%97.1%97.2%97.3%97.4%97.5%97.6%97.7%97.8%97.9%98.0%98.1%98.2%98.3%98.4%98.5%98.6%98.7%98.8%98.9%99.0%99.1%99.2%99.3%99.4%99.5%99.6%99.7%99.8%99.9%100.0%
+2024-04-15 08:37:10 INFO Running teardown: {'mkfs': 'ext4', 'partition': 'rootfs_partition_tag'}
+2024-04-15 08:37:10 INFO Calling <bound method StepRunnerInterface.teardown of <mkfs_plugin.MkfsStepRunner object at 0x7f1666bc2a50>>
+2024-04-15 08:37:10 INFO Running teardown: {'kpartx': '../images/odroid-n2_bookworm_arm64.img'}
+2024-04-15 08:37:10 INFO Calling <bound method KpartxStepRunner.teardown of <kpartx_plugin.KpartxStepRunner object at 0x7f1666978fd0>>
+2024-04-15 08:37:10 INFO Exec: ['kpartx', '-dsv', '../images/odroid-n2_bookworm_arm64.img']
+2024-04-15 08:37:10 DEBUG STDOUT: del devmap : loop0p1
+
+2024-04-15 08:37:10 DEBUG STDERR: loop deleted : /dev/loop0
+
+2024-04-15 08:37:10 INFO Exec: ['losetup', '--json', '-l', '/dev/loop0']
+2024-04-15 08:37:10 DEBUG STDOUT: {
+   "loopdevices": [
+      {
+         "name": "/dev/loop0",
+         "sizelimit": null,
+         "offset": null,
+         "autoclear": false,
+         "ro": false,
+         "back-file": null,
+         "dio": false,
+         "log-sec": 512
+      }
+   ]
+}
+
+2024-04-15 08:37:10 DEBUG STDERR: 
+2024-04-15 08:37:10 INFO Running teardown: {'mkpart': 'primary', 'device': '../images/odroid-n2_bookworm_arm64.img', 'start': '16M', 'end': '100%', 'tag': 'rootfs_partition_tag'}
+2024-04-15 08:37:10 INFO Calling <bound method StepRunnerInterface.teardown of <mkpart_plugin.MkpartStepRunner object at 0x7f1667ac7ed0>>
+2024-04-15 08:37:10 INFO Running teardown: {'mklabel': 'msdos', 'device': '../images/odroid-n2_bookworm_arm64.img'}
+2024-04-15 08:37:10 INFO Calling <bound method StepRunnerInterface.teardown of <mklabel_plugin.MklabelStepRunner object at 0x7f1666978f50>>
+2024-04-15 08:37:10 INFO Running teardown: {'mkimg': '../images/odroid-n2_bookworm_arm64.img', 'size': '3G'}
+2024-04-15 08:37:10 INFO Calling <bound method StepRunnerInterface.teardown of <mkimg_plugin.MkimgStepRunner object at 0x7f1666979150>>
+2024-04-15 08:37:10 INFO All went fine.
+2024-04-15 08:37:10 DEBUG Ending, all OK
