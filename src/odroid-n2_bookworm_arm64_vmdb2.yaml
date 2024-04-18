@@ -15,7 +15,7 @@ steps:
   # parameter option
 
   - mkimg: "{{ output }}"
-    size: 3G
+    size: 4G
 
   # Create  partition entry on new image  file. In  order to always be
   # compatible  with previous old systems  and tools, prefer partition
