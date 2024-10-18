@@ -548,7 +548,7 @@ steps:
 
   - root-fs: rootfs_partition_tag
     shell: |
-      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopi-r1-current/linux-u-boot-nanopi-r1-current_23.8.1_armhf__2023.07.02-S83cd-P1865-H0429-V5590-Bd32f-R448a.deb
+      curl -L -o $ROOT/u-boot.deb https://imola.armbian.com/apt/pool/main/l/linux-u-boot-nanopi-r1-current/linux-u-boot-nanopi-r1-current_24.8.2_armhf__2024.01-S866c-P84f9-H0429-Vb5c7-Bda0a-R448a.deb
 
   # Install Armbian u-boot package in rootfs
 
