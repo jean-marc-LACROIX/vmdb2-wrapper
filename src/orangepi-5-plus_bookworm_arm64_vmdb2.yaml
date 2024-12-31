@@ -1,4 +1,4 @@
-# Use like this : sudo vmdb2 roc-rk3399-pc_bookworm_arm64_vmdb2.yaml --output=../images/roc-rk3399-pc_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_roc-rk3399-pc_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
+# Use like this : sudo vmdb2 orangepi-5-plus_bookworm_arm64_vmdb2.yaml --output=../images/orangepi-5-plus_bookworm_arm64.img --rootfs-tarball=../rootfs_cache/bookworm_arm64_rootfs.tgz --verbose --log=../log_build/log_orangepi-5-plus_bookworm_arm64_`/bin/date +"%F-%Hh-%Mmin"`.txt
 
 # Please remember that full documentation is available here :
 # https://vmdb2-manual.liw.fi/
@@ -136,6 +136,9 @@ steps:
       Pin: release o=Debian,l=Debian,n=bookworm-backports
       Pin-Priority: 500
       
+      # FIXME-01: There  is not yet one  u-boot & kernel in  Debian in
+      # 2024 december.
+
       # Define behaviour on futur release
       Package: *
       Pin: release o=Debian,l=Debian,n=trixie
@@ -193,9 +196,12 @@ steps:
   # requirements for this value, it is  user defined. Good practice is
   # to use the same name than in DTS
 
+  # FIXME-02: There is  not  yet one  package  in flash-kernel, please
+  # update
+
   - create-file: /etc/hostname
     contents: |+
-      Roc-Rk3399-Pc
+      Orangepi-5-Plus
 
   # Create /etc/fstab   file  with  uuid  and   mounting  point. VMDB2
   # generate a  line  with correct UUID.  Remenber  that this  UUID is
@@ -205,28 +211,34 @@ steps:
 
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
   # default data-base    for   all  supported   SBC  (located     into
-  # /usr/share/flash-kernel/db/all.db) does not support Roc-Rk3399-Pc
+  # /usr/share/flash-kernel/db/all.db) does not support Orangepi-5-Plus
   # board.    As  a      result,    it    is  then   mandatory      to
   # install /etc/flashkernel/db and/etc/flash-kernel/machine files.
 
+  # FIXME-03: There   is not yet one   package in flash-kernel, please
+  # update
+
   - create-file: /etc/flash-kernel/db
     contents: |+
-      Machine: rk3399-firefly
+      Machine: rk3588-orangepi-5-plus
       Kernel-Flavors: arm64
       Boot-Script-Path: /boot/boot.scr
-      DTB-Id: rockchip/rk3399-roc-pc.dtb
+      DTB-Id: rockchip/r3588-orangepi-5-plus.dtb
       U-Boot-Script-Name: bootscr.uboot-generic
       Required-Packages: u-boot-tools
 
+  # FIXME-04: There   is not yet one   package in flash-kernel, please
+  # update
+
   # According    /usr/share/doc/flash-kernel/README.gz  documentation,
-  # because Roc-Rk3399-Pc is not yet supported, then force the machine
-  # auto-detection   from     /proc/cpuinfo  and   force    a specific
-  # Machine.  Because we      are offline, we    must  force   machine
+  # because Orangepi-5-Plus    is not yet   supported, then  force the
+  # machine  auto-detection  from  /proc/cpuinfo and force  a specific
+  # Machine.   Because  we   are  offline,    we must force    machine
   # description.
 
   - create-file: /etc/flash-kernel/machine
     contents: |+
-      rk3399-firefly
+      rk3588-orangepi-5-plus
 
   # launch one shell into rootfs
 
@@ -310,7 +322,7 @@ steps:
       127.0.0.1  localhost
       
       # IPV4 loopback address on localhost (RFC 5735 compliant)
-      127.0.0.2  Roc-Rk3399-Pc
+      127.0.0.2  orangepi-5-plus
 
   # Launch one shell into chroot and make following actions...
 
@@ -402,9 +414,12 @@ steps:
 
   # Install u-boot binaries on target
 
+  # FIXME-05: There   is not yet one   package in flash-kernel, please
+  # update
+
   - root-fs: rootfs_partition_tag
     shell: |
-      TARGET="$ROOT/usr/lib/u-boot/roc-pc-rk3399" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
+      TARGET="$ROOT/usr/lib/u-boot/orangepi-5-plus" $ROOT/usr/bin/u-boot-install-rockchip {{ output }}
 
   - root-fs: rootfs_partition_tag
     shell: |
